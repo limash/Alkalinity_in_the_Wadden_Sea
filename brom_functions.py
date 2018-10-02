@@ -122,21 +122,21 @@ def phy_biorate(D, pbm, alpha, I):
     """
     return (D*pbm*(1-np.exp(-1*I*alpha/pbm)))
 
-def phy_daily_growth(phy_biorate, ChlCratio, nutrient_limiter):
+def phy_daily_growth(phy_biorate, ChlCratio):
     """
     Coefficiens inside evaluate respiration;
     biorate is the daily rate of photosynthesis, [mg C (mg Chl a d)-1]
     ChlCratio, joint nutrients limiter
     """
-    answer = 0.85*phy_biorate*ChlCratio*nutrient_limiter#-0.015
+    answer = 0.85*phy_biorate*ChlCratio#-0.015
+    # 0.015 is added in excretion
     
     return answer
     #return np.max([answer, 0])
 
 def phy_daily_growth_rate(depth, k, pbm, alpha, nutrient_limiter,
                           temperature_d, irradiance_d, photoperiod_d, par_d):
-    """It returns net primary production growth rate, so respiration is included
-       depth is depth in meters
+    """depth is depth in meters
        k, pbm, alpha - parameters
        nutrient_limiter = s type f(no3,no2,nh4,po4,si)
        other ones - variables for the current day"""
@@ -144,7 +144,7 @@ def phy_daily_growth_rate(depth, k, pbm, alpha, nutrient_limiter,
     ChlCratio_d = ChlCratio(temperature_d, light_attenuation(k=k, z=depth, I=irradiance_d), nutrient_limiter)
     phy_biorate_d = phy_biorate(D=photoperiod_d, pbm=pbm, alpha=alpha, I=light_attenuation(k=k, z=depth, I=par_d))
     
-    return phy_daily_growth(phy_biorate_d, ChlCratio_d, nutrient_limiter)
+    return phy_daily_growth(phy_biorate_d, ChlCratio_d)
     
 def phy_excretion(kexc, phy):
     return kexc*phy

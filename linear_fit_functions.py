@@ -7,25 +7,32 @@ def residual(params,
              irradiance, photoperiod_array, par,
              no3, si, po4):
     
+    knh4 = params['knh4']
     kno3 = params['kno3']
-    ksi  = params['ksi']
-    kpo4 = params['kpo4']
-    k = params['k']
+
     pbm = params['pbm']
     alpha = params['alpha']
     kmort = params['kmort']
+
+    k_het_phy_gro = params['k_het_phy_gro']
+    k_het_phy_lim = params['k_het_phy_lim']
+    k_het_pom_gro = params['k_het_pom_gro']
+    k_het_pom_lim = params['k_het_pom_lim']
     
     days = np.arange(0,364,1)
     phy = np.zeros(365)
     phy[0] = 1
     
-    phycal_c_array = bf.phycalc(kno3=kno3, ksi=ksi, kpo4=kpo4,
-                                k=k, depth=depth,
-                                pbm=pbm, alpha=alpha, kmortality=kmort,
-                                no3=no3, si=si, po4=po4,
-                                temperature=temperature, irradiance=irradiance, 
-                                photoperiod_array=photoperiod_array, par=par,
-                                phy=phy, days=days)
+    phycal_c_array = bf.calculate(
+        depth, k, latitude,
+        days, temperature,
+        nh4, no2, no3, si, po4, o2,
+        phy, par, irradiance, 
+        knh4_lim, knox_lim, ksi_lim, kpo4_lim, pbm, alpha, kexc, kmort,
+        het, k_het_phy_gro, k_het_phy_lim, k_het_pom_gro, k_het_pom_lim, k_het_res, k_het_mort, uz, hz,
+        k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
+        poml, doml, pomr, domr, 
+        k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox)
     
     c_array = bf.c_from_ratio(chl_a=chl_a, temperature=temperature,
                               k=k, I=irradiance, depth=depth,
