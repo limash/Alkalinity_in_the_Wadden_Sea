@@ -147,11 +147,11 @@ def phy_daily_growth_rate(depth, k, pbm, alpha, nutrient_limiter,
     return phy_daily_growth(phy_biorate_d, ChlCratio_d)
     
 def phy_excretion(kexc, phy):
-    return kexc*phy
+    return kexc*phy*phy
 
 def phy_mortality(kmrt, phy, o2):
     #half_kmrt_residue = (1-kmrt)/2
-    return (phy*(kmrt*sigmoid_powered_limiter(20, phy, 3)))
+    return (phy*phy*(kmrt*sigmoid_powered_limiter(20, phy, 3)))
                  #+hyper_inhibitor(60, o2, 1)*half_kmrt_residue+hyper_inhibitor(20, o2, 1)*half_kmrt_residue))
 
 def zoo_phy_graz(k_het_phy_gro, k_het_phy_lim, het, phy):
@@ -228,7 +228,7 @@ def calculate(depth, k, latitude,
     k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
     poml, doml, pomr, domr, k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox):
     
-    time_step = 300 #time step for the inner circle
+    time_step = 43200 #time step for the inner circle
     number_of_circles = 86400/time_step
     circles = np.arange(0, int(number_of_circles-1), 1)
     inphy = np.zeros(int(number_of_circles))
@@ -376,14 +376,16 @@ def calculate(depth, k, latitude,
     return chl_a
 
 def c_from_ratio(chl_a, temperature, k, I, depth,
-                 kno3, ksi, kpo4, no3, si, po4):
-    """k, depth, kno3, ksi, kpo4 - parameters"""
+                 knh4_lim, knox_lim, ksi_lim, kpo4_lim,
+                 innh4, inno3, inno2, insi, inpo4):
     
-    no3_limiter = monodlimiter(kno3, no3)
-    si_limiter = monodlimiter(ksi, si)
-    po4_limiter = monodlimiter(kpo4, po4)
-    
-    nutrient_limiter = [np.min([x, y, z]) for x, y, z in zip(no3_limiter, si_limiter, po4_limiter)]
+    nh4_limiter = phy_nh4_limiter(knh4_lim, innh4)   
+    no3_limiter = phy_no3_limiter(knox_lim, knh4_lim, inno3, inno2, innh4)   
+    si_limiter = phy_si_limiter(ksi_lim, insi)   
+    po4_limiter = phy_po4_limiter(kpo4_lim, inpo4)
+    nitrogen_limiter = phy_nitrogen_limiter(nh4_limiter, no3_limiter)
+    nutrient_limiter = [phy_nutrient_limiter(x, y, z) for x, y, z in 
+                        zip(nitrogen_limiter, si_limiter, po4_limiter)]
     
     return (  chl_a
             / ChlCratio(temperature, light_attenuation(k=k, z=depth, I=I), nutrient_limiter))
