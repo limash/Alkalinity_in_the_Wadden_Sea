@@ -6,7 +6,7 @@ def plot_over_year(xlabel, ylabel, title, values):
 
     # --- Select a style
     plt.style.use('classic')
-    
+
     ox = np.arange(1,366,1)
     plt.plot(ox, values);
     plt.gcf().set_size_inches(10,2);
@@ -16,25 +16,25 @@ def plot_over_year(xlabel, ylabel, title, values):
 
 def plot_over_range(xlabel, ylabel, title, ox, values):
     """ox and values should have the same size"""
-    
+
     plt.plot(ox, values);
     plt.gcf().set_size_inches(10,2);
     plt.title(title);
     plt.xlabel(xlabel);
     plt.ylabel(ylabel);
 
-def plot_example():
+def plot_triple(first, labelfirst, second, labelsecond, third, labelthird):
     # --- get an empty Figure and add an Axes
     fig = plt.figure(figsize=(10, 4))
     ax = fig.add_subplot(1, 1, 1) # row-col-num
     # --- line plot data on the Axes
     ox = np.arange(1,366,1)
-    ax.plot(ox, no3_limiter, 'b-', linewidth=2, label=r'$NO_{3}^{-}$ limiter')
-    ax.plot(ox, po4_limiter, 'g-', linewidth=2, label=r'$PO_{4}^{2-}$ limiter')
-    ax.plot(ox, si_limiter, 'r-', linewidth=2, label=r'$Si$ limiter')
+    ax.plot(ox, first, 'b-', linewidth=2, label=labelfirst)
+    ax.plot(ox, second, 'g-', linewidth=2, label=labelsecond)
+    ax.plot(ox, third, 'r-', linewidth=2, label=labelthird)
     # --- add title and axis labels
-    ax.set_title('The limiters')
-    ax.set_ylabel(r'$limiters$', fontsize=16)
+    #ax.set_title('The name')
+    ax.set_ylabel(r'$values$', fontsize=16)
     ax.set_xlabel(r'$days$', fontsize=16)
     # --- plot a legend in the best location
     ax.legend(loc='best')
