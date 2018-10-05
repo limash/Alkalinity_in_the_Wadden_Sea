@@ -226,6 +226,21 @@ def check_value(name, value):
     if value < 0: sys.exit('{} is negative'.format(name))
     return 0
 
+def phy_re_ratio(carbon, d_carbon, previous_ratio, nutrient_limiter):
+    """carbon and d_carbon im moles"""
+
+    return (carbon+d_carbon)/((1/previous_ratio)*(carbon+d_carbon*nutrient_limiter))
+
+def zoo_om_re_ratio(carbon, d_carbon, ratio, d_ratio):
+    """carbon and d_carbon im moles
+       carbon, ratio - to be changed
+       d_carbon, d_ratio - what changes the ratio"""
+
+    return (carbon+d_carbon)/(carbon/ratio+d_carbon/d_ratio)
+
+def carbon_g_to_mole(carbon):
+    return carbon/12.011
+
 def calculate(depth, k, latitude,
     days, temperature,
     nh4, no2, no3, si, po4, o2,
@@ -236,7 +251,32 @@ def calculate(depth, k, latitude,
     k_domr_ox, k_pomr_ox):
     """phy, het, poml, doml, pomr, domr in mg C/m^3"""
 
-    ncratio = 0.0108 #N[M]/C[g] according to Redfield 106/16
+    ncratio = 0.01256 #N[M]/C[g] according to Redfield 106/16
+    #initial rations in phytoplankton
+    phy_c_to_n  = 106/16
+    phy_c_to_si = 106/15
+    phy_c_to_p  = 106
+    #initial rations in zooplankton
+    zoo_c_to_n  = 106/16
+    zoo_c_to_si = 106/15
+    zoo_c_to_p  = 106
+    #initial rations in doml
+    doml_c_to_n  = 106/16
+    doml_c_to_si = 106/15
+    doml_c_to_p  = 106
+    #initial rations in domr
+    domr_c_to_n  = 106/16
+    domr_c_to_si = 106/15
+    domr_c_to_p  = 106
+    #initial rations in poml
+    poml_c_to_n  = 106/16
+    poml_c_to_si = 106/15
+    poml_c_to_p  = 106
+    #initial rations in pomr
+    pomr_c_to_n  = 106/16
+    pomr_c_to_si = 106/15
+    pomr_c_to_p  = 106
+
     time_step = 3600 #time step for the inner circle
     number_of_circles = 86400/time_step
     circles = np.arange(0, int(number_of_circles), 1)
@@ -279,21 +319,42 @@ def calculate(depth, k, latitude,
             nitrogen_limiter = phy_nitrogen_limiter(nh4_limiter, no3_limiter)
             nutrient_limiter = phy_nutrient_limiter(nitrogen_limiter, si_limiter, po4_limiter)
 
+            #phytoplankton growth
             #phy mg C/m^3
             phy_growth =(inphy[circle]
                         *phy_daily_growth_rate(depth, k, pbm, alpha, nutrient_limiter,
                                                temperature[day], irradiance[day], photoperiod[day],
                                                par[day])
                         /number_of_circles)
-            #here pbm is phy growth rate, alpha is an optimal par
-            #phy_growth =(pbm*limlight(alpha, par[day])*nutrient_limiter*inphy[circle]
-            #            /number_of_circles)
+            # here we shall recalculate rations in the phytoplankton cell
+            #
+            #             C+dC
+            # new_ratio = ----------------------------------------------  (1)
+            #            1/old_ratio(C+dC*nutrient_specific_limiter)
+            #
+            # here Nut is a specific nutrient, C and dC should be in Moles
+            # if nutrient_specific_limiter = 1, the ratio will stay the same
+            phy_in_m  = carbon_g_to_mole(inphy[circle])
+            dphy_in_m = carbon_g_to_mole(phy_growth)
+            phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
+            phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
+            phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
 
-            #if inphy[circle] < 1: # 1 mg C/m^3
-            #    phy_excr = 0
-            #    phy_mort = 0
-            #else:
+            # phytoplankton excretion
             phy_excr = phy_excretion(kexc, inphy[circle])/number_of_circles
+            # here we again should change the rations
+            # phytoplankton excretes dissolved labile organic matter (doml)
+            #
+            #             Cdoml+Cexcreted
+            # new_ratio = ----------------------------------------------  (2)
+            #            Cdoml/doml_ratio + Cexcreted/phy_ratio
+            #
+            # excretion can change the rations in doml
+            doml_in_m  = carbon_g_to_mole(indoml[circle])
+            dexcr_in_m = carbon_g_to_mole(phy_excr)
+            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dexcr_in_m, doml_c_to_n, phy_c_to_n)
+
+            # mortality can change the rations in poml
             phy_mort =(phy_mortality(kmortality, inphy[circle], ino2[circle])
                       /number_of_circles)
 
@@ -344,7 +405,8 @@ def calculate(depth, k, latitude,
             check_value('het', inhet[circle+1])
 
             innh4[circle+1] =(innh4[circle]
-                              -phy_growth*quota(nh4_limiter, nitrogen_limiter)*ncratio
+                              -phy_growth*quota(nh4_limiter, nitrogen_limiter)
+                                         *ncratio*nh4_limiter
                               +(dc_doml_o2+dc_poml_o2+zoo_resp)*ncratio
                               +n_fixation-n_nitrif_1-n_anammox)
             check_value('nh4',innh4[circle+1])
