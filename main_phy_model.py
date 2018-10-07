@@ -33,7 +33,7 @@ irradiance = par*86400/1000000
 knh4_lim=0.5; knox_lim=0.1; ksi_lim=0.1; kpo4_lim=0.1; pbm=10; alpha=0.1; kexc=0.015; kmortality=0.001
 
 het = np.zeros(365); het[0] = 1
-k_het_phy_gro=0.1; k_het_phy_lim=1.1; k_het_pom_gro=0.1; k_het_pom_lim=1.1
+k_het_phy_gro=0.1; k_het_phy_lim=2; k_het_pom_gro=0.1; k_het_pom_lim=2
 k_het_res=0.015; k_het_mort=0.01; uz=0.5; hz=0.5
 
 k_nfix = 0.4; k_nitrif1=0.1; k_nitrif2=0.1; o2s_nf=5; k_anammox=0.8; o2s_dn=10

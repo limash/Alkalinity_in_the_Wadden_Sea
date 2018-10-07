@@ -20,7 +20,8 @@ def exp_inhibitor(ks, r):
     return np.exp(-ks*r)
 
 def sigmoid_powered_limiter(ks, r, power):
-    return np.power(r, power)/(np.power(ks, power)+np.power(r, power))
+    answer = np.power(r, power)/(np.power(ks, power)+np.power(r, power))
+    return answer
 
 def sigmoid_powered_inhibitor(ks, r, power):
     return np.power(ks, power)/(np.power(r, power)+np.power(ks, power))
@@ -251,7 +252,6 @@ def calculate(depth, k, latitude,
     k_domr_ox, k_pomr_ox):
     """phy, het, poml, doml, pomr, domr in mg C/m^3"""
 
-    ncratio = 0.01256 #N[M]/C[g] according to Redfield 106/16
     #initial rations in phytoplankton
     phy_c_to_n  = 106/16
     phy_c_to_si = 106/15
@@ -511,7 +511,7 @@ def calculate(depth, k, latitude,
             check_value('domr', indomr[circle+1])
 
             ino2[circle+1] =(ino2[circle]
-                            -domr_o2_in_m-dpomr_o2_in_m
+                            -ddomr_o2_in_m-dpomr_o2_in_m
                             +dphy_in_m-dzoo_resp_in_m
                             -1.5*n_nitrif_1-0.5*n_nitrif_2)
             check_value('o2', ino2[circle+1])
