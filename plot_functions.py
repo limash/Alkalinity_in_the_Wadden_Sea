@@ -17,6 +17,9 @@ def plot_over_year(xlabel, ylabel, title, values):
 def plot_over_range(xlabel, ylabel, title, ox, values):
     """ox and values should have the same size"""
 
+    # --- Select a style
+    plt.style.use('classic')
+
     plt.plot(ox, values);
     plt.gcf().set_size_inches(10,2);
     plt.title(title);
@@ -24,6 +27,10 @@ def plot_over_range(xlabel, ylabel, title, ox, values):
     plt.ylabel(ylabel);
 
 def plot_triple(first, labelfirst, second, labelsecond, third, labelthird):
+
+    # --- Select a style
+    plt.style.use('classic')
+    
     # --- get an empty Figure and add an Axes
     fig = plt.figure(figsize=(10, 4))
     ax = fig.add_subplot(1, 1, 1) # row-col-num

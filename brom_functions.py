@@ -277,7 +277,7 @@ def calculate(depth, k, latitude,
     #pomr_c_to_si = 106/15
     #pomr_c_to_p  = 106
 
-    time_step = 3600 #time step for the inner circle
+    time_step = 43200 #time step for the inner circle
     number_of_circles = 86400/time_step
     circles = np.arange(0, int(number_of_circles), 1)
     inphy = np.zeros(int(number_of_circles+1))
@@ -295,6 +295,45 @@ def calculate(depth, k, latitude,
 
     photoperiod = photoperiod2(latitude)
     chl_a = np.zeros(len(days)+1)
+    phy_daily_growth_rate_array = np.zeros(len(days)+1)
+    phy_c_to_n_array = np.zeros(len(days)+1)
+    phy_c_to_n_array[0] = phy_c_to_n
+    phy_c_to_si_array = np.zeros(len(days)+1)
+    phy_c_to_si_array[0] = phy_c_to_si
+    phy_c_to_p_array = np.zeros(len(days)+1)
+    phy_c_to_p_array[0] = phy_c_to_p
+    phy_dict = {'c_to_n': phy_c_to_n_array,
+                'c_to_si': phy_c_to_si_array,
+                'c_to_p': phy_c_to_p_array}
+    zoo_c_to_n_array = np.zeros(len(days)+1)
+    zoo_c_to_n_array[0] = zoo_c_to_n
+    zoo_c_to_si_array = np.zeros(len(days)+1)
+    zoo_c_to_si_array[0] = zoo_c_to_si
+    zoo_c_to_p_array = np.zeros(len(days)+1)
+    zoo_c_to_p_array[0] = zoo_c_to_p
+    zoo_dict = {'c_to_n': zoo_c_to_n_array,
+                'c_to_si': zoo_c_to_si_array,
+                'c_to_p': zoo_c_to_p_array}
+    doml_c_to_n_array = np.zeros(len(days)+1)
+    doml_c_to_n_array[0] = doml_c_to_n
+    doml_c_to_si_array = np.zeros(len(days)+1)
+    doml_c_to_si_array[0] = doml_c_to_si
+    doml_c_to_p_array = np.zeros(len(days)+1)
+    doml_c_to_p_array[0] = doml_c_to_p
+    doml_dict = {'c_to_n': doml_c_to_n_array,
+                'c_to_si': doml_c_to_si_array,
+                'c_to_p': doml_c_to_p_array}
+    poml_c_to_n_array = np.zeros(len(days)+1)
+    poml_c_to_n_array[0] = poml_c_to_n
+    poml_c_to_si_array = np.zeros(len(days)+1)
+    poml_c_to_si_array[0] = poml_c_to_si
+    poml_c_to_p_array = np.zeros(len(days)+1)
+    poml_c_to_p_array[0] = poml_c_to_p
+    poml_dict = {'c_to_n': poml_c_to_n_array,
+                'c_to_si': poml_c_to_si_array,
+                'c_to_p': poml_c_to_p_array}
+    rations_dict = {'phy': phy_dict, 'zoo': zoo_dict,
+                    'doml': doml_dict, 'poml':poml_dict}
 
     for day in np.nditer(days):
         inphy[0] = phy[day]
@@ -321,11 +360,10 @@ def calculate(depth, k, latitude,
 
             # phy mg C/m^3
             # phytoplankton growth
-            phy_growth =(inphy[circle]
-                        *phy_daily_growth_rate(depth, k, pbm, alpha, nutrient_limiter,
+            phy_dgrate = phy_daily_growth_rate(depth, k, pbm, alpha, nutrient_limiter,
                                                temperature[day], irradiance[day], photoperiod[day],
                                                par[day])
-                        /number_of_circles)
+            phy_growth =(inphy[circle]*phy_dgrate/number_of_circles)
             # here we shall recalculate rations in the phytoplankton cell
             #
             #             C+dC
@@ -337,9 +375,12 @@ def calculate(depth, k, latitude,
             # fun phy_re_ratio(...) - implementation of above formula
             phy_in_m  = carbon_g_to_mole(inphy[circle])
             dphy_in_m = carbon_g_to_mole(phy_growth)
-            phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
-            phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
-            phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
+            #phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
+            #phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
+            #phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
+            phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, 1)
+            phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
+            phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, 1)
             # phytoplankton excretion
             phy_excr = phy_excretion(kexc, inphy[circle])/number_of_circles
             # here we again should change the rations
@@ -530,8 +571,22 @@ def calculate(depth, k, latitude,
         pomr[day+1] = inpomr[-1]
 
         chl_a[day+1] = phy[day+1]*ChlCratio(temperature[day+1], irradiance[day+1], nutrient_limiter)
+        phy_daily_growth_rate_array[day+1] = phy_dgrate
 
-    return chl_a
+        phy_c_to_n_array[day+1] = phy_c_to_n
+        phy_c_to_si_array[day+1] = phy_c_to_si
+        phy_c_to_p_array[day+1] = phy_c_to_p
+        zoo_c_to_n_array[day+1] = zoo_c_to_n
+        zoo_c_to_si_array[day+1] = zoo_c_to_si
+        zoo_c_to_p_array[day+1] = zoo_c_to_p
+        doml_c_to_n_array[day+1] = doml_c_to_n
+        doml_c_to_si_array[day+1] = doml_c_to_si
+        doml_c_to_p_array[day+1] = doml_c_to_p
+        poml_c_to_n_array[day+1] = poml_c_to_n
+        poml_c_to_si_array[day+1] = poml_c_to_si
+        poml_c_to_p_array[day+1] = poml_c_to_p
+
+    return chl_a, phy_daily_growth_rate_array, rations_dict
 
 def c_from_ratio(chl_a, temperature, k, I, depth,
                  knh4_lim, knox_lim, ksi_lim, kpo4_lim,
