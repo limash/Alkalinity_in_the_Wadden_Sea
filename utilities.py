@@ -80,7 +80,7 @@ def surface_radiation(day, latitude):
     #shortwave irradiance in air [W/m2] (default = 180 W/m2)
     #http://www.soda-pro.com
     #This should include that effect of average cloud cover (local)
-    Io = 180
+    Io = 200
     part_of_active_radiation = 0.5
     
     #Compute surface shortwave downwelling irradiance [W m^-2, 24-hr average]

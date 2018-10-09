@@ -380,7 +380,7 @@ def calculate(depth, k, latitude,
             if (nitrogen_limiter > 0.9 and phy_c_to_n > 106/16):
                 phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter*1.1)
             else:
-                if phy_c_to_n < 106/(0.75*16):
+                if phy_c_to_n < 106/(0.95*16):
                     phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
                 else:
                     # do not change the ratio
@@ -389,7 +389,7 @@ def calculate(depth, k, latitude,
             if (si_limiter > 0.9 and phy_c_to_si > 106/15):
                 phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter*1.1)
             else:
-                if phy_c_to_si < 106/(0.75*15):
+                if phy_c_to_si < 106/(0.95*15):
                     phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
                 else:
                     phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
@@ -397,7 +397,7 @@ def calculate(depth, k, latitude,
             if (po4_limiter > 0.9 and phy_c_to_p > 106):
                 phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter*1.1)
             else:
-                if phy_c_to_p < 106/0.75:
+                if phy_c_to_p < 106/0.95:
                     phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
                 else:
                     phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, 1)
