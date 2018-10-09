@@ -277,7 +277,7 @@ def calculate(depth, k, latitude,
     #pomr_c_to_si = 106/15
     #pomr_c_to_p  = 106
 
-    time_step = 43200 #time step for the inner circle
+    time_step = 10800 #time step for the inner circle
     number_of_circles = 86400/time_step
     circles = np.arange(0, int(number_of_circles), 1)
     inphy = np.zeros(int(number_of_circles+1))
@@ -375,12 +375,37 @@ def calculate(depth, k, latitude,
             # fun phy_re_ratio(...) - implementation of above formula
             phy_in_m  = carbon_g_to_mole(inphy[circle])
             dphy_in_m = carbon_g_to_mole(phy_growth)
-            #phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
-            #phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
-            #phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
-            phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, 1)
-            phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
-            phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, 1)
+
+            # these lines regulate the rations in the phytoplankton
+            if (nitrogen_limiter > 0.9 and phy_c_to_n > 106/16):
+                phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter*1.1)
+            else:
+                if phy_c_to_n < 106/(0.75*16):
+                    phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
+                else:
+                    # do not change the ratio
+                    phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, 1)
+
+            if (si_limiter > 0.9 and phy_c_to_si > 106/15):
+                phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter*1.1)
+            else:
+                if phy_c_to_si < 106/(0.75*15):
+                    phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
+                else:
+                    phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
+
+            if (po4_limiter > 0.9 and phy_c_to_p > 106):
+                phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter*1.1)
+            else:
+                if phy_c_to_p < 106/0.75:
+                    phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
+                else:
+                    phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, 1)
+
+            #phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, 1)
+            #phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
+            #phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, 1)
+
             # phytoplankton excretion
             phy_excr = phy_excretion(kexc, inphy[circle])/number_of_circles
             # here we again should change the rations
@@ -425,13 +450,19 @@ def calculate(depth, k, latitude,
             zoo_c_to_si = zoo_om_re_ratio(het_in_m, dgraz_phy_in_m*uz, zoo_c_to_si, phy_c_to_si)
             zoo_c_to_p = zoo_om_re_ratio(het_in_m, dgraz_phy_in_m*uz, zoo_c_to_p, phy_c_to_p)
 
-            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz, doml_c_to_n, phy_c_to_n)
-            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz, doml_c_to_si, phy_c_to_si)
-            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz, doml_c_to_p, phy_c_to_p)
+            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz,
+                                          doml_c_to_n, phy_c_to_n)
+            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz,
+                                           doml_c_to_si, phy_c_to_si)
+            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz,
+                                          doml_c_to_p, phy_c_to_p)
 
-            poml_c_to_n = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz), poml_c_to_n, phy_c_to_n)
-            poml_c_to_si = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz), poml_c_to_si, phy_c_to_si)
-            poml_c_to_p = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz), poml_c_to_p, phy_c_to_p)
+            poml_c_to_n = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz),
+                                          poml_c_to_n, phy_c_to_n)
+            poml_c_to_si = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz),
+                                           poml_c_to_si, phy_c_to_si)
+            poml_c_to_p = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz),
+                                          poml_c_to_p, phy_c_to_p)
             # zooplankton grazing on pom
             graz_pom =(zoo_pom_graz(k_het_pom_gro, k_het_pom_lim, inhet[circle], inpoml[circle])
                       /number_of_circles)
@@ -441,9 +472,12 @@ def calculate(depth, k, latitude,
             zoo_c_to_si = zoo_om_re_ratio(het_in_m, dgraz_pom_in_m*uz, zoo_c_to_si, poml_c_to_si)
             zoo_c_to_p = zoo_om_re_ratio(het_in_m, dgraz_pom_in_m*uz, zoo_c_to_p, poml_c_to_p)
 
-            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz, doml_c_to_n, poml_c_to_n)
-            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz, doml_c_to_si, poml_c_to_si)
-            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz, doml_c_to_p, poml_c_to_p)
+            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz,
+                                          doml_c_to_n, poml_c_to_n)
+            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz,
+                                           doml_c_to_si, poml_c_to_si)
+            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz,
+                                          doml_c_to_p, poml_c_to_p)
             # zooplankton respiration
             zoo_resp =(zoo_respiration(k_het_res, inhet[circle], ino2[circle])
                       /number_of_circles)
@@ -474,7 +508,7 @@ def calculate(depth, k, latitude,
             # autolysis can change ratio in dissolved om
             #domr_in_m = carbon_g_to_mole(autolysis_l)
             dautolysis_l_in_m = carbon_g_to_mole(autolysis_l)
-            dautolysis_r_in_m = carbon_g_to_mole(autolysis_r)
+            #dautolysis_r_in_m = carbon_g_to_mole(autolysis_r)
             # poml -> doml
             doml_c_to_n = zoo_om_re_ratio(doml_in_m, dautolysis_l_in_m, doml_c_to_n, poml_c_to_n)
             doml_c_to_si = zoo_om_re_ratio(doml_in_m, dautolysis_l_in_m, doml_c_to_si, poml_c_to_si)

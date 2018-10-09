@@ -29,7 +29,7 @@ def residual(params,
     k_het_res = params['k_het_res']
     k_het_mort = params['k_het_mort']
 
-    chl_a = bf.calculate(
+    chl_a, phy_dgrate, rations = bf.calculate(
         depth, k, latitude,
         days, temperature,
         nh4, no2, no3, si, po4, o2,
@@ -54,13 +54,13 @@ def construct_least_squares(depth, k, latitude,
 
     params = lf.Parameters()
     params.add('knh4_lim', value=0.5, vary=False)
-    params.add('knox_lim', value=0.5, vary=False)
-    params.add('ksi_lim',  value=0.5, vary=False)
-    params.add('kpo4_lim', value=0.1, vary=False)
-    params.add('pbm', value=8, min=6, max=10)
-    params.add('alpha', value=0.05, min=0.01, max=0.2)
+    params.add('knox_lim', value=1, vary=False)
+    params.add('ksi_lim',  value=1, vary=False)
+    params.add('kpo4_lim', value=0.2, vary=False)
+    params.add('pbm', value=8, min=7, max=9)
+    params.add('alpha', value=0.05, min=0.01, max=0.1)
     params.add('kexc', value=0.015, vary=False)
-    params.add('kmort', value=0.001, min=0.0005, max=0.005)
+    params.add('kmort', value=0.0005, min=0.0001, max=0.001)
     params.add('k_het_phy_gro', value=0.1, vary=False)
     params.add('k_het_phy_lim', value=4, vary=False)
     params.add('k_het_pom_gro', value=0.1, vary=False)
