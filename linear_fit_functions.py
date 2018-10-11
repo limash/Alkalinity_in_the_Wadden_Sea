@@ -58,15 +58,15 @@ def construct_least_squares(depth, k, latitude,
     params.add('ksi_lim',  value=1, vary=False)
     params.add('kpo4_lim', value=0.1, vary=False)
     params.add('pbm', value=8, vary=False)
-    params.add('alpha', value=0.03, min=0.02, max=0.4)
+    params.add('alpha', value=0.03, min=0.02, max=0.05)
     params.add('kexc', value=0.015, vary=False)
-    params.add('kmort', value=0.0005, min=0.0001, max=0.001)
-    params.add('k_het_phy_gro', value=0.4, vary=False)
-    params.add('k_het_phy_lim', value=2, vary=False)
-    params.add('k_het_pom_gro', value=0.4, vary=False)
-    params.add('k_het_pom_lim', value=2, vary=False)
+    params.add('kmort', value=0.0002, min=0.0001, max=0.0009)
+    params.add('k_het_phy_gro', value=0.2, min=0.15, max=0.3)
+    params.add('k_het_phy_lim', value=1, min=0.9, max=1.5)
+    params.add('k_het_pom_gro', value=0.2, vary=False)
+    params.add('k_het_pom_lim', value=1, vary=False)
     params.add('k_het_res', value=0.015, vary=False)
-    params.add('k_het_mort', value=0.1, vary=False)
+    params.add('k_het_mort', value=0.01, min=0.005, max=0.05)
 
     mini = lf.Minimizer(residual, params, fcn_args=(depth, k, latitude,
         days, temperature,
