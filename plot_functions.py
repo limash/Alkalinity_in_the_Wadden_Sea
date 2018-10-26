@@ -50,5 +50,27 @@ def plot_triple(first, labelfirst, second, labelsecond, third, labelthird):
     # --- improve the layout
     fig.tight_layout(pad=1)
 
+def plot_double(first, labelfirst, second, labelsecond):
+
+    # --- Select a style
+    plt.style.use('classic')
+    
+    # --- get an empty Figure and add an Axes
+    fig = plt.figure(figsize=(10, 4))
+    ax = fig.add_subplot(1, 1, 1) # row-col-num
+    # --- line plot data on the Axes
+    ox = np.arange(1,366,1)
+    ax.plot(ox, first, 'b-', linewidth=2, label=labelfirst)
+    ax.scatter(ox, second, c='r', label=labelsecond)
+    # --- add title and axis labels
+    #ax.set_title('The name')
+    ax.set_ylabel(r'$values$', fontsize=16)
+    ax.set_xlabel(r'$days$', fontsize=16)
+    # --- plot a legend in the best location
+    ax.legend(loc='best')
+    # --- add grid – not in default classic style
+    ax.grid(True)
+    # --- improve the layout
+    fig.tight_layout(pad=1)
 if __name__ == '__main__':
     print('This is a plot functions module')
