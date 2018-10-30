@@ -2,17 +2,17 @@ import numpy as np
 import lmfit as lf
 import brom_functions as bf
 
-def residual(params,
+def residual_phy(params,
         depth, k, latitude,
         days, temperature,
         nh4, no2, no3, si, po4, o2,
         phy, par, irradiance,
-        het, uz, hz,
+        het,
         k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
         poml, doml, pomr, domr,
         k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox,
         chl_a_data):
-
+    #phy
     knh4_lim = params['knh4_lim']
     knox_lim = params['knox_lim']
     ksi_lim = params['ksi_lim']
@@ -21,14 +21,16 @@ def residual(params,
     alpha = params['alpha']
     kexc = params['kexc']
     kmort = params['kmort']
-
+    #het
     k_het_phy_gro = params['k_het_phy_gro']
     k_het_phy_lim = params['k_het_phy_lim']
     k_het_pom_gro = params['k_het_pom_gro']
     k_het_pom_lim = params['k_het_pom_lim']
     k_het_res = params['k_het_res']
     k_het_mort = params['k_het_mort']
-
+    uz = params['uz']  
+    hz = params['hz']  
+    
     chl_a, phy_dgrate, rations = bf.calculate(
         depth, k, latitude,
         days, temperature,
@@ -42,38 +44,58 @@ def residual(params,
 
     return (chl_a-chl_a_data)
 
-def construct_least_squares(depth, k, latitude,
-        days, temperature,
-        nh4, no2, no3, si, po4, o2,
-        phy, par, irradiance,
-        het, uz, hz,
-        k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
-        poml, doml, pomr, domr,
-        k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox,
-        chl_a_data):
+def construct_least_squares_phy(depth, k, latitude, days, temperature,
+    nh4, no2, no3, si, po4, o2,
+    phy, par, irradiance,
+    knh4_lim, knox_lim, ksi_lim, kpo4_lim, pbm, alpha, kexc, kmort,
+    het,
+    k_het_phy_gro, k_het_phy_lim, k_het_pom_gro, k_het_pom_lim, k_het_res, k_het_mort, uz, hz,
+    k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
+    poml, doml, pomr, domr,
+    k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox,
+    chl_a_data):
 
     params = lf.Parameters()
-    params.add('knh4_lim', value=0.5, vary=False)
-    params.add('knox_lim', value=1, vary=False)
-    params.add('ksi_lim',  value=1, vary=False)
+    #phy
+    params.add('knh4_lim', value=0.1, vary=False)
+    params.add('knox_lim', value=0.1, vary=False)
+    params.add('ksi_lim',  value=0.1, vary=False)
     params.add('kpo4_lim', value=0.1, vary=False)
     params.add('pbm', value=8, vary=False)
     params.add('alpha', value=0.03, min=0.02, max=0.05)
     params.add('kexc', value=0.015, vary=False)
     params.add('kmort', value=0.0002, min=0.0001, max=0.0009)
+    #het 
     params.add('k_het_phy_gro', value=0.2, min=0.15, max=0.3)
     params.add('k_het_phy_lim', value=1, min=0.9, max=1.5)
     params.add('k_het_pom_gro', value=0.2, vary=False)
     params.add('k_het_pom_lim', value=1, vary=False)
     params.add('k_het_res', value=0.015, vary=False)
     params.add('k_het_mort', value=0.01, min=0.005, max=0.05)
+    params.add('uz', value=0.5, vary=False)
+    params.add('hz', value=0.5, vary=False)
+    #nitrification
+    params.add('k_nfix', value=0.4, vary=False)
+    params.add('k_nitrif1', value=0.1, vary=False)
+    params.add('k_nitrif2', value=0.1, vary=False)
+    params.add('o2s_nf', value=5, vary=False)
+    params.add('k_anammox', value=0.8, vary=False)
+    params.add('o2s_dn', value=10, vary=False)
+    #OM
+    params.add('k_poml_doml', value=0.15, vary=False)
+    params.add('k_pomr_domr', value=0.00001, vary=False)
+    params.add('k_omox_o2', value=1, vary=False)
+    params.add('tref', value=0, vary=False)
+    params.add('k_doml_ox', value=0.1, vary=False)
+    params.add('k_poml_ox', value=0.05, vary=False)
+    params.add('k_domr_ox', value=0.1, vary=False)
+    params.add('k_pomr_ox', value=0.05, vary=False)
 
-    mini = lf.Minimizer(residual, params, fcn_args=(depth, k, latitude,
+    mini = lf.Minimizer(residual_phy, params, fcn_args=(depth, k, latitude,
         days, temperature,
         nh4, no2, no3, si, po4, o2,
         phy, par, irradiance,
-        het, uz, hz,
-        k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
+        het,
         poml, doml, pomr, domr,
         k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox,
         chl_a_data))
