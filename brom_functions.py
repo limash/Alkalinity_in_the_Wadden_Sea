@@ -114,7 +114,7 @@ def ChlCratio(temperature, irradiance, nutrient_limiter):
 
 def phy_biorate(D, pbm, alpha, I):
     """
-    return: Biomass specific photosynthetic rate, [mgC(mg Chl a d)−1]
+    return: Biomass specific photosynthetic rate, [mg C (mg Chl a d)−1]
     D is photoperiod, hours
     pbm is the maximum hourly rate of photosynthesis, [mg C (mg Chl a h)-1]
     alpha is photosynthetic efficiency at low irradiance
@@ -242,15 +242,17 @@ def zoo_om_re_ratio(carbon, d_carbon, ratio, d_ratio):
 def carbon_g_to_mole(carbon):
     return carbon/12.011
 
-def calculate(depth, k, latitude,
-    days, temperature,
+def calculate(
+    depth, k, latitude, days, temperature,
     nh4, no2, no3, si, po4, o2,
-    phy, par, irradiance, knh4_lim, knox_lim, ksi_lim, kpo4_lim, pbm, alpha, kexc, kmortality,
-    het, k_het_phy_gro, k_het_phy_lim, k_het_pom_gro, k_het_pom_lim, k_het_res, k_het_mort, uz, hz,
+    phy, par, irradiance,
+    knh4_lim, knox_lim, ksi_lim, kpo4_lim, pbm, alpha, kexc, kmortality,
+    het,
+    k_het_phy_gro, k_het_phy_lim, k_het_pom_gro, k_het_pom_lim, k_het_res, k_het_mort, uz, hz,
     k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
-    poml, doml, pomr, domr, k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox,
-    k_domr_ox, k_pomr_ox):
-    """phy, het, poml, doml, pomr, domr in mg C/m^3"""
+    poml, doml, pomr, domr,
+    k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox):
+    """phy, het, poml, doml, pomr, domr in mg C m^-3"""
 
     #initial rations in phytoplankton
     phy_c_to_n  = 106/16
@@ -277,7 +279,7 @@ def calculate(depth, k, latitude,
     #pomr_c_to_si = 106/15
     #pomr_c_to_p  = 106
 
-    time_step = 10800 #time step for the inner circle
+    time_step = 10800 #time step for the inner circle in a day
     number_of_circles = 86400/time_step
     circles = np.arange(0, int(number_of_circles), 1)
     inphy = np.zeros(int(number_of_circles+1))
@@ -359,7 +361,7 @@ def calculate(depth, k, latitude,
             nutrient_limiter = phy_nutrient_limiter(nitrogen_limiter,
                                si_limiter, po4_limiter)
 
-            # phy mg C/m^3
+            # phy mg C m^-3
             # phytoplankton growth
             phy_dgrate = phy_daily_growth_rate(depth, k, pbm, alpha,
                          nutrient_limiter, temperature[day],
@@ -389,7 +391,7 @@ def calculate(depth, k, latitude,
             #    else:
             #        # do not change the ratio
             #        phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, 1)
-#
+            #
             #if (si_limiter > 0.9 and phy_c_to_si > 106/15):
             #    phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter*1.1)
             #else:
@@ -397,7 +399,7 @@ def calculate(depth, k, latitude,
             #        phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
             #    else:
             #        phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
-#
+            #
             #if (po4_limiter > 0.9 and phy_c_to_p > 106):
             #    phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter*1.1)
             #else:
@@ -513,8 +515,8 @@ def calculate(depth, k, latitude,
                         /number_of_circles)
             n_nitrif_2 =(nitrification2(k_nitrif2, o2s_nf, inno2[circle], ino2[circle])
                         /number_of_circles)
-            n_anammox  = 0
-            #anammox(k_anammox, o2s_dn, nh4[day], no2[day], o2[day])
+            n_anammox = anammox(k_anammox, o2s_dn,
+                                innh4[circle], inno2[circle], ino2[circle])
 
             # OM mg C/m^3
             # autolysis of pom -> dom
@@ -534,8 +536,8 @@ def calculate(depth, k, latitude,
             #domr_c_to_p = zoo_om_re_ratio(domr_in_m, dautolysis_r_in_m, domr_c_to_p, pomr_c_to_p)
             # oxidation of om
             kf = om_oxo2_coef(k_omox_o2, ino2[circle], temperature[day], tref)
-            if (ino2[circle] < k_pomr_ox*inpomr[circle]*kf or
-                ino2[circle] < k_domr_ox*inpomr[circle]*kf):
+            if (ino2[circle] < (carbon_g_to_mole(k_pomr_ox*inpomr[circle]*kf)/number_of_circles
+                              +carbon_g_to_mole(k_domr_ox*indomr[circle]*kf)/number_of_circles)):
                 kf = 0
             dc_poml_o2 = poml_oxo2(k_poml_ox, inpoml[circle], kf)/number_of_circles
             dc_doml_o2 = doml_oxo2(k_doml_ox, indoml[circle], kf)/number_of_circles
@@ -549,11 +551,11 @@ def calculate(depth, k, latitude,
             #increments
             dphy = phy_growth-phy_excr-phy_mort-graz_phy
             inphy[circle+1] = inphy[circle]+dphy
-            check_value('phy', inphy[circle+1])
+            #check_value('phy', inphy[circle+1])
 
             dhet = uz*(graz_phy+graz_pom)-zoo_mort-zoo_resp
             inhet[circle+1] = inhet[circle]+dhet
-            check_value('het', inhet[circle+1])
+            #check_value('het', inhet[circle+1])
 
             dnh4_bio =(-dphy_in_m/phy_c_to_n*quota(nh4_limiter, nitrogen_limiter)
                    +dzoo_resp_in_m/zoo_c_to_n
@@ -561,58 +563,58 @@ def calculate(depth, k, latitude,
                    +dpoml_o2_in_m/poml_c_to_n)
             dnh4_ncircle = n_fixation-n_nitrif_1-n_anammox
             innh4[circle+1] = innh4[circle]+dnh4_bio+dnh4_ncircle
-            check_value('nh4', innh4[circle+1])
+            #check_value('nh4', innh4[circle+1])
 
             dno2_bio =(-dphy_in_m/phy_c_to_n*quota(no3_limiter, nitrogen_limiter)
                                             *quota(inno2[circle], inno2[circle]+inno3[circle]))
             dno2_ncircle = n_nitrif_1-n_nitrif_2-n_anammox
             inno2[circle+1] = inno2[circle]+dno2_bio+dno2_ncircle
-            check_value('no2', inno2[circle+1])
+            #check_value('no2', inno2[circle+1])
 
             dno3_bio =(-dphy_in_m/phy_c_to_n*quota(no3_limiter, nitrogen_limiter)
                                             *quota(inno3[circle], inno2[circle]+inno3[circle]))
             dno3_ncircle = n_nitrif_2
             inno3[circle+1] = inno3[circle]+dno3_bio+dno3_ncircle
-            check_value('no3', inno3[circle+1])
+            #check_value('no3', inno3[circle+1])
 
             dpo4 =(-dphy_in_m/phy_c_to_p
                    +dzoo_resp_in_m/zoo_c_to_p
                    +ddoml_o2_in_m/doml_c_to_p
                    +dpoml_o2_in_m/poml_c_to_p)
             inpo4[circle+1] = inpo4[circle]+dpo4
-            check_value('po4', inpo4[circle+1])
+            #check_value('po4', inpo4[circle+1])
 
             dsi =(-dphy_in_m/phy_c_to_si
                   +dzoo_resp_in_m/zoo_c_to_si
                   +ddoml_o2_in_m/doml_c_to_si
                   +dpoml_o2_in_m/poml_c_to_si)
             insi[circle+1]  = insi[circle]+dsi
-            check_value('si', insi[circle+1])
+            #check_value('si', insi[circle+1])
 
             dpoml =(-autolysis_l-dc_poml_o2
                     +phy_mort+zoo_mort
                     +(graz_phy+graz_pom)*(1-uz)*(1-hz)
                     -graz_pom)
             inpoml[circle+1] = inpoml[circle]+dpoml
-            check_value('poml', inpoml[circle+1])
+            #check_value('poml', inpoml[circle+1])
 
             ddoml = (autolysis_l-dc_doml_o2
                     +phy_excr+(graz_phy+graz_pom)*(1-uz)*hz)
             indoml[circle+1] = indoml[circle]+ddoml
-            check_value('doml', indoml[circle+1])
+            #check_value('doml', indoml[circle+1])
 
             dpomr = -autolysis_r+dc_poml_o2-dc_pomr_o2
             inpomr[circle+1] = inpomr[circle]+dpomr
-            check_value('pomr', inpomr[circle+1])
+            #check_value('pomr', inpomr[circle+1])
 
             ddomr = autolysis_r+dc_doml_o2-dc_domr_o2
             indomr[circle+1] = indomr[circle]+ddomr
-            check_value('domr', indomr[circle+1])
+            #check_value('domr', indomr[circle+1])
 
             do2_bio = -ddomr_o2_in_m-dpomr_o2_in_m+dphy_in_m-dzoo_resp_in_m
             do2_ncircle = -1.5*n_nitrif_1-0.5*n_nitrif_2
             ino2[circle+1] = ino2[circle]+do2_bio+do2_ncircle
-            check_value('o2', ino2[circle+1])
+            #check_value('o2', ino2[circle+1])
 
         phy[day+1] = inphy[-1]
         het[day+1] = inhet[-1]
