@@ -21,7 +21,7 @@ def plot_over_range(xlabel, ylabel, title, ox, values):
     plt.style.use('classic')
 
     plt.plot(ox, values);
-    plt.gcf().set_size_inches(10,2);
+    plt.gcf().set_size_inches(12,2);
     plt.title(title);
     plt.xlabel(xlabel);
     plt.ylabel(ylabel);
