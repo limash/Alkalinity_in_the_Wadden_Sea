@@ -5,10 +5,13 @@ import brom_functions as bf
 def residual_phy(params,
         depth, k, latitude, days, temperature,
         nh4, no2, no3, si, po4, o2,
+        nh4_data, no3_data, si_data, po4_data,
         phy, par, irradiance,
         het,
         poml, doml, pomr, domr,
         chl_a_data):
+    #horizontal advection
+    k_mix = params['k_mix']
     #phy
     knh4_lim = params['knh4_lim']
     knox_lim = params['knox_lim']
@@ -45,8 +48,9 @@ def residual_phy(params,
     k_pomr_ox = params['k_pomr_ox']
 
     chl_a, phy_dgrate, rations = bf.calculate(
-        depth, k, latitude, days, temperature,
+        depth, k, k_mix, latitude, days, temperature,
         nh4, no2, no3, si, po4, o2,
+        nh4_data, no3_data, si_data, po4_data,
         phy, par, irradiance,
         knh4_lim, knox_lim, ksi_lim, kpo4_lim, pbm, alpha, kexc, kmort,
         het,

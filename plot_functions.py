@@ -9,7 +9,7 @@ def plot_over_year(xlabel, ylabel, title, values):
 
     ox = np.arange(1,366,1)
     plt.plot(ox, values);
-    plt.gcf().set_size_inches(10,2);
+    plt.gcf().set_size_inches(12,4);
     plt.title(title);
     plt.xlabel(xlabel);
     plt.ylabel(ylabel);
