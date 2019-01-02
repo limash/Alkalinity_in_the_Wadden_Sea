@@ -102,9 +102,6 @@ def phy_po4_limiter(kpo4_lim, po4):
 def phy_nutrient_limiter(nitrogen_limiter, si_limiter, po4_limiter):
     return np.min([nitrogen_limiter, si_limiter, po4_limiter])
 
-def phy_nutrient_limiter_multiple(nitrogen_limiter, si_limiter, po4_limiter):
-    return nitrogen_limiter*si_limiter*po4_limiter
-
 def ChlCratio(temperature, irradiance, nutrient_limiter):
     """temperature - [C,
        irradiance - [mol quanta m-2 d-1]
@@ -227,9 +224,7 @@ def pomr_oxo2(k_pomr_ox, pomr, om_oxo2_coef):
     return k_pomr_ox*pomr*om_oxo2_coef
 
 def check_value(name, value):
-    #if value < 0: sys.exit('{} is negative'.format(name))
-    if value < 0: 
-        print("negative")
+    if value < 0: sys.exit('{} is negative'.format(name))
     return 0
 
 def phy_re_ratio(carbon, d_carbon, previous_ratio, nutrient_limiter):
@@ -272,12 +267,20 @@ def calculate(
     doml_c_to_n  = 106/16
     doml_c_to_si = 106/15
     doml_c_to_p  = 106
+    #initial rations in domr
+    domr_c_to_n  = 106/16
+    domr_c_to_si = 106/15
+    domr_c_to_p  = 106
     #initial rations in poml
     poml_c_to_n  = 106/16
     poml_c_to_si = 106/15
     poml_c_to_p  = 106
+    #initial rations in pomr
+    pomr_c_to_n  = 106/16
+    pomr_c_to_si = 106/15
+    pomr_c_to_p  = 106
 
-    time_step = 3600 #time step for the inner circle in a day
+    time_step = 10800 #time step for the inner circle in a day
     number_of_circles = 86400/time_step
     circles = np.arange(0, int(number_of_circles), 1)
     inphy = np.zeros(int(number_of_circles+1))
@@ -366,25 +369,87 @@ def calculate(
             si_limiter = phy_si_limiter(ksi_lim, insi[circle])
             po4_limiter = phy_po4_limiter(kpo4_lim, inpo4[circle])
             nitrogen_limiter = phy_nitrogen_limiter(nh4_limiter, no3_limiter)
-            nutrient_limiter = phy_nutrient_limiter_multiple(nitrogen_limiter,
+            nutrient_limiter = phy_nutrient_limiter(nitrogen_limiter,
                                si_limiter, po4_limiter)
+            #if np.isnan(nutrient_limiter):
+            #    print('Nutrient limiter is NaN')
+
             # phy mg C m^-3
             # phytoplankton growth
             phy_dgrate = phy_daily_growth_rate(depth, k, pbm, alpha,
                          nutrient_limiter, temperature[day],
                          irradiance[day], photoperiod[day], par[day])
-            if nutrient_limiter < 0.1:
+            if nutrient_limiter < 0.01:
                 phy_growth = 0
             else:
                 phy_growth =inphy[circle]*phy_dgrate/number_of_circles
-            # mole concentration
+            # here we shall recalculate rations in a phytoplankton cell
+            #
+            #             C+dC
+            # new_ratio = ----------------------------------------------  (1)
+            #            1/old_ratio(C+dC*nutrient_specific_limiter)
+            #
+            # here Nut is a specific nutrient, C and dC should be in Moles
+            # if nutrient_specific_limiter = 1, the ratio will stay the same
+            # fun phy_re_ratio(...) - implementation of above formula
+            phy_in_m  = carbon_g_to_mole(inphy[circle])
             dphy_in_m = carbon_g_to_mole(phy_growth)
+
+            # these lines regulate the rations in the phytoplankton
+            if (nitrogen_limiter > 0.9 and phy_c_to_n > 106/16):
+                phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter*1.1)
+            else:
+                phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
+                #if phy_c_to_n < 106/(0.95*16):
+                #    phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, nitrogen_limiter)
+                #else:
+                #    # do not change the ratio
+                #    phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, 1)
+            
+            if (si_limiter > 0.9 and phy_c_to_si > 106/15):
+                phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter*1.1)
+            else:
+                phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
+                #if phy_c_to_si < 106/(0.95*15):
+                #    phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, si_limiter)
+                #else:
+                #    phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
+            
+            if (po4_limiter > 0.9 and phy_c_to_p > 106):
+                phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter*1.1)
+            else:
+                phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
+                #if phy_c_to_p < 106/0.95:
+                #    phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, po4_limiter)
+                #else:
+                #    phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, 1)
+
+            phy_c_to_n  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_n, 1)
+            phy_c_to_si = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_si, 1)
+            phy_c_to_p  = phy_re_ratio(phy_in_m, dphy_in_m, phy_c_to_p, 1)
+
             # phytoplankton excretion
             # 1 mg C m^-3, overwintering value
             if inphy[circle] < 1.01:
                 phy_excr = 0
             else:
                 phy_excr = phy_excretion(kexc, inphy[circle])/number_of_circles
+            # here we again should change the rations
+            # phytoplankton excretes dissolved labile organic matter (doml)
+            # therefore excreted by phy om is kind of prey for doml
+            #
+            #             C+Cprey
+            # new_ratio = ----------------------------------------------  (2)
+            #            C/ratio + Cprey/prey_ratio
+            #
+            # : zoo_om_re_ratio(C, Cprey, ratio, prey_ratio)
+            # if ratio = prey_ratio => new_ratio = ratio = prey_ratio
+            # excretion can change the rations in doml
+            doml_in_m  = carbon_g_to_mole(indoml[circle])
+            dexcr_in_m = carbon_g_to_mole(phy_excr)
+            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dexcr_in_m, doml_c_to_n, phy_c_to_n)
+            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dexcr_in_m, doml_c_to_si, phy_c_to_si)
+            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dexcr_in_m, doml_c_to_p, phy_c_to_p)
             # phytopankton mortality
             if inphy[circle] < 1.01:
                 phy_mort = 0
@@ -392,6 +457,14 @@ def calculate(
                 phy_mort =(phy_mortality(kmortality, inphy[circle],
                                          ino2[circle])
                           /number_of_circles)
+            # mortality can change the rations in poml
+            # here we again use the formula (2)
+            poml_in_m  = carbon_g_to_mole(inpoml[circle])
+            dmort_in_m = carbon_g_to_mole(phy_mort)
+            poml_c_to_n = zoo_om_re_ratio(poml_in_m, dmort_in_m, poml_c_to_n, phy_c_to_n)
+            poml_c_to_si = zoo_om_re_ratio(poml_in_m, dmort_in_m, poml_c_to_si, phy_c_to_si)
+            poml_c_to_p = zoo_om_re_ratio(poml_in_m, dmort_in_m, poml_c_to_p, phy_c_to_p)
+
             # zoo mg C/m^3
             # zooplankton grazing on phytoplankton
             if inphy[circle] < 1.01:
@@ -400,9 +473,44 @@ def calculate(
                 graz_phy =(zoo_phy_graz(k_het_phy_gro, k_het_phy_lim,
                                         inhet[circle], inphy[circle])
                           /number_of_circles)
+            # grazing of phy can change rationals in zoo, poml, and doml since we assume
+            # that zoo eats phy and immidiately excretes some parts of it to both poml and doml
+            # uz is a food absorbency of zoo (0-1)
+            # hz is a ratio between dissolved and particulate excretes of zoo (0-1)
+            het_in_m = carbon_g_to_mole(inhet[circle])
+            dgraz_phy_in_m = carbon_g_to_mole(graz_phy)
+            zoo_c_to_n = zoo_om_re_ratio(het_in_m, dgraz_phy_in_m*uz, zoo_c_to_n, phy_c_to_n)
+            zoo_c_to_si = zoo_om_re_ratio(het_in_m, dgraz_phy_in_m*uz, zoo_c_to_si, phy_c_to_si)
+            zoo_c_to_p = zoo_om_re_ratio(het_in_m, dgraz_phy_in_m*uz, zoo_c_to_p, phy_c_to_p)
+
+            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz,
+                                          doml_c_to_n, phy_c_to_n)
+            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz,
+                                           doml_c_to_si, phy_c_to_si)
+            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dgraz_phy_in_m*(1-uz)*hz,
+                                          doml_c_to_p, phy_c_to_p)
+
+            poml_c_to_n = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz),
+                                          poml_c_to_n, phy_c_to_n)
+            poml_c_to_si = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz),
+                                           poml_c_to_si, phy_c_to_si)
+            poml_c_to_p = zoo_om_re_ratio(poml_in_m, dgraz_phy_in_m*(1-uz)*(1-hz),
+                                          poml_c_to_p, phy_c_to_p)
             # zooplankton grazing on pom
             graz_pom =(zoo_pom_graz(k_het_pom_gro, k_het_pom_lim, inhet[circle], inpoml[circle])
                       /number_of_circles)
+            # grazing of pom can change rationals in zoo and doml
+            dgraz_pom_in_m = carbon_g_to_mole(graz_pom)
+            zoo_c_to_n = zoo_om_re_ratio(het_in_m, dgraz_pom_in_m*uz, zoo_c_to_n, poml_c_to_n)
+            zoo_c_to_si = zoo_om_re_ratio(het_in_m, dgraz_pom_in_m*uz, zoo_c_to_si, poml_c_to_si)
+            zoo_c_to_p = zoo_om_re_ratio(het_in_m, dgraz_pom_in_m*uz, zoo_c_to_p, poml_c_to_p)
+
+            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz,
+                                          doml_c_to_n, poml_c_to_n)
+            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz,
+                                           doml_c_to_si, poml_c_to_si)
+            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dgraz_pom_in_m*(1-uz)*hz,
+                                          doml_c_to_p, poml_c_to_p)
             # zooplankton respiration
             zoo_resp =(zoo_respiration(k_het_res, inhet[circle], ino2[circle])
                       /number_of_circles)
@@ -411,6 +519,10 @@ def calculate(
                       /number_of_circles)
             # zoo mortality can change ratio in poml
             dzoo_resp_in_m = carbon_g_to_mole(zoo_resp)
+            dzoo_mort_in_m = carbon_g_to_mole(zoo_mort)
+            poml_c_to_n = zoo_om_re_ratio(poml_in_m, dzoo_mort_in_m, poml_c_to_n, zoo_c_to_n)
+            poml_c_to_si = zoo_om_re_ratio(poml_in_m, dzoo_mort_in_m, poml_c_to_si, zoo_c_to_si)
+            poml_c_to_p = zoo_om_re_ratio(poml_in_m, dzoo_mort_in_m, poml_c_to_p, zoo_c_to_p)
 
             # N2 fixation mM N/m^3
             n_fixation = 0
@@ -426,6 +538,18 @@ def calculate(
             # autolysis of pom -> dom
             autolysis_l = autolysis_labile(k_poml_doml, inpoml[circle])/number_of_circles
             autolysis_r = autolysis_refrac(k_pomr_domr, inpomr[circle])/number_of_circles
+            # autolysis can change ratio in dissolved om
+            domr_in_m = carbon_g_to_mole(autolysis_l)
+            dautolysis_l_in_m = carbon_g_to_mole(autolysis_l)
+            dautolysis_r_in_m = carbon_g_to_mole(autolysis_r)
+            # poml -> doml
+            doml_c_to_n = zoo_om_re_ratio(doml_in_m, dautolysis_l_in_m, doml_c_to_n, poml_c_to_n)
+            doml_c_to_si = zoo_om_re_ratio(doml_in_m, dautolysis_l_in_m, doml_c_to_si, poml_c_to_si)
+            doml_c_to_p = zoo_om_re_ratio(doml_in_m, dautolysis_l_in_m, doml_c_to_p, poml_c_to_p)
+            # pomr -> domr
+            domr_c_to_n = zoo_om_re_ratio(domr_in_m, dautolysis_r_in_m, domr_c_to_n, pomr_c_to_n)
+            domr_c_to_si = zoo_om_re_ratio(domr_in_m, dautolysis_r_in_m, domr_c_to_si, pomr_c_to_si)
+            domr_c_to_p = zoo_om_re_ratio(domr_in_m, dautolysis_r_in_m, domr_c_to_p, pomr_c_to_p)
             # oxidation of om
             kf = om_oxo2_coef(k_omox_o2, ino2[circle], temperature[day], tref)
             if (ino2[circle] < (carbon_g_to_mole(k_pomr_ox*inpomr[circle]*kf)/number_of_circles
@@ -455,37 +579,33 @@ def calculate(
                    +dpoml_o2_in_m/poml_c_to_n)
             dnh4_ncircle = n_fixation-n_nitrif_1-n_anammox
             innh4[circle+1] = innh4[circle]+dnh4_bio+dnh4_ncircle
+            check_value('nh4', innh4[circle+1])
 
             dno2_bio =(-dphy_in_m/phy_c_to_n*quota(no3_limiter, nitrogen_limiter)
                                             *quota(inno2[circle], inno2[circle]+inno3[circle]))
             dno2_ncircle = n_nitrif_1-n_nitrif_2-n_anammox
             inno2[circle+1] = inno2[circle]+dno2_bio+dno2_ncircle
+            check_value('no2', inno2[circle+1])
 
             dno3_bio =(-dphy_in_m/phy_c_to_n*quota(no3_limiter, nitrogen_limiter)
                                             *quota(inno3[circle], inno2[circle]+inno3[circle]))
             dno3_ncircle = n_nitrif_2
             inno3[circle+1] = inno3[circle]+dno3_bio+dno3_ncircle
+            check_value('no3', inno3[circle+1])
 
             dpo4 =(-dphy_in_m/phy_c_to_p
                    +dzoo_resp_in_m/zoo_c_to_p
                    +ddoml_o2_in_m/doml_c_to_p
                    +dpoml_o2_in_m/poml_c_to_p)
             inpo4[circle+1] = inpo4[circle]+dpo4
+            check_value('po4', inpo4[circle+1])
 
             dsi =(-dphy_in_m/phy_c_to_si
                   +dzoo_resp_in_m/zoo_c_to_si
                   +ddoml_o2_in_m/doml_c_to_si
                   +dpoml_o2_in_m/poml_c_to_si)
             insi[circle+1]  = insi[circle]+dsi
-
-            # check nutrients for negative values and in a case return preceeding values
-            if any((innh4[circle+1], inno2[circle+1], inno3[circle+1], inpo4[circle+1], insi[circle+1])) < 0:
-                dphy_in_m = 0
-                innh4[circle+1] = innh4[circle]
-                inno2[circle+1] = inno2[circle]
-                inno3[circle+1] = inno3[circle]
-                inpo4[circle+1] = inpo4[circle]
-                insi[circle+1] =  insi[circle]
+            check_value('si', insi[circle+1])
 
             dpoml =(-autolysis_l-dc_poml_o2
                     +phy_mort+zoo_mort
