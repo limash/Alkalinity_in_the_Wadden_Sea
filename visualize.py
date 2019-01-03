@@ -120,7 +120,7 @@ def plotTA(biogeodata):
              ax.get_xticklabels() + ax.get_yticklabels()):
         item.set_fontsize(15)
     ax.legend(fontsize = 14,loc = 'upper left')
-    ax.set_title('Figure 1. Surface water TA measured and calculated from the alkalinity-salinity relation (Millero 1997),\n FerryBox measurements (54.19º N, 6.99º E, 2017)', fontsize=16, fontweight='bold')
+    ax.set_title('Figure 1. Surface water TA measured and calculated from the alkalinity-salinity relation (Millero 1997),\n FerryBox measurements (54.19$^\circ$ N, 6.99$^\circ$ E, 2017)', fontsize=16, fontweight='bold')
     plt.xlabel("Day in a year")
     plt.ylabel('Total Alkalinity, $ \mu M$')
 
