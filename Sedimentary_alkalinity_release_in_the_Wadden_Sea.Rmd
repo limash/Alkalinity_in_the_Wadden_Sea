@@ -1,0 +1,164 @@
+---
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .Rmd
+      format_name: rmarkdown
+      format_version: '1.0'
+      jupytext_version: 0.8.6
+  kernelspec:
+    display_name: Python 3
+    language: python
+    name: python3
+---
+
+```{python}
+# %autosave 0
+```
+
+```{python}
+import visualize as vs
+```
+
+
+### Introduction
+
+
+The seasonal total alkalinity (TA) variations in the German bight are much larger than in the centre of the North sea (Thomas 2009). Comparing the measured surface alkalinity values in the German bight with the calculated ones from the salinity-alkalinity relationship there are significant differences between these values (up to 250 μM) during a year, (see Fig. 1) It can roughly show the importance of the coastal area processes regarding to alkalinity alteration.
+
+```{python}
+vs.plot_intro()
+```
+
+There are several factors able to induce these differences:
+  * A riverine influence. This factor is strongly geographically dependent and can cause both increase and decrease of TA values. Since the main riverine outflow is supposed to be in the spring, we assume that this factor does not have a main importance of the presented alkalinity yearly profile with maximum in the end of the summer; 
+  * An influence of the pelagic and benthic activities in the adjoining Wadden Sea. Thomas (2009) according to the observed alkalinity values proposed that the main driver of the seasonal southeastern North sea alkalinity variability is the alkalinity flux from the Wadden Sea. 
+  * An influence of the pelagic and benthic activities in the German Bight. Moore (2011) suggests not so strong input of alkalinity into the North Sea from the Wadden sea compared to the input from the North sea sediments. Brenner (2016) estimated a sedimentary alkalinity mean flux from the southern North Sea (SNS) sediments 6.6 ± 5.2 mmol $m^{−2} d^{−1}$ in September 2011, and 5.7 ± 3.7 mmol $m^{−2} d^{−1}$ in June 2012. Assuming average depth of the SNS 40 m and average alkalinity mean flux 6 mmol $m^{-2} d^{-1}$ through the sediment-water interface (SWI) during 4 months from may until september, the accumulative increase of TA in the SNS water column should be roughly equal to 18.6 mmol $m^{−2} d^{−1}$ which is much lower than the measured values (see Fig. 1).
+
+
+
+At our knowledge currently, there is no study quantifying the alkalinity release and its origin in the Wadden Sea, what can be a still important source of alkalinity in the German Bight of the North Sea.  The Wadden Sea is a unique allochthonous reservoir with organic matter (OM) oxidation prevail over OM production (Beusekom 1999, Postma 1984) inducing alkalinity generation. Also, tidal effects cause significant mixing in this area, which can enhance alkalinity fluxes on the SWI. Therefore, the goal of this study is to estimate which processes can influence the alkalinity generation in the Wadden Sea and its sediments.
+
+
+The “explicitly conservative form of total alkalinity” (TA$_{ec}$) proposed by Wolf-Gladrow (2007) contains the following terms: 
+
+TA$_{ec}$ = [Na$^{+}$] + 2[Mg$^{2+}$] + 2[Ca$^{2+}$] + [K$^{+}$] + 2[Sr$^{2+}$] + TNH$_{3}$ - [Cl$^{-}$] - [Br$^{-}$] - [NO3$^{-}$] - TPO$_{4}$ - 2TSO$_{4}$ - THF - THNO$_{2}$ (Eq. 1)
+
+, where TNH$_{3}$= [NH$_{3}$] + [NH$_{4}^{+}$], TPO$_{4}$ = [H$_{3}$PO$_{4}$] + [H$_{2}$PO$_{4}^{−}$] + [HPO$_{4}^{2−}$] + [PO$_{4}^{3−}$], TSO$_{4}$ = [SO$_{4}^{2−}$] + [HSO$_{4}^{−}$], THF = [F$^{−}$] + [HF], and THNO$_{2}$ = [NO$_{2}^{−}$] + [HNO$_{2}$].
+
+
+Thus increase or decrease of concentrations of any of the mentioned terms will change alkalinity. In anoxic conditions there are some more terms can appear in Eq. 1 (Fe$^{2+}$, etc.) but in presence of oxygen we assume that their contribution is canceled. Therefore, we can consider following biogeochemical processes inducing changes in Eq. 1:
+1. Nutrients assimilation by phytoplankton which includes 
+  * Nitrogen uptake by primary producers. Assimilation of one mole of NO$_{3}^{-}$ or NO$_{2}^{-}$ increase alkalinity by one mole, assimilation of NH$_{4}^{+}$ decrease alkalinity by a mole 
+  * Assimilation of one mole of phosphate leads to increase of alkalinity by one mole;
+2. OM destruction: 
+  * Oxygen respiration (CH$_{2}$O)106(NH$_{3}$)16H$_{3}$PO$_{4}$ + 106O$_{2}$ ⇒ 106CO$_{2}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 106H$_{2}$O increases alkalinity by 15 moles per 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released
+  * Denitrification (CH$_{2}$O)106(NH$_{3}$)16H$_{3}$PO$_{4}$ + 84.8HNO$_{3}$ ⇒ 106CO$_{2}$ + 42.4N$_{2}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 148.4H$_{2}$O increases alkalinity by 99.8 moles per 84.8 HNO$_{3}$ moles consumed plus 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released 
+  * Sulphate reduction (CH$_{2}$O)106(NH$_{3}$)16H$_{3}$PO$_{4}$ + 53SO$_{4}^{2-}$ ⇒ 106HCO$_{3}^{-}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 53H$_{2}$S increases alkalinity by 121 moles per 2 x 53 SO$_{4}^{2-}$ moles consumed plus 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released 
+  * other OM destruction reactions;
+3. Nitrification due to the reaction NH$_{4}^{+}$ + 1.5O$_{2}$ ⇒ NO$_{3}^{-}$ + 2H$^{+}$ + H$_{2}$O decreases alkalinity by two moles;
+4. Calcium carbonate precipitation Ca$^{2+}$ + 2HCO$_{3}^{-}$  ⇒ CaCO$_{3}$ + CO$_{2}$ + H$_{2}$O or Ca$^{2+}$ + CO$_{3}^{-}$ ⇒ CaCO$_{3}$ induces a decrease of alkalinity by two moles per one mole of calcium carbonate precipitated and dissolution CaCO$_{3}$ + CO$_{2}$ + H$_{2}$O ⇒ Ca$^{2+}$ + 2HCO$_{3}^{-}$ induces an increase of alkalinity by two moles per one mole of calcium carbonate dissolved.
+
+
+
+To estimate the changes in alkalinity for the area of interest it is necessary to approximate the rates of the mentioned processes. These processes take place in general in different domains, for example, denitrification occurs in absence of oxygen which is often possible only in sediments, but phytoplankton growth mostly spread in the water domain. That's why we shall take into account the different domains and also parametrize the exchange between them. On the other hand, as a first approximation, we can skip a spatial distribution and consider only a vertical division of processes. Therefore to mimic some of the processes which can occur in the Wadden sea and influence TA we can construct a vertically resolved box containing several layers of water and sediments, calculate necessary biogeochemical reactions for each layer and evaluate mixing between these layers. In this study, we present such a model and use it to distinguish which processes and factors are of the greater importance regarding TA generation.
+
+
+
+### Methods
+
+
+To construct the two domains grid we used the 1D Sympagic-Pelagic-Benthic transport Model, SPBM (Yakubov 2017) which provides an ability to calculate diffusion and sedimentation both in the water and sediments domains. A mean depth of the Wadden Sea is 2.5 m (Beusekom 1999), so the water domain was split into the two layers of 1.25 m width each and benthic boundary layer (BBL) was incorporated consisting of 2 layers of 0.05 m width each. The sediments domain has 40 layers of 0.01 m width each. We have not included explicit tidal dynamics into our calculations, instead, we introduced the dispersion coefficient (Boudreau 1996) in the sediments domain to reproduce different vertical mixing conditions. 
+
+
+To add all necessary biogeochemical processes to our calculations we constructed a biogeochemical model which is based on the empirical model of the phytoplankton chlorophyll (Cloern 1995) and some redox reactions partly based on the Bottom RedOx Model, BROM (Yakushev 2017). The SPBM and biogeochemical model were linked with each other through the Framework for Aquatic Biogeochemical Models, FABM (Bruggeman 2014). The model was implemented in Fortran, but some parts of it were reimplemented in Python and Non-Linear Least-Square Minimization and Curve-Fitting for Python (Newville 2014) module (LMFIT) was applied for optimization.
+
+
+#### Biogeochemical model
+
+
+We do not separate biogeochemical model into pelagic and benthic modules. Instead, we use the same equations for the both domains and use functional limiters and inhibitors to get a required behaviour when appropriate reactions happen in appropriate conditions.
+
+
+
+
+
+At the first step, the following state variables were added: phototrophic producers (Phy)mg C m-3, pelagic and benthic heterotrophs (Het) mg C m-3, NH4+ mM N m-3, NO2- mM N m-3, NO3- mM N m-3, Si mM Si m-3, PO43- mM P m-3, O2 mM O2 m-3, dissolved inorganic carbon (DIC) mM C m-3, TA mM m-3 and four types of OM - dissolved labile OM (DOML) mg C m-3, dissolved refractory OM (DOMR) mg C m-3, particulate labile OM (POML) mg C m-3, particulate refractory OM (POMR) mg C m-3. The refractory OM differs from the labile OM by its composition, while labile formally consists of C, NH4+, Si, PO43-, the refractory consists of only C. Also, the following processes were parameterized:
+Phototrophic producers growth rate, excretion, and mortality. The growth rate was based on an empirical model of the phytoplankton chlorophyll proposed by (Cloern 1995). It consists of
+a) the Chlorophyll a to Carbon relationship
+Chl aC = Ao + A eBTe-CI
+where …
+b) the biomass-specific photosynthetic rate
+PB= DpBm(1-expItpBm)
+where …
+
+
+
+c) the daily specific growth rate
+=R1PBChl aC-R0
+where …
+The phototrophic producers' excretion rate was parameterized using Phyexcr=KexcrPhyand mortality rate Phymort=KmortPhyPhy.
+OM destruction under oxic conditions. This was parametrized by a function of O2 and temperature:
+
+Nitrification. Two stages of nitrification were parametrized by the first-order reactions with the following expressions:
+
+The Non-Linear Least-Squares Fitting method was applied to find the rate of phototrophic producers growth rate and mortality. The chi-square statistic was constructed using Chlorophyll a data and standard deviation of observed Chlorophyll a was used as uncertainty in the data. The resulting Chlorophyll a curve is depicted in Fig. 3. The coefficients for the OM oxygen degradation (Beer 2005) and nitrification were taken from the literature (Yakushev 2017).
+
+
+
+At the second step, the denitrification was added as a process of two stages.
+
+At the third step, the sulphate reduction was added.
+
+Due to the absence of information of allochthonous CaCO3 input into the Wadden Sea, we have not included corresponding reactions since the assumption that resulting TA should not be affected (Thomas 2009). Also, we have not included decomposition of OM reactions via MnO2 and FeOOH electron acceptors since the alkalinity produced due to these reactions has an origin from nutrients excretion only and should not produce long-term alkalinity gradients according to the “explicitly conservative form of total alkalinity” (Wolf-Gladrow 2007) in oxic water.
+
+
+#### External data
+
+
+To reproduce heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999) the OM constant inflow was incorporated into the model. This OM input from the North sea was introduced according to the value 110 g m$^{2}$ year$^{-1}$ reported in (Beusekom 1999) as a sinusoidal curve with a maximum in March (Beer 2005).
+
+
+For forcing (temperature, salinity), initial conditions, and fitting techniques the data from the World Ocean Database for the 2010 year from the rectangular 54.35-55.37$^\circ$ N 6.65-8.53$^\circ$ E was used. 
+
+
+#### Parameter indentification and validation
+
+
+Also (Patsch 2018) and (Neumann 2017) used the vertical diffusion coefficient around 1 $\cdot$ 10$^{-8}$ $m^{2} sec^{-1}$ to distinguish advective and diffusive exchange which is the same order of the maximum dispersion coefficient  we used in our calculations.derived from permeability (Beer 2005)
+
+
+The biogeochemical processes were added consequently one by one and after each step, the non-linear Least-Squares fitting method was applied for some processes to find the best model parameters values to fit the observed data or experimental values from the literature were used for other.
+
+
+#### Sensivity
+
+
+The Wadden sea sediments can be roughly separated into two zones with different permeabilities: sands cover ~70% (Beer 2005),  and muds cover ~30%. About 50% of the sediments in the Wadden Sea are exposed during low tide (Beer 2005), and tidal flats consist mostly of sands (Beer 2005, Asmus 1998). While muds environment is reported to have higher OM content, the sands are more permeable for electron acceptors and for organic material from overlying water (Beer 2005). To respresent these different settings we varied values of dispersion coefficient and porosities according to assumption that vertical advective flux plays a decisive role to the rate of alkalinity generation in the sediments.
+
+
+### Results
+
+
+1-dimensional multilayer box containing water and sediments domains cannot reproduce all complexity of biogeochemistry of the real sea, but it provides an ability to consider different biogeochemical processes separately and track the changes in alkalinity due to nutrients assimilation by phytoplankton, nitrification, OM respiration, denitrification, sulphate reduction. Also, we can vary vertical mixing and sediments properties conditions to analyze the effect on TA generation.
+
+Baseline scenario. Under the assumptions and parameter values introduced in the previous chapter, we resulted in following structure of TA generation.
+
+
+The main contribution is delivered by the bottom-most layer with the highest concentrations of labile organic matter and oxygen.
+
+Different sediment properties. In Table 4 according to the parameter values measured by Beer 2005, there are 3 values for 2 parameters so 9 possible combinations to test. Using them we can distinguish the sediment properties promote the highest TA generation.
+
+```{python}
+
+```
+
+| Tables   |      Are      |  Cool  |
+|----------|:-------------:|------: |
+| col 1 is |  left-aligned | $1600$ |
+| col 2 is |    centered   |   $12$ |
+| col 3 is | right-aligned |    $1$ |
+
+```{python}
+
+```
