@@ -7,7 +7,6 @@ data/
 
 #jupyter checkpoints
 .ipynb_checkpoints
-*.ipynb
 
 # C extensions
 *.so
