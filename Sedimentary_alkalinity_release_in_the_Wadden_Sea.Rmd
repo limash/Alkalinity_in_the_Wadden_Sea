@@ -48,9 +48,9 @@ Thus increase or decrease of concentrations of any of the mentioned terms will c
   * Nitrogen uptake by primary producers. Assimilation of one mole of NO$_{3}^{-}$ or NO$_{2}^{-}$ increase alkalinity by one mole, assimilation of NH$_{4}^{+}$ decrease alkalinity by a mole 
   * Assimilation of one mole of phosphate leads to increase of alkalinity by one mole;
 2. OM destruction: 
-  * Oxygen respiration (CH$_{2}$O)106(NH$_{3}$)16H$_{3}$PO$_{4}$ + 106O$_{2}$ ⇒ 106CO$_{2}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 106H$_{2}$O increases alkalinity by 15 moles per 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released
-  * Denitrification (CH$_{2}$O)106(NH$_{3}$)16H$_{3}$PO$_{4}$ + 84.8HNO$_{3}$ ⇒ 106CO$_{2}$ + 42.4N$_{2}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 148.4H$_{2}$O increases alkalinity by 99.8 moles per 84.8 HNO$_{3}$ moles consumed plus 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released 
-  * Sulphate reduction (CH$_{2}$O)106(NH$_{3}$)16H$_{3}$PO$_{4}$ + 53SO$_{4}^{2-}$ ⇒ 106HCO$_{3}^{-}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 53H$_{2}$S increases alkalinity by 121 moles per 2 x 53 SO$_{4}^{2-}$ moles consumed plus 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released 
+  * Oxygen respiration (CH$_{2}$O)$_{106}$(NH$_{3}$)$_{16}$H$_{3}$PO$_{4}$ + 106O$_{2}$ ⇒ 106CO$_{2}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 106H$_{2}$O increases alkalinity by 15 moles per 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released
+  * Denitrification (CH$_{2}$O)$_{106}$(NH$_{3}$)$_{16}$H$_{3}$PO$_{4}$ + 84.8HNO$_{3}$ ⇒ 106CO$_{2}$ + 42.4N$_{2}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 148.4H$_{2}$O increases alkalinity by 99.8 moles per 84.8 HNO$_{3}$ moles consumed plus 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released 
+  * Sulphate reduction (CH$_{2}$O)$_{106}$(NH$_{3}$)$_{16}$H$_{3}$PO$_{4}$ + 53SO$_{4}^{2-}$ ⇒ 106HCO$_{3}^{-}$ + 16NH$_{3}$ + H$_{3}$PO$_{4}$ + 53H$_{2}$S increases alkalinity by 121 moles per 2 x 53 SO$_{4}^{2-}$ moles consumed plus 16 NH$_{3}$ - 1 H$_{3}$PO$_{4}$ moles released 
   * other OM destruction reactions;
 3. Nitrification due to the reaction NH$_{4}^{+}$ + 1.5O$_{2}$ ⇒ NO$_{3}^{-}$ + 2H$^{+}$ + H$_{2}$O decreases alkalinity by two moles;
 4. Calcium carbonate precipitation Ca$^{2+}$ + 2HCO$_{3}^{-}$  ⇒ CaCO$_{3}$ + CO$_{2}$ + H$_{2}$O or Ca$^{2+}$ + CO$_{3}^{-}$ ⇒ CaCO$_{3}$ induces a decrease of alkalinity by two moles per one mole of calcium carbonate precipitated and dissolution CaCO$_{3}$ + CO$_{2}$ + H$_{2}$O ⇒ Ca$^{2+}$ + 2HCO$_{3}^{-}$ induces an increase of alkalinity by two moles per one mole of calcium carbonate dissolved.
@@ -73,10 +73,10 @@ To add all necessary biogeochemical processes to our calculations we constructed
 #### Biogeochemical model
 
 
-We do not separate biogeochemical model into pelagic and benthic modules. Instead, we use the same equations for the both domains and use functional dependencies to get a required behaviour when appropriate reactions happen in appropriate conditions.
+We do not separate biogeochemical model into pelagic and benthic modules. Instead, we use the same equations for the both domains and use functional responses and inhibitors (Soetaert 2009, page 36) to get a required behaviour when the appropriate processess happen in the appropriate conditions. Biogeochemical model includes the following state variables: phototrophic producers, Phy [mg C m$^{-3}$]; pelagic and benthic heterotrophs, Het [mg C m$^{-3}$]; NH$_4^+$ [mM N m$^{-3}$]; NO$_2^-$ [mM N m$^{-3}$]; NO$_3^-$ [mM N m$^{-3}$]; Si [mM Si m$^{-3}$]; PO$_4^{3-}$ [mM P m$^{-3}$]; O$_2$ [mM O$_2$ m$^{-3}$]; dissolved inorganic carbon, DIC [mM C m$^{-3}$]; TA [mM m$^{-3}$]; dissolved OM, DOM [mg C m$^{-3}$]; particulate OM, POM [mg C m$^{-3}$]; dissolved organic carbon, DOC [mg C m$^{-3}$]; particulate organic carbon, POC [mg C m$^{-3}$]. OM is assumed to have a Redfield stoichiometry (CH$_{2}$O)$_{106}$(NH$_{3}$)$_{16}$H$_{3}$PO$_{4}$.
 
 
-Phytoplankton is parametrized according to the empirical equation that describes the phytoplankton daily specific growth rate $\mu$ [d$^{-1}$] as a function of biomass specific photosynthetic rate $P^{B}$ [mg C (mg Chl a d)$^{-1}$], $\frac{Chl\,a}{C}$ ratio [mg Chl a (mg C)$^{-1}$], and respiration $r$ [d$^{-1}$] (Cloern 1995).
+Phytoplankton growth Phy$_{growth}$ = $\mu \cdot$[Phy] is parametrized according to the empirical equation that describes the phytoplankton daily specific growth rate $\mu$ [d$^{-1}$] as a function of biomass specific photosynthetic rate $P^{B}$ [mg C (mg Chl a d)$^{-1}$], $\frac{Chl\,a}{C}$ ratio [mg Chl a (mg C)$^{-1}$], and respiration $r$ [d$^{-1}$] (Cloern 1995).
 
 
 $\mu = 0.85 P^{B}\frac{Chl\,a}{C} - r$ &nbsp;&nbsp;&nbsp;&nbsp; (1)
@@ -86,44 +86,20 @@ $P^{B} = D p^{B}_{m}(1 - \exp{\frac{I_{t} \alpha}{p^{B}_{m}}})$ &nbsp;&nbsp;&nbs
 
 
 Here $D$ is the photoperiod [h], $p^{B}_{m}$ is the maximum hourly rate of photosynthesis
-normalized to chlorophyll biomass [mg C (mg Chl a h)$^{-1}$], $I_t$ is the istantaneous photosynthetically active radiation (PAR) [$\mu$M quanta m$^{-2}$ s$^{-1}$], and $\alpha$ defines photosynthetic efficiency at low irradiance [mg C (mg Chl a h)$^{-1}$ ($\mu$M quanta m$^{-2}$ s$^{-1}$)$^{-1}$]. $D$ is calculated according to (Fennel and Neumann 2004, page 130).
+normalized to chlorophyll biomass [mg C (mg Chl a h)$^{-1}$], $I_t$ is the istantaneous photosynthetically active radiation (PAR) [$\mu$M quanta m$^{-2}$ s$^{-1}$], and $\alpha$ defines photosynthetic efficiency at low irradiance [mg C (mg Chl a h)$^{-1}$ ($\mu$M quanta m$^{-2}$ s$^{-1}$)$^{-1}$].
 
 
 $\frac{Chl\,a}{C} = 0.003 + 0.0154 e^{0.050 T}e^{-0.059 I}\tau$ &nbsp;&nbsp;&nbsp;&nbsp; (3)
 
 
-Here $T$ is temperature [$^\circ C$], $I$ is daily irradiance [M quanta m$^{-2}$ d$^{-1}$]
-
-
-At the first step, the following state variables were added: phototrophic producers (Phy)mg C m-3, pelagic and benthic heterotrophs (Het) mg C m-3, NH4+ mM N m-3, NO2- mM N m-3, NO3- mM N m-3, Si mM Si m-3, PO43- mM P m-3, O2 mM O2 m-3, dissolved inorganic carbon (DIC) mM C m-3, TA mM m-3 and four types of OM - dissolved labile OM (DOML) mg C m-3, dissolved refractory OM (DOMR) mg C m-3, particulate labile OM (POML) mg C m-3, particulate refractory OM (POMR) mg C m-3. The refractory OM differs from the labile OM by its composition, while labile formally consists of C, NH4+, Si, PO43-, the refractory consists of only C. Also, the following processes were parameterized:
-Phototrophic producers growth rate, excretion, and mortality. The growth rate was based on an empirical model of the phytoplankton chlorophyll proposed by (Cloern 1995). It consists of
-a) the Chlorophyll a to Carbon relationship
-Chl aC = Ao + A eBTe-CI
-where …
-b) the biomass-specific photosynthetic rate
-PB= DpBm(1-expItpBm)
-where …
+Here $T$ is the temperature [$^\circ C$], $I$ is the daily irradiance [M quanta m$^{-2}$ d$^{-1}$], and $\tau$ is the nutrients-limited growth rate [d$^{-1}$]. $\tau = \tau_{N} \tau_{Si} \tau_{PO_{4}^{3-}}$ where $\tau_{N}$ is the nitrogen-limited growth rate, $\tau_{Si}$ is he silicon-limited growth rate, and $\tau_{P}$ is the phosphorus-limited growth rate: $\tau_{N} = \tau_{NH_{4}^{+}} + \tau_{NO_{x}}$, $\tau_{NH_{4}^{+}} = f_{r}(K_{NH_{4}^{+}}, [$NH$_{4}^{+}])$, $\tau_{NO_{x}} = f_{r}(K_{NO_{x}}, [$NO$_{2}^{-}]+[$NO$_{3}^{-}])$ $\cdot$ $f_{i}(K_{NH_{4}^{+}}, [$NH$_{4}^{+}])$; $\tau_{Si} = f_{r}(K_{Si}, [$Si$])$; $\tau_{PO_{4}^{3-}} = f_{r}(K_{PO_{4}^{3-}}, [$PO$_{4}^{3-}])$. $f_r$ and $f_i$ are the sigmoid type functional response and inhibitor functions respectively of the following forms: $f_r(K_R, R) = \frac{R^2}{K_R^2 + R^2}$ and $f_i(K_R, R) = \frac{K_R^2}{K_R^2 + R^2}$ where R is the limiting or inhibiting resource concentration and $K_R$ is the corresponding half-saturation constant. Therefore for an instance in case of high availability of ammonium ($[$NH$_{4}^{+}] >> K_{NH_{4}^{+}}$) $\tau_{NH_{4}^{+}}$ tends to one while the nitrates+nitrites limiting term $\tau_{NO_{x}}$ inhibited by ammonium tends to zero.
 
 
 
-c) the daily specific growth rate
-=R1PBChl aC-R0
-where …
-The phototrophic producers' excretion rate was parameterized using Phyexcr=KexcrPhyand mortality rate Phymort=KmortPhyPhy.
-OM destruction under oxic conditions. This was parametrized by a function of O2 and temperature:
 
-Nitrification. Two stages of nitrification were parametrized by the first-order reactions with the following expressions:
+```{python}
 
-The Non-Linear Least-Squares Fitting method was applied to find the rate of phototrophic producers growth rate and mortality. The chi-square statistic was constructed using Chlorophyll a data and standard deviation of observed Chlorophyll a was used as uncertainty in the data. The resulting Chlorophyll a curve is depicted in Fig. 3. The coefficients for the OM oxygen degradation (Beer 2005) and nitrification were taken from the literature (Yakushev 2017).
-
-
-
-At the second step, the denitrification was added as a process of two stages.
-
-At the third step, the sulphate reduction was added.
-
-Due to the absence of information of allochthonous CaCO3 input into the Wadden Sea, we have not included corresponding reactions since the assumption that resulting TA should not be affected (Thomas 2009). Also, we have not included decomposition of OM reactions via MnO2 and FeOOH electron acceptors since the alkalinity produced due to these reactions has an origin from nutrients excretion only and should not produce long-term alkalinity gradients according to the “explicitly conservative form of total alkalinity” (Wolf-Gladrow 2007) in oxic water.
-
+```
 
 #### External data
 
@@ -134,13 +110,16 @@ To reproduce heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999)
 For forcing (temperature, salinity), initial conditions, and fitting techniques the data from the World Ocean Database for the 2010 year from the rectangular 54.35-55.37$^\circ$ N 6.65-8.53$^\circ$ E was used. 
 
 
-#### Parameter indentification and validation
+#### Parameter indentification
 
 
 Also (Patsch 2018) and (Neumann 2017) used the vertical diffusion coefficient around 1 $\cdot$ 10$^{-8}$ $m^{2} sec^{-1}$ to distinguish advective and diffusive exchange which is the same order of the maximum dispersion coefficient  we used in our calculations.derived from permeability (Beer 2005)
 
 
-The biogeochemical processes were added consequently one by one and after each step, the non-linear Least-Squares fitting method was applied for some processes to find the best model parameters values to fit the observed data or experimental values from the literature were used for other.
+The biogeochemical processes were added consequently one by one and after each step, the non-linear Least-Squares fitting method was applied for some processes to find the best model parameters values to fit the observed data or experimental values from the literature were used for other. The Non-Linear Least-Squares Fitting method was applied to find the rate of phototrophic producers growth rate and mortality. The chi-square statistic was constructed using Chlorophyll a data and standard deviation of observed Chlorophyll a was used as uncertainty in the data. The resulting Chlorophyll a curve is depicted in Fig. 3. The coefficients for the OM oxygen degradation (Beer 2005) and nitrification were taken from the literature (Yakushev 2017).
+
+
+ $D$ is calculated according to (Fennel and Neumann 2004, page 130).
 
 
 #### Sensivity
