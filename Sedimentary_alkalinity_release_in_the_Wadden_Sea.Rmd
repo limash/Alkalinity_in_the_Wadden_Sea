@@ -38,7 +38,7 @@ At our knowledge currently, there is no study quantifying the alkalinity release
 
 The “explicitly conservative form of total alkalinity” (TA$_{ec}$) proposed by Wolf-Gladrow (2007) contains the following terms: 
 
-TA$_{ec}$ = [Na$^{+}$] + 2[Mg$^{2+}$] + 2[Ca$^{2+}$] + [K$^{+}$] + 2[Sr$^{2+}$] + TNH$_{3}$ - [Cl$^{-}$] - [Br$^{-}$] - [NO3$^{-}$] - TPO$_{4}$ - 2TSO$_{4}$ - THF - THNO$_{2}$ (Eq. 1)
+TA$_{ec}$ = [Na$^{+}$] + 2[Mg$^{2+}$] + 2[Ca$^{2+}$] + [K$^{+}$] + 2[Sr$^{2+}$] + TNH$_{3}$ - [Cl$^{-}$] - [Br$^{-}$] - [NO$_3^{-}$] - TPO$_{4}$ - 2TSO$_{4}$ - THF - THNO$_{2}$ (Eq. 1)
 
 , where TNH$_{3}$= [NH$_{3}$] + [NH$_{4}^{+}$], TPO$_{4}$ = [H$_{3}$PO$_{4}$] + [H$_{2}$PO$_{4}^{−}$] + [HPO$_{4}^{2−}$] + [PO$_{4}^{3−}$], TSO$_{4}$ = [SO$_{4}^{2−}$] + [HSO$_{4}^{−}$], THF = [F$^{−}$] + [HF], and THNO$_{2}$ = [NO$_{2}^{−}$] + [HNO$_{2}$].
 
@@ -70,38 +70,120 @@ To construct the two domains grid we used the 1D Sympagic-Pelagic-Benthic transp
 To add all necessary biogeochemical processes to our calculations we constructed a biogeochemical model which is based on the empirical model of the phytoplankton chlorophyll:carbon ratio (Cloern 1995) and some redox reactions partly based on the Bottom RedOx Model, BROM (Yakushev 2017). The SPBM and biogeochemical model were linked with each other through the Framework for Aquatic Biogeochemical Models, FABM (Bruggeman 2014). The model was implemented in Fortran, but some parts of it were reimplemented in Python and Non-Linear Least-Square Minimization and Curve-Fitting for Python (Newville 2014) module (LMFIT) was applied for optimization.
 
 
-#### Biogeochemical model
+#### 1 Biogeochemical model
 
 
-We do not separate biogeochemical model into pelagic and benthic modules. Instead, we use the same equations for the both domains and use functional responses and inhibitors (Soetaert 2009, page 36) to get a required behaviour when the appropriate processess happen in the appropriate conditions. Biogeochemical model includes the following state variables: phototrophic producers, Phy [mg C m$^{-3}$]; pelagic and benthic heterotrophs, Het [mg C m$^{-3}$]; NH$_4^+$ [mM N m$^{-3}$]; NO$_2^-$ [mM N m$^{-3}$]; NO$_3^-$ [mM N m$^{-3}$]; Si [mM Si m$^{-3}$]; PO$_4^{3-}$ [mM P m$^{-3}$]; O$_2$ [mM O$_2$ m$^{-3}$]; dissolved inorganic carbon, DIC [mM C m$^{-3}$]; TA [mM m$^{-3}$]; dissolved OM, DOM [mg C m$^{-3}$]; particulate OM, POM [mg C m$^{-3}$]; dissolved organic carbon, DOC [mg C m$^{-3}$]; particulate organic carbon, POC [mg C m$^{-3}$]. OM is assumed to have a Redfield stoichiometry (CH$_{2}$O)$_{106}$(NH$_{3}$)$_{16}$H$_{3}$PO$_{4}$.
+We do not separate biogeochemical model into pelagic and benthic modules. Instead, we use the same equations for the both domains and use functional responses and inhibitors (Soetaert 2009, page 36) to get a required behaviour when the appropriate processess happen in the appropriate conditions. Biogeochemical model includes the following state variables: phototrophic producers, Phy [mg C m$^{-3}$]; pelagic and benthic heterotrophs, Het [mg C m$^{-3}$]; NH$_4^+$ [mM N m$^{-3}$]; NO$_2^-$ [mM N m$^{-3}$]; NO$_3^-$ [mM N m$^{-3}$]; Si [mM Si m$^{-3}$]; PO$_4^{3-}$ [mM P m$^{-3}$]; O$_2$ [mM O$_2$ m$^{-3}$]; SO$_4^{2-}$ [mM S m$^{-3}$]; dissolved inorganic carbon, DIC [mM C m$^{-3}$]; TA [mM m$^{-3}$]; dissolved OM, DOM [mg C m$^{-3}$]; particulate OM, POM [mg C m$^{-3}$]; dissolved organic carbon, DOC [mg C m$^{-3}$]; particulate organic carbon, POC [mg C m$^{-3}$]. OM is assumed to have a Redfield stoichiometry (CH$_{2}$O)$_{106}$(NH$_{3}$)$_{16}$H$_{3}$PO$_{4}$.
 
 
-Phytoplankton growth Phy$_{growth}$ = $\mu \cdot$[Phy] is parametrized according to the empirical equation that describes the phytoplankton daily specific growth rate $\mu$ [d$^{-1}$] as a function of biomass specific photosynthetic rate $P^{B}$ [mg C (mg Chl a d)$^{-1}$], $\frac{Chl\,a}{C}$ ratio [mg Chl a (mg C)$^{-1}$], and respiration $r$ [d$^{-1}$] (Cloern 1995).
+#### Phototrophic producers
 
 
-$\mu = 0.85 P^{B}\frac{Chl\,a}{C} - r$ &nbsp;&nbsp;&nbsp;&nbsp; (1)
+Phototrophic producers growth Phy$_{growth}$ = $\mu \cdot[$Phy$]$ is parametrized according to the empirical equation that describes the phytoplankton daily specific growth rate $\mu$ [d$^{-1}$] as a function of biomass specific photosynthetic rate $P^{B}$ $[$mg C (mg Chl a d)$^{-1}]$, $\frac{Chl\,a}{C}$ ratio $[$mg Chl a (mg C)$^{-1}]$, and respiration $r$ $[$d$^{-1}]$ (Cloern 1995):
 
 
-$P^{B} = D p^{B}_{m}(1 - \exp{\frac{I_{t} \alpha}{p^{B}_{m}}})$ &nbsp;&nbsp;&nbsp;&nbsp; (2)
+$\mu = 0.85 P^{B}\frac{Chl\,a}{C} - r$,
+
+$P^{B} = D p^{B}_{m}(1 - \exp{\frac{I_{t} \alpha}{p^{B}_{m}}})$,
+
+$\frac{Chl\,a}{C} = 0.003 + 0.0154 e^{0.050 T}e^{-0.059 I}\tau$.
 
 
 Here $D$ is the photoperiod [h], $p^{B}_{m}$ is the maximum hourly rate of photosynthesis
 normalized to chlorophyll biomass [mg C (mg Chl a h)$^{-1}$], $I_t$ is the istantaneous photosynthetically active radiation (PAR) [$\mu$M quanta m$^{-2}$ s$^{-1}$], and $\alpha$ defines photosynthetic efficiency at low irradiance [mg C (mg Chl a h)$^{-1}$ ($\mu$M quanta m$^{-2}$ s$^{-1}$)$^{-1}$].
+$T$ is the temperature [$^\circ C$], $I$ is the daily irradiance [M quanta m$^{-2}$ d$^{-1}$], and $\tau$ is the nutrients-limited growth rate [d$^{-1}$]. $\tau = \tau_{N} \tau_{Si} \tau_{PO_{4}^{3-}}$ where $\tau_{N}$ is the nitrogen-limited growth rate, $\tau_{Si}$ is he silicon-limited growth rate, and $\tau_{P}$ is the phosphorus-limited growth rate: $\tau_{N} = \tau_{NH_{4}^{+}} + \tau_{NO_{x}}$, $\tau_{NH_{4}^{+}} = f_{r}(Ks_{NH_{4}^{+}}, [$NH$_{4}^{+}])$, $\tau_{NO_{x}} = f_{r}(Ks_{NO_{x}}, [$NO$_{2}^{-}]+[$NO$_{3}^{-}])$ $\cdot$ $f_{i}(Ks_{NH_{4}^{+}}, [$NH$_{4}^{+}])$; $\tau_{Si} = f_{r}(Ks_{Si}, [$Si$])$; $\tau_{PO_{4}^{3-}} = f_{r}(Ks_{PO_{4}^{3-}}, [$PO$_{4}^{3-}])$.
+$f_r$ and $f_i$ are the sigmoid type functional response and inhibitor function respectively of the following forms: $f_r(Ks_R, R) = \frac{R^2}{Ks_R^2 + R^2}$ and $f_i(Ks_R, R) = \frac{Ks_R^2}{Ks_R^2 + R^2}$ where R is the limiting or inhibiting resource concentration and $Ks_R$ is the corresponding half-saturation constant.
+Therefore for an instance in case of high availability of ammonium ($[$NH$_{4}^{+}] >> Ks_{NH_{4}^{+}}$) $\tau_{NH_{4}^{+}}$ tends to one while the nitrates+nitrites limiting term $\tau_{NO_{x}}$ inhibited by ammonium tends to zero.
 
 
-$\frac{Chl\,a}{C} = 0.003 + 0.0154 e^{0.050 T}e^{-0.059 I}\tau$ &nbsp;&nbsp;&nbsp;&nbsp; (3)
+Phototrophic producers mortality Phy$_{mortality}$ = $K_{phy\_mortality} \cdot$[Phy]$\cdot$[Phy] where $K_{phy\_mortality}$ is the phytoplankton mortality coefficient.
 
 
-Here $T$ is the temperature [$^\circ C$], $I$ is the daily irradiance [M quanta m$^{-2}$ d$^{-1}$], and $\tau$ is the nutrients-limited growth rate [d$^{-1}$]. $\tau = \tau_{N} \tau_{Si} \tau_{PO_{4}^{3-}}$ where $\tau_{N}$ is the nitrogen-limited growth rate, $\tau_{Si}$ is he silicon-limited growth rate, and $\tau_{P}$ is the phosphorus-limited growth rate: $\tau_{N} = \tau_{NH_{4}^{+}} + \tau_{NO_{x}}$, $\tau_{NH_{4}^{+}} = f_{r}(K_{NH_{4}^{+}}, [$NH$_{4}^{+}])$, $\tau_{NO_{x}} = f_{r}(K_{NO_{x}}, [$NO$_{2}^{-}]+[$NO$_{3}^{-}])$ $\cdot$ $f_{i}(K_{NH_{4}^{+}}, [$NH$_{4}^{+}])$; $\tau_{Si} = f_{r}(K_{Si}, [$Si$])$; $\tau_{PO_{4}^{3-}} = f_{r}(K_{PO_{4}^{3-}}, [$PO$_{4}^{3-}])$. $f_r$ and $f_i$ are the sigmoid type functional response and inhibitor functions respectively of the following forms: $f_r(K_R, R) = \frac{R^2}{K_R^2 + R^2}$ and $f_i(K_R, R) = \frac{K_R^2}{K_R^2 + R^2}$ where R is the limiting or inhibiting resource concentration and $K_R$ is the corresponding half-saturation constant. Therefore for an instance in case of high availability of ammonium ($[$NH$_{4}^{+}] >> K_{NH_{4}^{+}}$) $\tau_{NH_{4}^{+}}$ tends to one while the nitrates+nitrites limiting term $\tau_{NO_{x}}$ inhibited by ammonium tends to zero.
+#### Heterotrophs
 
 
+Heterotrophs growth parametrization is based on the feeding of heterotrophs on Phy and POM following Yakushev (2007) approach, where carnivore feeding rate depends on prey to predator ratio:
 
 
-```{python}
+$\textrm{Het}_{grazing\_phy} = K_{het\_phy} \cdot f_r(Ks_{het\_phy\_ratio},  \frac{[Phy]}{[Het]}) \cdot [\textrm{Het}]$,
 
-```
+$\textrm{Het}_{grazing\_pom} = K_{het\_pom} \cdot f_r(Ks_{het\_pom\_ratio},  \frac{[POM]}{[Het]}) \cdot [\textrm{Het}]$.
 
-#### External data
+
+Here $K_{het\_phy}$ and $K_{het\_pom}$ are the coefficients of feeding of heterotrophs on Phy and POM respectively. $Ks_{het\_phy\_ratio}$ and $Ks_{het\_pom\_ratio}$ are the half-saturation constants which determine the prey to predator ratio where the consumption rate attains 50$\%$ of its maximal value. $f_r$ is the sigmoid type functional response (see Phototrophic producers chapter).
+
+
+Heterotrophs biomass loss consist of respiration and mortality parts:
+
+
+$\textrm{Het}_{respiration} = K_{het\_respiration} \cdot f_{r\_hyperbolic}(Ks_{het\_oxygen}, [\textrm{O}_2]) \cdot [\textrm{Het}]$,
+
+$\textrm{Het}_{mortality} = (K_{het\_mortality} + f_{i\_hyperbolic}(Ks_{het\_oxygen}, [\textrm{O}_2]) \cdot (1 - K_{het\_mortality})) \cdot [\textrm{Het}]$.
+
+
+Here $f_{r\_hyperbolic}(Ks_R, R) = 0.5 + 0.5 \cdot \tanh(R - Ks_R)$ is the hyperbolic type functional response and $f_{i\_hyperbolic}(Ks_R, R) = 0.5 - 0.5 \cdot \tanh(R - Ks_R)$ is the hyperbolic type inhibitor function where R is the limiting or inhibiting resource concentration and $Ks_R$ is the corresponding half-saturation constant as previously.
+Comparing with $f_r$ and $f_i$ functions they provide a steeper gradient with R changing.
+$K_{het\_respiration}$ and $K_{het\_mortality}$ are the coefficients of heterothrophs respiration and mortality respectively.
+Therefore with sufficient oxygen concentrations ($[$O$_{2}] > Ks_{het\_oxygen}$) respiration and mortality of heterotrophs depend on corresponding coefficients $K_{het\_respiration}$ and $K_{het\_mortality}$, otherwise respiration tends to zero and mortality tends to be equal to the heterotrophs biomass [Het].
+
+
+#### Organic matter
+
+
+Following Krumins (2013) OM degradation is parametrised as a two-step process for all oxygen respiration, denitrification, and sulfate reduction where the first step (hydrolysis) comsumes OM and yeilds organic carbon (OC: DOC or POC) and nutrients and the second step (oxidation) consumes electron acceptors and OC and yeilds DIC.
+Also autolysis process introduced as a first order reaction $\textrm{OM}_{autolysis} = K_{pom\_dom} \cdot [\textrm{POM}]$.
+The OM oxygen respiration rates are parametrized as functions:
+
+
+$ K_{om\_respiration} = f_r(Ks_{O_2}, [\textrm{O}_2]) \cdot \tau_{10}(T, q_{10}, T_{ref})$,
+
+$\textrm{DOM}_{O_2hydrolysis} = K_{O_2dom\_hydrolysis} \cdot K_{om\_respiration} \cdot [\textrm{DOM}]$,
+
+$\textrm{POM}_{O_2hydrolysis} = K_{O_2pom\_hydrolysis} \cdot K_{om\_respiration} \cdot [\textrm{POM}]$,
+
+$\textrm{DOC}_{O_2oxidation} = K_{O_2doc\_oxidation} \cdot K_{om\_respiration} \cdot [\textrm{DOC}]$,
+
+$\textrm{POC}_{O_2oxidation} = K_{O_2poc\_oxidation} \cdot K_{om\_respiration} \cdot [\textrm{POC}]$.
+
+
+Here $K_{O_2dom\_hydrolysis}$, $K_{O_2pom\_hydrolysis}$, $K_{O_2doc\_oxidation}$, $K_{O_2poc\_oxidation}$ are the rates of corresponding processes, $f_r$ is the sigmoid type functional response (see Phototrophic producers chapter) with the half-saturation constant $Ks_{O_2}$, and $\tau_{10}(T, q_{10}, T_{ref}) = \exp{(\frac{T - T_{ref}}{10} \cdot \ln{q_{10}}})$ is the reaction rate modulator (see Soetaert 2009, page 49) where $T$ is temperature, $q_{10}$ is the factor of increase for every increase of the temperature with 10 $^{\circ}$C, and $T_{ref}$ is reference temperature at which $\tau_{10} = 1$. Therefore these processes rates are the first order temperature dependent reactions which not equal zero roughly when and where $[\textrm{O}_2] > Ks_{oxygen}$.
+
+
+The OM denitrification rates:
+
+
+$K_{om\_denitrification} = f_r(Ks_{NO_3}, [\textrm{NO}_3^{-}]) \cdot f_{i\_hyperbolic}(Ks_{O_2forNO_3}, [\textrm{O}_2])$,
+
+$\textrm{DOM}_{NO_3hydrolysis} = K_{NO_3dom\_hydrolysis} \cdot K_{om\_denitrification} \cdot [\textrm{DOM}]$,
+
+$\textrm{POM}_{NO_3hydrolysis} = K_{NO_3pom\_hydrolysis} \cdot K_{om\_denitrification} \cdot [\textrm{POM}]$,
+
+$\textrm{DOC}_{NO_3oxidation} = K_{NO_3doc\_oxidation} \cdot K_{om\_denitrification} \cdot [\textrm{DOC}]$,
+
+$\textrm{POC}_{NO_3oxidation} = K_{NO_3poc\_oxidation} \cdot K_{om\_denitrification} \cdot [\textrm{POC}]$.
+
+
+Here again $K_{NO_3dom\_hydrolysis}$, $K_{NO_3pom\_hydrolysis}$, $K_{NO_3doc\_oxidation}$, $K_{NO_3poc\_oxidation}$ are the rates of processes, $f_r$ is the sigmoid type functional response, and $f_{i\_hyperbolic}$ is the hyperbolic type inhibitor function (see Heterotrophs chapter). Therefore these processes rates are inhibited in presence of oxygen and occure if roughly $[\textrm{NO}_3^{-}] > Ks_{NO_3}$.
+
+
+The OM sulfate reduction rates:
+
+
+$ K_{om\_reduction} = f_r(Ks_{SO_r}, [\textrm{SO}_4^{2-}]) \cdot \tau_{10}(T, q_{10}, T_{ref}) \cdot f_{i\_hyperbolic}(Ks_{O_2forSO_4}, [\textrm{O}_2]) \cdot f_{i\_hyperbolic}(Ks_{NO_3forSO_4}, [\textrm{NO}_3^{-}])$,
+
+$\textrm{DOM}_{SO_4hydrolysis} = K_{SO_4dom\_hydrolysis} \cdot K_{om\_reduction} \cdot [\textrm{DOM}]$,
+
+$\textrm{POM}_{SO_4hydrolysis} = K_{SO_4pom\_hydrolysis} \cdot K_{om\_reduction} \cdot [\textrm{POM}]$,
+
+$\textrm{DOC}_{SO_4oxidation} = K_{SO_4doc\_oxidation} \cdot K_{om\_reduction} \cdot [\textrm{DOC}]$,
+
+$\textrm{POC}_{SO_4oxidation} = K_{SO_4poc\_oxidation} \cdot K_{om\_reduction} \cdot [\textrm{POC}]$,
+
+
+$K_{SO_4dom\_hydrolysis}$, $K_{SO_4pom\_hydrolysis}$, $K_{SO_4doc\_oxidation}$, $K_{SO_4poc\_oxidation}$ are the rates of processes. Sulfate reduction rates are inhibited in the presense of more favorable electron acceptors (O$_2$ or/and NO$_3^-$). 
+
+
+#### 2 External data
 
 
 To reproduce heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999) the OM constant inflow was incorporated into the model. This OM input from the North sea was introduced according to the value 110 g m$^{2}$ year$^{-1}$ reported in (Beusekom 1999) as a sinusoidal curve with a maximum in March (Beer 2005).
@@ -110,7 +192,7 @@ To reproduce heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999)
 For forcing (temperature, salinity), initial conditions, and fitting techniques the data from the World Ocean Database for the 2010 year from the rectangular 54.35-55.37$^\circ$ N 6.65-8.53$^\circ$ E was used. 
 
 
-#### Parameter indentification
+#### 3 Parameter indentification
 
 
 Also (Patsch 2018) and (Neumann 2017) used the vertical diffusion coefficient around 1 $\cdot$ 10$^{-8}$ $m^{2} sec^{-1}$ to distinguish advective and diffusive exchange which is the same order of the maximum dispersion coefficient  we used in our calculations.derived from permeability (Beer 2005)
@@ -122,7 +204,7 @@ The biogeochemical processes were added consequently one by one and after each s
  $D$ is calculated according to (Fennel and Neumann 2004, page 130).
 
 
-#### Sensivity
+#### 4 Sensivity
 
 
 The Wadden sea sediments can be roughly separated into two zones with different permeabilities: sands cover ~70% (Beer 2005),  and muds cover ~30%. About 50% of the sediments in the Wadden Sea are exposed during low tide (Beer 2005), and tidal flats consist mostly of sands (Beer 2005, Asmus 1998). While muds environment is reported to have higher OM content, the sands are more permeable for electron acceptors and for organic material from overlying water (Beer 2005). To respresent these different settings we varied values of dispersion coefficient and porosities according to assumption that vertical advective flux plays a decisive role to the rate of alkalinity generation in the sediments.
