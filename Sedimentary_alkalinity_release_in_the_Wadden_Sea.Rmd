@@ -79,7 +79,7 @@ We do not separate biogeochemical model into pelagic and benthic modules. Instea
 #### Phototrophic producers
 
 
-Phototrophic producers growth Phy$_{growth}$ = $\mu \cdot[$Phy$]$ is parametrized according to the empirical equation that describes the phytoplankton daily specific growth rate $\mu$ [d$^{-1}$] as a function of biomass specific photosynthetic rate $P^{B}$ $[$mg C (mg Chl a d)$^{-1}]$, $\frac{Chl\,a}{C}$ ratio $[$mg Chl a (mg C)$^{-1}]$, and respiration $r$ $[$d$^{-1}]$ (Cloern 1995):
+Phototrophic producers growth $\textrm{Phy}_{growth} = \mu \cdot[\textrm{Phy}]$ is parametrized according to the empirical equation that describes the phytoplankton daily specific growth rate $\mu$ [d$^{-1}$] as a function of biomass specific photosynthetic rate $P^{B}$ $[$mg C (mg Chl a d)$^{-1}]$, $\frac{Chl\,a}{C}$ ratio $[$mg Chl a (mg C)$^{-1}]$, and respiration $r$ $[$d$^{-1}]$ (Cloern 1995):
 
 
 $\mu = 0.85 P^{B}\frac{Chl\,a}{C} - r$,
@@ -96,7 +96,7 @@ $f_r$ and $f_i$ are the sigmoid type functional response and inhibitor function 
 Therefore for an instance in case of high availability of ammonium ($[$NH$_{4}^{+}] >> Ks_{NH_{4}^{+}}$) $\tau_{NH_{4}^{+}}$ tends to one while the nitrates+nitrites limiting term $\tau_{NO_{x}}$ inhibited by ammonium tends to zero.
 
 
-Phototrophic producers mortality Phy$_{mortality}$ = $K_{phy\_mortality} \cdot$[Phy]$\cdot$[Phy] where $K_{phy\_mortality}$ is the phytoplankton mortality coefficient.
+Phototrophic producers excretion $\textrm{Phy}_{excrete} = K_{phy\_excrete} \cdot [\textrm{Phy}] $ and mortality $\textrm{Phy}_{mortality}$ = $K_{phy\_mortality} \cdot[\textrm{Phy}] \cdot [\textrm{Phy}]$ where $K_{phy\_excrete}$ is the phytoplankton excretion coefficient and $K_{phy\_mortality}$ is the phytoplankton mortality coefficient.
 
 
 #### Heterotrophs
@@ -121,10 +121,10 @@ $\textrm{Het}_{respiration} = K_{het\_respiration} \cdot f_{r\_hyperbolic}(Ks_{h
 $\textrm{Het}_{mortality} = (K_{het\_mortality} + f_{i\_hyperbolic}(Ks_{het\_oxygen}, [\textrm{O}_2]) \cdot (1 - K_{het\_mortality})) \cdot [\textrm{Het}]$.
 
 
-Here $f_{r\_hyperbolic}(Ks_R, R) = 0.5 + 0.5 \cdot \tanh(R - Ks_R)$ is the hyperbolic type functional response and $f_{i\_hyperbolic}(Ks_R, R) = 0.5 - 0.5 \cdot \tanh(R - Ks_R)$ is the hyperbolic type inhibitor function where R is the limiting or inhibiting resource concentration and $Ks_R$ is the corresponding half-saturation constant as previously.
+Here $f_{r\_hyperbolic}(Ks_R, R) = 0.5 + 0.5 \cdot \tanh(R - Ks_R)$ is the hyperbolic type functional response and $f_{i\_hyperbolic}(Ks_R, R) = 0.5 - 0.5 \cdot \tanh(R - Ks_R)$ is the hyperbolic type inhibitor function where $R$ is the limiting or inhibiting resource concentration and $Ks_R$ is the corresponding half-saturation constant as previously.
 Comparing with $f_r$ and $f_i$ functions they provide a steeper gradient with R changing.
 $K_{het\_respiration}$ and $K_{het\_mortality}$ are the coefficients of heterothrophs respiration and mortality respectively.
-Therefore with sufficient oxygen concentrations ($[$O$_{2}] > Ks_{het\_oxygen}$) respiration and mortality of heterotrophs depend on corresponding coefficients $K_{het\_respiration}$ and $K_{het\_mortality}$, otherwise respiration tends to zero and mortality tends to be equal to the heterotrophs biomass [Het].
+Therefore with sufficient oxygen concentrations ($[\textrm{O}_{2}] > Ks_{het\_oxygen}$) respiration and mortality of heterotrophs depend on corresponding coefficients $K_{het\_respiration}$ and $K_{het\_mortality}$, otherwise respiration tends to zero and mortality tends to be equal to the heterotrophs biomass [Het].
 
 
 #### Organic matter
@@ -163,7 +163,7 @@ $\textrm{DOC}_{NO_3oxidation} = K_{NO_3doc\_oxidation} \cdot K_{om\_denitrificat
 $\textrm{POC}_{NO_3oxidation} = K_{NO_3poc\_oxidation} \cdot K_{om\_denitrification} \cdot [\textrm{POC}]$.
 
 
-Here again $K_{NO_3dom\_hydrolysis}$, $K_{NO_3pom\_hydrolysis}$, $K_{NO_3doc\_oxidation}$, $K_{NO_3poc\_oxidation}$ are the rates of processes, $f_r$ is the sigmoid type functional response, and $f_{i\_hyperbolic}$ is the hyperbolic type inhibitor function (see Heterotrophs chapter). Therefore these processes rates are inhibited in presence of oxygen and occure if roughly $[\textrm{NO}_3^{-}] > Ks_{NO_3}$.
+Here again $K_{NO_3dom\_hydrolysis}$, $K_{NO_3pom\_hydrolysis}$, $K_{NO_3doc\_oxidation}$, $K_{NO_3poc\_oxidation}$ are the rates of processes, $f_r$ is the sigmoid type functional response, and $f_{i\_hyperbolic}$ is the hyperbolic type inhibitor function (see Heterotrophs chapter). Therefore these processes rates are inhibited in presence of oxygen and occure if roughly when and where $[\textrm{NO}_3^{-}] > Ks_{NO_3}$.
 
 
 The OM sulfate reduction rates:
@@ -177,19 +177,74 @@ $\textrm{POM}_{SO_4hydrolysis} = K_{SO_4pom\_hydrolysis} \cdot K_{om\_reduction}
 
 $\textrm{DOC}_{SO_4oxidation} = K_{SO_4doc\_oxidation} \cdot K_{om\_reduction} \cdot [\textrm{DOC}]$,
 
-$\textrm{POC}_{SO_4oxidation} = K_{SO_4poc\_oxidation} \cdot K_{om\_reduction} \cdot [\textrm{POC}]$,
+$\textrm{POC}_{SO_4oxidation} = K_{SO_4poc\_oxidation} \cdot K_{om\_reduction} \cdot [\textrm{POC}]$.
 
 
 $K_{SO_4dom\_hydrolysis}$, $K_{SO_4pom\_hydrolysis}$, $K_{SO_4doc\_oxidation}$, $K_{SO_4poc\_oxidation}$ are the rates of processes. Sulfate reduction rates are inhibited in the presense of more favorable electron acceptors (O$_2$ or/and NO$_3^-$). 
 
 
+#### Nitrogen cycle
+
+
+Except the denitrification described previously the biogeochemical model contains the nitrification implemented as a two step process and anammox:
+
+
+| Name | Reaction | Parameterization |
+|-|-|-|
+| Nitrification 1st stage | $\textrm{NH}_{4}^{+} + 1.5\textrm{O}_{2} \rightarrow \textrm{NO}_2^- + 2\textrm{H}^+ + \textrm{H}_2\textrm{O}$ | $\textrm{N}_{nitrification1} = K_{n1} \cdot f_{r\_hyperbolic}(Ks_{O_2forN}, [\textrm{O}_2]) \cdot [\textrm{NH}_4^+]$ |
+| Nitrification 2st stage | $\textrm{NO}_{2}^{-} + 0.5\textrm{O}_{2} \rightarrow \textrm{NO}_3^-$ | $\textrm{N}_{nitrification2} = K_{n2} \cdot f_{r\_hyperbolic}(Ks_{O_2forN}, [\textrm{O}_2]) \cdot [\textrm{NO}_2^-]$ |
+| Anammox | $\textrm{NO}_{2}^{-} + \textrm{NH}_{4}^{+} \rightarrow \textrm{N}_2 + 2\textrm{H}_2\textrm{O}$ | $\textrm{N}_{anammox} = K_{anammox} \cdot f_{i\_hyperbolic}(Ks_{O_2forNO_3}, [\textrm{O}_2]) \cdot [\textrm{NH}_4^+] \cdot [\textrm{NO}_2^-]$ |
+
+
+Here $K_{n1}$, $K_{n2}$, and $K_{anammox}$ are appropriate reaction rate velocities.
+
+
+#### Sulfur cycle
+
+
+| Name | Reaction | Parameterization |
+|-|-|-|
+| $S^0$ disproportionation |  $4\textrm{S}^0 + 3\textrm{H}_2\textrm{O} \rightarrow 2\textrm{H}_2\textrm{S} + \textrm{S}_2\textrm{O}_3^{2-} + 2\textrm{H}^+$ | $\textrm{S}^0_{disproportionation} = K_{S\_disp} \cdot [\textrm{S}^0]$ |
+| $\textrm{H}_2\textrm{S}$ oxidation with $\textrm{O}_2$ |    $2\textrm{H}_2\textrm{S} + \textrm{O}_2 \rightarrow 2\textrm{S}^0 + 2\textrm{H}_2\textrm{O}$   |   $\textrm{H}_2\textrm{S}_{O_2oxidation} = K_{H_2 SwithO_2} \\ \cdot f_{r\_hyperbolic}(Ks_{O_2forS}, [\textrm{O}_2]) \\ \cdot f_{r\_hyperbolic}(Ks_{H_2SforS}, [\textrm{H}_2\textrm{S}]) \cdot [\textrm{H}_2\textrm{S}] \cdot [\textrm{O}_2]$ |
+| $\textrm{S}^0$ oxidation with $\textrm{O}_2$ | $2\textrm{S}^0 + \textrm{O}_2 + \textrm{H}_2\textrm{O} \rightarrow \textrm{S}_2\textrm{O}_3^{2-} + 2\textrm{H}^+$ | $\textrm{S}^0_{O_2oxidation} = K_{S^0 SwithO_2} \\ \cdot f_{r\_hyperbolic}(Ks_{O_2forS}, [\textrm{O}_2]) \cdot [\textrm{S}^0] \cdot [\textrm{O}_2]$ |
+|$\textrm{S}_2\textrm{O}_3^{2-}$ oxidation with $\textrm{O}_2$ | $\textrm{S}_2\textrm{O}_3^{2-} + 2\textrm{O}_2 + 2\textrm{OH}^- \rightarrow \textrm{SO}_4^{2-} + \textrm{H}_2\textrm{O}$ | $\textrm{S}_2\textrm{O}^{2-}_{3\_O_2oxidation} = K_{S_2O_3^{2-}withO_2} \\ \cdot f_{r\_hyperbolic}(Ks_{O_2forS}, [\textrm{O}_2])\cdot  [\textrm{S}_2\textrm{O}_3^{2-}] \cdot [\textrm{O}_2]$ |
+| Thiodenitrification | $5\textrm{H}_2\textrm{S} + 8\textrm{NO}_3^- + 2\textrm{OH}^- \rightarrow 5\textrm{SO}_4^{2-} + 4\textrm{N}_2 + 6\textrm{H}_2\textrm{O}$ | $\textrm{H}_2\textrm{S}_{NO^-_3oxidation} = K_{H_2 SwithNO_3^-} \cdot f_{r\_hyperbolic}(Ks_{NO_3^-forS}, [\textrm{NO}_3^-])\cdot f_{r\_hyperbolic}(Ks_{H_2SforS}, [\textrm{H}_2\textrm{S}]) \cdot [\textrm{H}_2\textrm{S}] \cdot [\textrm{NO}_3^-]$ |
+| $\textrm{S}^0$ oxidation with $\textrm{NO}_3^-$ | $4\textrm{S}^0 + 3\textrm{NO}_3^- + 7\textrm{H}_2\textrm{O} \rightarrow 4\textrm{SO}_4^{2-} + 3\textrm{NH}_4^+ + 2\textrm{H}^+$ | $\textrm{S}^0_{NO_3^-oxidation} = K_{S^0 SwithNO_3^-} \\ \cdot f_{r\_hyperbolic}(Ks_{NO_3^-forS}, [\textrm{NO}_3^-]) \cdot [\textrm{S}^0] \cdot [\textrm{NO}_3^-]$ |
+|$\textrm{S}_2\textrm{O}_3^{2-}$ oxidation with $\textrm{NO}_3^-$| $\textrm{S}_2\textrm{O}_3^{2-} + \textrm{NO}_3^-  + 2\textrm{H}_2\textrm{O} \rightarrow 2\textrm{SO}_4^{2-} + \textrm{NH}_4^+$ | $\textrm{S}_2\textrm{O}^{2-}_{3\_NO^-_3oxidation} = K_{S_2O_3^{2-}withNO_3^-} \\ \cdot f_{r\_hyperbolic}(Ks_{NO_3^-forS}, [\textrm{NO}_3^-]) \cdot  [\textrm{S}_2\textrm{O}_3^{2-}] \cdot [\textrm{NO}_3^-]$ |
+
+
+#### Mass balance equations
+
+
+The resulting change of concentration of each state variable is a sum of the relevant processes.
+Below we will mark with $'$ the processes with concentrations converted to molar, for an istance if $\textrm{Phy}_{growth}\ [mg\ C\ m^{-3}\ d^{-1}]$ then $\textrm{Phy'}_{growth}\ [mM\ C\ m^{-3}\ d^{-1}]$.
+Also we will mark with $''$ the processes with concentrations converted further according to Redfield stoichiometry, for an instance if $\textrm{DOM}_{O_2hydrolysis}\ [mg\ C\ m^{-3}\ d^{-1}]$ then $\textrm{DOM''}_{O_2hydrolysis}\ [mM\ N\ m^{-3}\ d^{-1}]$ if it appears in the any nitrogen state variable incerement mass balance.
+
+We assume that only a part ($Uz$) of total $\textrm{OM}$ consumed by heterotrophs is absorbed, also $Hz$ is a ratio between dissolved and particulate parts of heterotrophs excreted $\textrm{OM}$.
+Therefore $\textrm{Het}_{grazing\_raw} = \textrm{Het}_{grazing\_phy} + \textrm{Het}_{grazing\_pom}$ and amount of organic consumed by heterotrophs is $\textrm{Het}_{grazing} = Uz \cdot \textrm{Het}_{grazing\_raw}$.
+Corresponding $\textrm{DOM}$ input is $\textrm{Het}_{dom\_excrete} = \textrm{Het}_{grazing\_raw} \cdot (1 - Uz) \cdot Hz$ and $\textrm{POM}$ input is $\textrm{Het}_{pom\_excrete} = \textrm{Het}_{grazing\_raw} \cdot (1 - Uz) \cdot (1 - Hz)$.
+
+
+| Model mass balance equations|
+|-|
+| $\delta [\textrm{Phy}] = \textrm{Phy}_{growth} - \textrm{Phy}_{mortality} - \textrm{Phy}_{excrete} - \textrm{Het}_{grazing\_phy}$ |
+| $\delta [\textrm{Het}] = \textrm{Het}_{grazing} - \textrm{Het}_{respiration} - \textrm{Het}_{mortality}$ |
+| $\delta [\textrm{DOM}] = \textrm{OM}_{autolysis} + \textrm{Het}_{dom\_excrete} + \textrm{Phy}_{excrete} - \textrm{DOM}_{O_2hydrolysis} - \textrm{DOM}_{NO_3hydrolysis} -  \textrm{DOM}_{SO_4hydrolysis}$ |
+| $\delta [\textrm{POM}] = \textrm{Phy}_{mortality} + \textrm{Het}_{mortality} + \textrm{Het}_{pom\_excrete} - \textrm{OM}_{autolysis} - \textrm{POM}_{O_2hydrolysis} - \textrm{POM}_{NO_3hydrolysis} -  \textrm{POM}_{SO_4hydrolysis} - \textrm{Het}_{grazing\_pom}$ |
+| $\delta [\textrm{DOC}] = \textrm{DOM}_{O_2hydrolysis} + \textrm{DOM}_{NO_3hydrolysis} +  \textrm{DOM}_{SO_4hydrolysis} - \textrm{DOC}_{O_2oxidation} - \textrm{DOC}_{NO_3oxidation} - \textrm{DOC}_{SO_4oxidation}$ |
+| $\delta [\textrm{POC}] = \textrm{POM}_{O_2hydrolysis} + \textrm{POM}_{NO_3hydrolysis} +  \textrm{POM}_{SO_4hydrolysis} - \textrm{POC}_{O_2oxidation} - \textrm{POC}_{NO_3oxidation} - \textrm{POC}_{SO_4oxidation}$ |
+| $\delta [\textrm{DIC}] = \textrm{Het'}_{respiration} + \textrm{DOC'}_{O_2oxidation} + \textrm{DOC'}_{NO_3oxidation} + \textrm{DOC'}_{SO_4oxidation} + \textrm{POC'}_{O_2oxidation} + \textrm{POC'}_{NO_3oxidation} + \textrm{POC'}_{SO_4oxidation} - \textrm{Phy'}_{growth}$ |
+| $\delta [\textrm{O}_2] = \textrm{Phy'}_{growth} - \textrm{Het'}_{respiration} - \textrm{DOC'}_{O_2oxidation} - \textrm{POC'}_{O_2oxidation}$ |
+| $lala$ |
+
+
 #### 2 External data
 
 
-To reproduce heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999) the OM constant inflow was incorporated into the model. This OM input from the North sea was introduced according to the value 110 g m$^{2}$ year$^{-1}$ reported in (Beusekom 1999) as a sinusoidal curve with a maximum in March (Beer 2005).
+To reproduce a heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999) the OM constant inflow was incorporated into the model. This OM input from the North sea was introduced according to the value 110 g m$^{2}$ year$^{-1}$ reported in (Beusekom 1999) as a sinusoidal curve with a maximum in March (Beer 2005).
 
 
-For forcing (temperature, salinity), initial conditions, and fitting techniques the data from the World Ocean Database for the 2010 year from the rectangular 54.35-55.37$^\circ$ N 6.65-8.53$^\circ$ E was used. 
+For forcing (temperature, salinity), initial conditions, and fitting techniques the data from the World Ocean Database for the 2000 - 2010 years from the rectangular 54.35-55.37$^\circ$N 6.65-8.53$^\circ$E was used. 
 
 
 #### 3 Parameter indentification
@@ -221,16 +276,6 @@ Baseline scenario. Under the assumptions and parameter values introduced in the 
 The main contribution is delivered by the bottom-most layer with the highest concentrations of labile organic matter and oxygen.
 
 Different sediment properties. In Table 4 according to the parameter values measured by Beer 2005, there are 3 values for 2 parameters so 9 possible combinations to test. Using them we can distinguish the sediment properties promote the highest TA generation.
-
-```{python}
-
-```
-
-| Tables   |      Are      |  Cool  |
-|----------|:-------------:|------: |
-| col 1 is |  left-aligned | $1600$ |
-| col 2 is |    centered   |   $12$ |
-| col 3 is | right-aligned |    $1$ |
 
 ```{python}
 
