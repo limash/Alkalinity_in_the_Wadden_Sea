@@ -15,8 +15,6 @@ jupyter:
 ```{python}
 import visualize as vs
 ```
-
-
 ### Introduction
 
 
@@ -287,15 +285,21 @@ For all other species boundary conditions at bottom and surface were set to zero
 
 
 The resulting biogeochemical model has X parameters in total.
-Also we have to establish a value of the advective exchange coefficient $K_{advective}$ which in a great degree defines the $\textrm{OM}$ production in conditions of 1-dimensional model and a value of $kz_{dispersion}$ which defines the vertical mixing in sediments.
+Also we have to establish a value of the advective exchange coefficient $K_{advective}$ which in a great degree defines the $\textrm{OM}$ production in conditions of 1-dimensional model and the values of $kz_{dispersion}$ and porosity $\phi$ which define the vertical mixing in sediments.
 
 The Non-Linear Least-Squares Fitting method was applied to find the $K_{advective}$, photosynthetic efficiency at low irradiance ($\alpha$), half-saturation constants for nutrients uptake by phototrophic producers ($Ks_{PO_{4}^{3-}}$, $Ks_{Si}$, $Ks_{NH_{4}^{+}}$, $Ks_{NO_{x}}$), phototrophic producers mortality coefficient ($K_{phy\_mortality}$), and three coefficients controlling heterotrophs grazing and dying: $\textrm{Het}$ grazing on $\textrm{Phy}$ rate $K_{het\_phy}$, Half-saturation constant of $\textrm{Het}$ to $\textrm{Phy}$ ratio $Ks_{het\_phy\_ratio}$, $\textrm{Het}$ rate of mortality $K_{het\_mortality}$.
 The chi-square statistic was constructed using Chlorophyll a data.
 After these values were got a new value of $K_{advective}$ was reestablished separately to make the model fit the total organic matter production in the North Frisian Wadden Sea to the value of 309 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$ reported in (Beusekom 1999).
 The values of heterotrophs grazing on $\textrm{POM}$ rate ($K_{het\_pom}$) and half-saturation constant of $\textrm{Het}$ to $\textrm{POM}$ ratio, $Ks_{het\_pom\_ratio}$ were not found separately, but the corresponding values for phytoplankton were adopted.
 
-To distinguish advective and diffusive exchange regimes in sediments (Patsch 2018) and (Neumann 2017) used the vertical diffusion coefficient around 1 $\cdot$ 10$^{-8}$ $m^{2} sec^{-1}$.
-We applied it in our series of runs with different vertical mixing conditions as the uppermost value of $kz_{dispersion}$.
+The Wadden sea sediments can be roughly separated into two zones with different permeabilities: sands cover ~70% (Beer 2005),  and muds cover ~30%.
+About 50% of the sediments in the Wadden Sea are exposed during low tide (Beer 2005), and tidal flats consist mostly of sands (Beer 2005, Asmus 1998).
+While muds environment is reported to have higher OM content, the sands are more permeable for electron acceptors and for organic material from overlying water (Beer 2005).
+Regarding to alkalinity generation we are more interested to reproduce the conditions happen in the sands environment (with porosity ~ 0.45 according to Beer 2005), also there can be various of advective regimes in sediments.
+To distinguish advective and diffusive exchange in sediments (Patsch 2018) and (Neumann 2017) used the vertical diffusion coefficient around 1 $\cdot$ 10$^{-8}$ $m^{2} sec^{-1}$.
+We applied a range around this value for $kz_{dispersion}$in our series of runs simulating different vertical mixing conditions in sediments.
+Therefore we can reproduce different alkalinity fluxes from the regions of the Wadden Sea exposed during low tide which are assumed to have mostly advective vertical mixing to the regions of the Wadden Sea with the prevailing diffusive vertical mixing in sediments.
+We can not apply our investigation to the concrete region, but using this approach we can achieve the possible range of values of TA fluxes on SWI in the Wadden Sea.
 
 
 | Parameter | Notation | Units | Value (Range) | Source |
@@ -314,13 +318,25 @@ We applied it in our series of runs with different vertical mixing conditions as
 | Half-saturation constant of $\textrm{Het}$ to $\textrm{POM}$ ratio | $Ks_{het\_pom\_ratio}$ | $-$ | 0.219 | see text |
 | $\textrm{Het}$ rate of respiration | $K_{het\_respiration}$ | $\textrm{d}^{-1}$ | 0.015 | see text |
 | $\textrm{Het}$ rate of mortality | $K_{het\_mortality}$ | $\textrm{d}^{-1}$ | 0.0225 | LMFIT |
-| $\textrm{Het}$ food absorbency | $Uz$ | $-$ | 0.5 | Yakushev 2017 |
-| $\textrm{Het}$ ratio between dissolved and particulate excretion | $Hz$ | $-$ | 0.5 | Yakushev 2017 |
+| $\textrm{Het}$ food absorbency | $Uz$ | $-$ | 0.5 | Yakushev (2017) |
+| $\textrm{Het}$ ratio between dissolved and particulate excretion | $Hz$ | $-$ | 0.5 | Yakushev (2017) |
 | Advective exchange coefficient | $K_{advective}$ | $-$ | 0.002 | see text |
 | Vertical dispersion coefficient in sediments | $kz_{dispersion}$ | $m^2 s^{-1}$ | 10e-9 - 10e-8 | see text |
+| Porosity | $\phi$ | $-$ | 0.45 | Beer (2005) |
 
 
-The ranges of OM oxidation rates were adapted from different litreture.
+$\textrm{OM}$ oxidation rates depend on local microbial and sediments physical properties conditions.
+Beer (2005) investigated transport and mineralization rates in an intertidal sand flat which is part of the Sylt-Rømø Basin in the North Frisian Wadden Sea near the German–Danish border.
+The maximum value of oxygen uptake in stagnant conditions they received was 36 $\textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$.
+It is the same order as the measured maximum total oxygen uptake rates by sediments ($\approx 30\ \textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$) in the Southern North Sea (Brenner 2016).
+According to our preliminary simulation with various $\textrm{OC}$ oxygen respiration rates and OM by primary producers generation and additional input described above we found out that the most of the oxygen consumption in our model happen actually not in the sediments, but in the lower level of BBL and average POC concentration near bottom and in the upper layers of sediments is about 200000 $\textrm{mg C m}^{-3}$.
+We have the depth of the BBL layers equals 5 cm.
+Therefore we can estimate the upper bound value of the minerelized OM per a day if considering that all oxygen is counsumed only for mineralization as $\approx 36 \cdot 20 = 720\ \textrm{mM C m}^{-3}\ \textrm{d}^{-1}$ or $8640\ \textrm{mg C m}^{-3}\ \textrm{d}^{-1}$.
+Accounting for average POC concentration and the first order reaction parametrization with respect to POC concentration we can estimate the yearly overall upper bound of oxygen respiration rate as 8640 / 200 000 = 0.043.
+We have a temperature q10 dependency (with a multiplier 2) in out OM respiration reaction and according to the WOD data used for the calibration the range of possible temperatures in the Wadden Sea lies within approximately 20 C.
+Therefore the basic upper bound of oxygen respiration rate for the first order reaction with q10 = 2 temperature factor and temperature range of 20 C shall be $\frac{0.043}{2 \cdot 2} \approx 0.01$.
+We assume all POM hydrolysis reaction have the same rate, also we assume all DOM rates have the values just 10 times higher then corresponding POM rates.
+Krumins (2013) scales the rates of the different electron accepting pathways by their relative cell yields, we do not explicitely add this scaling in our parametrization, but instead adopt these values to scale rates of denitrification and sulfate reduction.
 
 
 | Parameter | Notation | Units | Value (Range) | Source |
@@ -353,26 +369,26 @@ The ranges of OM oxidation rates were adapted from different litreture.
 | Temperature factor | $q_{10}$ | $-$ | 2 | Soetaert 2009 |
 
 
-The rest of the reaction parameters for nitrification and sulphur cycle were taken from the Yakushev (2017).
-
-
-#### 4 Sensivity
-
-
-The Wadden sea sediments can be roughly separated into two zones with different permeabilities: sands cover ~70% (Beer 2005),  and muds cover ~30%. About 50% of the sediments in the Wadden Sea are exposed during low tide (Beer 2005), and tidal flats consist mostly of sands (Beer 2005, Asmus 1998). While muds environment is reported to have higher OM content, the sands are more permeable for electron acceptors and for organic material from overlying water (Beer 2005). To respresent these different settings we varied values of dispersion coefficient and porosities according to assumption that vertical advective flux plays a decisive role to the rate of alkalinity generation in the sediments.
+The rest of the reaction parameters for nitrification, anammox and sulphur cycle were taken from the Yakushev (2017).
 
 
 ### Results
 
+```{python}
+vs.plot_alkalinity_low()
+```
 
-1-dimensional multilayer box containing water and sediments domains cannot reproduce all complexity of biogeochemistry of the real sea, but it provides an ability to consider different biogeochemical processes separately and track the changes in alkalinity due to nutrients assimilation by phytoplankton, nitrification, OM respiration, denitrification, sulphate reduction. Also, we can vary vertical mixing and sediments properties conditions to analyze the effect on TA generation.
+```{python}
+vs.plot_alkalinity_flux_low()
+```
 
-Baseline scenario. Under the assumptions and parameter values introduced in the previous chapter, we resulted in following structure of TA generation.
+```{python}
+vs.plot_alkalinity_high()
+```
 
-
-The main contribution is delivered by the bottom-most layer with the highest concentrations of labile organic matter and oxygen.
-
-Different sediment properties. In Table 4 according to the parameter values measured by Beer 2005, there are 3 values for 2 parameters so 9 possible combinations to test. Using them we can distinguish the sediment properties promote the highest TA generation.
+```{python}
+vs.plot_alkalinity_flux_high()
+```
 
 ```{python}
 
