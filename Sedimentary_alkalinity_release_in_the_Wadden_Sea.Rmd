@@ -417,6 +417,20 @@ vs.plot_alkalinity_high()
 vs.plot_alkalinity_flux_high()
 ```
 
+Therefore for the extreme case of the sulfate reduction rate equal to oxygen respiration and dispersion coefficient approximately 28e-9 the fluxes reach 70 mmol m-3 d-1.
+The yearly increment reaches 300 mmol m-3 and also it stops growing.
+After this degree of advection vertical mixing alkalinity fluxes do not cause the increase of alkalinity in the water column, along with this fluxes there is a strong fluxes of the different reduced sulfur compounds which oxidation in the water column cause decrease of alkalinity.
+In our modelling we have sulfur compounds oxidation rates somewhat orbitrary determined according to the values from different work.
+So assume how it can influence to the our estimation of the upper bound.
+Let's consider 2 cases where there is the overestimated total rate of the sulfide to sulfate oxidation or there is the underestimated total rate of the sulfide to sulfate oxidation.
+In the first case with the less true total oxidation rate there is should be bigger flux of alkalinity out of the SWI (which is in fact the flux of the sulfate into the SWI) and bigger corresponding fluxes of the sulfur intermediate compounds, and the resulting delay gap between alkalinity flux and alkalinity shall be even larger since all sulfur compounds are oxidized with less rate, which is unlikely according to the measurements show the maximum values of alkalinity are observed during summer and autumn.
+In the second case with the bigger true total oxidation rate the resulting fluxes of alkalinity shall be less itself.
+Therefore our estimation of the upper bound of alkalinity fluxes and alkalinity values in the Wadden sea according to the reported total OM input in this area, oxigen respiration in stagnant conditions upper bound, the average depth of 2.5 m is consistent.
+
+
+The increase of dispersion coefficient do not nesessary increase a value of alkalinity in the water column.
+Changind vertical advection conditions redistribute priority off processes influence to the alkalinity distribution in the sediments and in the BBL.
+
 ```{python}
 
 ```
