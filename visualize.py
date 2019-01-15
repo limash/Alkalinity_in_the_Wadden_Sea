@@ -148,15 +148,15 @@ def plot_intro():
 def plot_alkalinity_low():
     import xarray as xr
     
-    ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/1_po75-25_di2e-9/water.nc')
-    ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di6e-9/water.nc')
-    ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/3_po75-25_di10e-9/water.nc')
-    ds4 = xr.open_dataset('data/low_sulfate_reduction_rate/4_po75-25_di14e-9/water.nc')
-    ds5 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di18e-9/water.nc')
-    ds6 = xr.open_dataset('data/low_sulfate_reduction_rate/6_po75-25_di24e-9/water.nc')
-    ds7 = xr.open_dataset('data/low_sulfate_reduction_rate/7_po75-25_di28e-9/water.nc')
-    ds8 = xr.open_dataset('data/low_sulfate_reduction_rate/8_po75-25_di35e-9/water.nc')
-    ds9 = xr.open_dataset('data/low_sulfate_reduction_rate/9_po75-25_di45e-9/water.nc')
+    ds1 = xr.open_dataset('data/low_sulfate_reduction_rate+/1_po75-25_di0e-9/water.nc')
+    ds2 = xr.open_dataset('data/low_sulfate_reduction_rate+/2_po75-25_di2p5e-9/water.nc')
+    ds3 = xr.open_dataset('data/low_sulfate_reduction_rate+/3_po75-25_di5e-9/water.nc')
+    ds4 = xr.open_dataset('data/low_sulfate_reduction_rate+/4_po75-25_di7p5e-9/water.nc')
+    ds5 = xr.open_dataset('data/low_sulfate_reduction_rate+/5_po75-25_di10e-9/water.nc')
+    ds6 = xr.open_dataset('data/low_sulfate_reduction_rate+/6_po75-25_di15e-9/water.nc')
+    ds7 = xr.open_dataset('data/low_sulfate_reduction_rate+/7_po75-25_di20e-9/water.nc')
+    ds8 = xr.open_dataset('data/low_sulfate_reduction_rate+/8_po75-25_di25e-9/water.nc')
+    ds9 = xr.open_dataset('data/low_sulfate_reduction_rate+/9_po75-25_di30e-9/water.nc')
     
     alk_year = []
     alkflux_bottom_year = []
@@ -177,15 +177,15 @@ def plot_alkalinity_low():
     fig = plt.figure(figsize=(14, 4))
     ax = fig.add_subplot(1, 1, 1) # row-col-num
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m'))
-    ax.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'$2e-9$')
-    ax.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'$6e-9$')
-    ax.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'$10e-9$')
-    ax.plot(alk_year[3]['time'], alk_year[3]['B_C_Alk'], linewidth=2, label=r'$14e-9$')
-    ax.plot(alk_year[4]['time'], alk_year[4]['B_C_Alk'], linewidth=2, label=r'$18e-9$')
-    ax.plot(alk_year[5]['time'], alk_year[5]['B_C_Alk'], linewidth=2, label=r'$24e-9$')
-    ax.plot(alk_year[6]['time'], alk_year[6]['B_C_Alk'], linewidth=2, label=r'$28e-9$')
-    ax.plot(alk_year[7]['time'], alk_year[7]['B_C_Alk'], linewidth=2, label=r'$35e-9$')
-    ax.plot(alk_year[8]['time'], alk_year[8]['B_C_Alk'], linewidth=2, label=r'$45e-9$')
+    ax.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'$0e-9$')
+    ax.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'$2.5e-9$')
+    ax.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'$5e-9$')
+    ax.plot(alk_year[3]['time'], alk_year[3]['B_C_Alk'], linewidth=2, label=r'$7.5e-9$')
+    ax.plot(alk_year[4]['time'], alk_year[4]['B_C_Alk'], linewidth=2, label=r'$10e-9$')
+    ax.plot(alk_year[5]['time'], alk_year[5]['B_C_Alk'], linewidth=2, label=r'$15e-9$')
+    ax.plot(alk_year[6]['time'], alk_year[6]['B_C_Alk'], linewidth=2, label=r'$20e-9$')
+    ax.plot(alk_year[7]['time'], alk_year[7]['B_C_Alk'], linewidth=2, label=r'$25e-9$')
+    ax.plot(alk_year[8]['time'], alk_year[8]['B_C_Alk'], linewidth=2, label=r'$30e-9$')
     #ax.plot(alk_year[9]['time'], alk_year[9]['B_C_Alk'], linewidth=2, label=r'$20e-9$')
     #ax.plot(alk_year[10]['time'], alk_year[10]['B_C_Alk'], linewidth=2, label=r'$24e-9$')
     #ax.plot(alk_year[11]['time'], alk_year[11]['B_C_Alk'], linewidth=2, label=r'$28e-9$')
@@ -260,15 +260,15 @@ def plot_alkalinity_high():
 def plot_alkalinity_flux_low():
     import xarray as xr
     
-    ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/1_po75-25_di2e-9/water.nc')
-    ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di6e-9/water.nc')
-    ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/3_po75-25_di10e-9/water.nc')
-    ds4 = xr.open_dataset('data/low_sulfate_reduction_rate/4_po75-25_di14e-9/water.nc')
-    ds5 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di18e-9/water.nc')
-    ds6 = xr.open_dataset('data/low_sulfate_reduction_rate/6_po75-25_di24e-9/water.nc')
-    ds7 = xr.open_dataset('data/low_sulfate_reduction_rate/7_po75-25_di28e-9/water.nc')
-    ds8 = xr.open_dataset('data/low_sulfate_reduction_rate/8_po75-25_di35e-9/water.nc')
-    ds9 = xr.open_dataset('data/low_sulfate_reduction_rate/9_po75-25_di45e-9/water.nc')
+    ds1 = xr.open_dataset('data/low_sulfate_reduction_rate+/1_po75-25_di0e-9/water.nc')
+    ds2 = xr.open_dataset('data/low_sulfate_reduction_rate+/2_po75-25_di2p5e-9/water.nc')
+    ds3 = xr.open_dataset('data/low_sulfate_reduction_rate+/3_po75-25_di5e-9/water.nc')
+    ds4 = xr.open_dataset('data/low_sulfate_reduction_rate+/4_po75-25_di7p5e-9/water.nc')
+    ds5 = xr.open_dataset('data/low_sulfate_reduction_rate+/5_po75-25_di10e-9/water.nc')
+    ds6 = xr.open_dataset('data/low_sulfate_reduction_rate+/6_po75-25_di15e-9/water.nc')
+    ds7 = xr.open_dataset('data/low_sulfate_reduction_rate+/7_po75-25_di20e-9/water.nc')
+    ds8 = xr.open_dataset('data/low_sulfate_reduction_rate+/8_po75-25_di25e-9/water.nc')
+    ds9 = xr.open_dataset('data/low_sulfate_reduction_rate+/9_po75-25_di30e-9/water.nc')
     
     alk_year = []
     alkflux_bottom_year = []
@@ -289,15 +289,16 @@ def plot_alkalinity_flux_low():
     fig = plt.figure(figsize=(14, 4))
     ax = fig.add_subplot(1, 1, 1) # row-col-num
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m'))
-    ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'$2e-9$')
-    ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'$6e-9$')
-    ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'$10e-9$')
-    ax.plot(alkflux_bottom_year[3]['time'], alkflux_bottom_year[3]['B_C_Alk   _flux'], linewidth=2, label=r'$14e-9$')
-    ax.plot(alkflux_bottom_year[4]['time'], alkflux_bottom_year[4]['B_C_Alk   _flux'], linewidth=2, label=r'$18e-9$')
-    ax.plot(alkflux_bottom_year[5]['time'], alkflux_bottom_year[5]['B_C_Alk   _flux'], linewidth=2, label=r'$24e-9$')
-    ax.plot(alkflux_bottom_year[6]['time'], alkflux_bottom_year[6]['B_C_Alk   _flux'], linewidth=2, label=r'$28e-9$')
-    ax.plot(alkflux_bottom_year[7]['time'], alkflux_bottom_year[7]['B_C_Alk   _flux'], linewidth=2, label=r'$35e-9$')
-    ax.plot(alkflux_bottom_year[8]['time'], alkflux_bottom_year[8]['B_C_Alk   _flux'], linewidth=2, label=r'$45e-9$')
+    ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'$0e-9$')
+    ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'$2.5e-9$')
+    ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'$5e-9$')
+    ax.plot(alkflux_bottom_year[3]['time'], alkflux_bottom_year[3]['B_C_Alk   _flux'], linewidth=2, label=r'$7.5e-9$')
+    ax.plot(alkflux_bottom_year[4]['time'], alkflux_bottom_year[4]['B_C_Alk   _flux'], linewidth=2, label=r'$10e-9$')
+    ax.plot(alkflux_bottom_year[5]['time'], alkflux_bottom_year[5]['B_C_Alk   _flux'], linewidth=2, label=r'$15e-9$')
+    ax.plot(alkflux_bottom_year[6]['time'], alkflux_bottom_year[6]['B_C_Alk   _flux'], linewidth=2, label=r'$20e-9$')
+    ax.plot(alkflux_bottom_year[7]['time'], alkflux_bottom_year[7]['B_C_Alk   _flux'], linewidth=2, label=r'$25e-9$')
+    ax.plot(alkflux_bottom_year[8]['time'], alkflux_bottom_year[8]['B_C_Alk   _flux'], linewidth=2, label=r'$30e-9$')
+    
     # --- add title and axis labels
     ax.set_title('Alkalinity_fluxes')
     ax.set_ylabel('Flux', fontsize=16)

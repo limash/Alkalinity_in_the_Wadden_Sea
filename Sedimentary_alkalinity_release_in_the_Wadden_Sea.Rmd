@@ -416,11 +416,11 @@ vs.plot_alkalinity_flux_low()
 There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments in the surface layer of the model and $\textrm{TA}$ fluxes on the $\textrm{SWI}$ calculated using the upper bound of sulfate reduction rates.
 
 ```{python}
-vs.plot_alkalinity_high()
+# vs.plot_alkalinity_high()
 ```
 
 ```{python}
-vs.plot_alkalinity_flux_high()
+# vs.plot_alkalinity_flux_high()
 ```
 
 Note that on the both pictures there is a time lag between maximum values of $\textrm{TA}$ fluxes and $\textrm{TA}$ increments.
