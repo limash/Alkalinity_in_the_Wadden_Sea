@@ -350,7 +350,7 @@ We have a temperature $\textrm{q10}$ dependency (with a multiplier 2) in our $\t
 Therefore the basic upper bound of oxygen respiration rate for the first order reaction with $\textrm{q10 = 2}$ temperature factor and temperature range of $20^\circ C$ shall be $\frac{0.043}{2 \cdot 2} \approx 0.01$.
 We assume all $\textrm{POM}$ hydrolysis reaction have the same rate, also we assume all $\textrm{DOM}$ rates have the values just 10 times higher then corresponding $\textrm{POM}$ rates.
 Since we do not know the reaction rates of denitrification and sulfate reduction we performed two set of simulations with following upper and lower bounds of these rates.
-As the upper bounds, we applied the derived oxygen respiration rate.
+As the upper bounds, we applied the derived oxygen respiration rate, which seems to be far too large rate for sulfate reduction but still suitable as the upper bound.
 Krumins (2013) scales the rates of the different electron accepting pathways by their relative cell yields, we do not explicitly add this scaling in our parametrization but instead, adopt these values to scale rates of denitrification and sulfate reduction.
 These values we applied as the lower bounds.
 
@@ -394,7 +394,7 @@ The rest of the reaction parameters for nitrification, anammox, and sulphur cycl
 In our assumptions, we omit $\textrm{MnO}_2$ and  $\textrm{FeOOH}$ electron acceptors which are energetically more preferable then sulfate and can also oxidize sulfur compounds to sulfate.
 Both can cause overestimation of $\textrm{TA}$ generation since in the first case there will be less $\textrm{OM}$ for sulfate reduction and in the second oxidizing to sulfate will decrease $\textrm{TA}$ according to Eq. 1.
 Also taking into account that calcium participation and dissolution is a somewhat stand-alone process it can be considered separately and for the sake of clarity, we have not included it in our calculations.
-Therefore resulting simulations should be considered as an upper bound of the possible $\textrm{TA}$ concentrations and $\textrm{TA}$ on $\textrm{SWI fluxes}$ for the range of different vertical advection regimes in the Wadden Sea without accounting calcium dissolution and additional terrestrial influence on the $\textrm{TA}$.
+Therefore resulting simulations can be considered as an upper bound of the possible $\textrm{TA}$ concentrations and $\textrm{TA}$ on the $\textrm{SWI fluxes}$ for the range of different vertical advection regimes in the Wadden Sea without accounting calcium dissolution and additional terrestrial influence on the $\textrm{TA}$.
 
 
 The lower bound of sulfate reduction rates:
@@ -417,19 +417,20 @@ vs.plot_alkalinity_high()
 vs.plot_alkalinity_flux_high()
 ```
 
-Therefore for the extreme case of the sulfate reduction rate equal to oxygen respiration and dispersion coefficient approximately 28e-9 the fluxes reach 70 mmol m-3 d-1.
-The yearly increment reaches 300 mmol m-3 and also it stops growing.
+Therefore for the extreme case of the sulfate reduction rate equal to oxygen respiration and dispersion coefficient of $28 \cdot 10^{-9}$ the fluxes reach 70 $\textrm{mmol m}^{-2}\ \textrm{d}^{-1}$.
+The yearly increment reaches 300 $\textrm{mmol m}^{-3}$ and also it stops growing.
 After this degree of advection vertical mixing alkalinity fluxes do not cause the increase of alkalinity in the water column, along with this fluxes there is a strong fluxes of the different reduced sulfur compounds which oxidation in the water column cause decrease of alkalinity.
-In our modelling we have sulfur compounds oxidation rates somewhat orbitrary determined according to the values from different work.
+In our modelling we have sulfur compounds oxidation rates somewhat orbitrary determined according to the values from other work.
 So assume how it can influence to the our estimation of the upper bound.
 Let's consider 2 cases where there is the overestimated total rate of the sulfide to sulfate oxidation or there is the underestimated total rate of the sulfide to sulfate oxidation.
-In the first case with the less true total oxidation rate there is should be bigger flux of alkalinity out of the SWI (which is in fact the flux of the sulfate into the SWI) and bigger corresponding fluxes of the sulfur intermediate compounds, and the resulting delay gap between alkalinity flux and alkalinity shall be even larger since all sulfur compounds are oxidized with less rate, which is unlikely according to the measurements show the maximum values of alkalinity are observed during summer and autumn.
-In the second case with the bigger true total oxidation rate the resulting fluxes of alkalinity shall be less itself.
-Therefore our estimation of the upper bound of alkalinity fluxes and alkalinity values in the Wadden sea according to the reported total OM input in this area, oxigen respiration in stagnant conditions upper bound, the average depth of 2.5 m is consistent.
+In the first case with the less true total oxidation rate there is should be bigger flux of alkalinity out of the $\textrm{SWI}$ (which is in fact the flux of the sulfate into the $\textrm{SWI}$) and bigger corresponding fluxes of the sulfur intermediate compounds.
+The resulting delay gap between alkalinity flux and alkalinity shall be even larger since sulfur compounds are oxidized with the less rate, which is unlikely according to the measurements showing the maximum values of alkalinity are observed during summer and autumn.
+In the second case with the bigger true total oxidation rate the resulting fluxes of alkalinity shall be less itself what makes our uppen bound even more overestimated.
+Therefore our estimation of the upper bound of alkalinity fluxes and alkalinity values in the Wadden sea according to the reported total $\textrm{OM}$ input in this area, oxigen respiration in stagnant conditions upper bound, and the average depth of 2.5 m is consistent.
 
 
 The increase of dispersion coefficient do not nesessary increase a value of alkalinity in the water column.
-Changind vertical advection conditions redistribute priority off processes influence to the alkalinity distribution in the sediments and in the BBL.
+Changind vertical advection conditions redistribute priority of processes influence to the alkalinity distribution in the sediments and in the BBL.
 
 ```{python}
 
