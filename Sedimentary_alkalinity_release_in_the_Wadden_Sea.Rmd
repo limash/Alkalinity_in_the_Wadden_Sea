@@ -441,5 +441,13 @@ The increase of dispersion coefficient do not nesessary increase a value of alka
 Changind vertical advection conditions redistribute priority of processes influence to the alkalinity distribution in the sediments and in the BBL.
 
 ```{python}
+vs.plot_alkalinity_porosities()
+```
+
+```{python}
+vs.plot_alkalinity_flux_porosities()
+```
+
+```{python}
 
 ```
