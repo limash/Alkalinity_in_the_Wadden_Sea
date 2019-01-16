@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 ```
 
 ```{python}
-ds = xr.open_dataset('data/low_sulfate_reduction_rate+/9_po75-25_di35e-9/water.nc')
+ds = xr.open_dataset('data/high_sulfate_reduction_rate/1_po75-25_di0e-9/water.nc')
 growth_phy = ds['B_BIO_GrowthPhy'].to_dataframe()
 growth_phy = growth_phy.loc['2011-01-01':'2011-12-31'].reset_index()
 ```

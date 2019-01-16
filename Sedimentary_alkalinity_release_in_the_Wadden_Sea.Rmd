@@ -74,7 +74,8 @@ In this study, we present such a model and use it to estimate the range of possi
 To construct the two domains grid we used the 1-d Sympagic-Pelagic-Benthic transport Model, $\textrm{SPBM}$ (Yakubov 2017) which provides an ability to calculate diffusion and sedimentation both in the water and sediments domains.
 A mean depth of the Wadden Sea is 2.5 $\textrm{m}$ (Beusekom 1999), so the water domain was split into the two layers of 1.25 $\textrm{m}$ width each and benthic boundary layer ($\textrm{BBL}$) was incorporated consisting of 2 layers of 0.05 $\textrm{m}$ width each.
 The sediments domain has 40 layers of 0.01 $\textrm{m}$ width each.
-We have not included explicit tidal dynamics into our calculations, instead, we introduced the dispersion coefficient (Boudreau 1996) in the sediments domain to reproduce different vertical mixing conditions. 
+We have not included explicit tidal dynamics into our calculations, instead, we introduced the dispersion coefficient (Boudreau 1996) in the sediments domain to reproduce different vertical mixing conditions.
+Since we are interested in the $\textrm{TA}$ seasonal dynamics we set the burial velocity to zero.
 
 
 To add all necessary biogeochemical processes to our calculations we constructed a biogeochemical model which is based on the empirical model of the phytoplankton Chlorophyll a $\div$ Carbon ratio (Cloern 1995) and some redox reactions partly based on the Bottom RedOx Model, $\textrm{BROM}$ (Yakushev 2017).
@@ -399,11 +400,11 @@ Sulfur cycle reaction rates will be discussed futher.
 
 In our assumptions, we omit $\textrm{MnO}_2$ and  $\textrm{FeOOH}$ electron acceptors which are energetically more preferable then sulfate and can also oxidize sulfur compounds to sulfate.
 Both can cause overestimation of $\textrm{TA}$ generation since in the first case there will be less $\textrm{OM}$ for sulfate reduction and in the second oxidizing to sulfate will decrease $\textrm{TA}$ according to Eq. 1.
-Also for the sake of clarity, we have not included calcium participation and dissolution in our calculations.
-Therefore resulting simulations can be considered as an upper bound of the possible $\textrm{TA}$ concentrations and $\textrm{TA}$ on the $\textrm{SWI}$ fluxes for the range of different vertical advection regimes in the Wadden Sea without accounting calcium dissolution/participation and additional terrestrial influence on the $\textrm{TA}$.
+Also, we have not included calcium participation and dissolution in our calculations.
+Therefore resulting simulations can be considered as an upper bound of the possible $\textrm{TA}$ concentrations and $\textrm{TA}$ on the $\textrm{SWI}$ fickian fluxes for the range of different vertical advection regimes in the Wadden Sea without accounting calcium dissolution/participation and additional terrestrial influence on the $\textrm{TA}$.
 
 
-There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model and $\textrm{TA}$ fluxes on the $\textrm{SWI}$ calculated using the lower bound of sulfate reduction rates.
+There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model and $\textrm{TA}$ fickian fluxes on the $\textrm{SWI}$ calculated using the lower bound of sulfate reduction rates.
 
 ```{python}
 vs.plot_alkalinity_low()
@@ -413,14 +414,14 @@ vs.plot_alkalinity_low()
 vs.plot_alkalinity_flux_low()
 ```
 
-There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments in the surface layer of the model and $\textrm{TA}$ fluxes on the $\textrm{SWI}$ calculated using the upper bound of sulfate reduction rates.
+There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments in the surface layer of the model and $\textrm{TA}$ fickian fluxes on the $\textrm{SWI}$ calculated using the upper bound of sulfate reduction rates.
 
 ```{python}
-# vs.plot_alkalinity_high()
+vs.plot_alkalinity_high()
 ```
 
 ```{python}
-# vs.plot_alkalinity_flux_high()
+vs.plot_alkalinity_flux_high()
 ```
 
 Note that on the both pictures there is a time lag between maximum values of $\textrm{TA}$ fluxes and $\textrm{TA}$ increments.
