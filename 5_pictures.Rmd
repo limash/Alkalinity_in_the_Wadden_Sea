@@ -25,6 +25,22 @@ import matplotlib.dates as mdates
 ```
 
 ```{python}
+ds1 = xr.open_dataset('data/different_porosities/1_po65-25_di10e-9/water.nc')
+```
+
+```{python}
+alkflux_df = ds1['B_C_Alk   _flux'].to_dataframe()
+```
+
+```{python}
+alkflux_df = alkflux_df.reset_index()
+```
+
+```{python}
+alkflux_df.z_faces.values[0]
+```
+
+```{python}
 ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/1_po75-25_di2e-9/water.nc')
 ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di6e-9/water.nc')
 ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/3_po75-25_di10e-9/water.nc')
