@@ -365,10 +365,10 @@ def plot_alkalinity_flux_high():
 def plot_alkalinity_porosities():
     import xarray as xr
   
-    ds0 = xr.open_dataset('data/different_porosities/0_po55-25_di10e-9/water.nc')
-    ds1 = xr.open_dataset('data/different_porosities/1_po65-25_di10e-9/water.nc')
-    ds2 = xr.open_dataset('data/different_porosities/2_po75-25_di10e-9/water.nc')
-    ds3 = xr.open_dataset('data/different_porosities/3_po85-25_di10e-9/water.nc')
+    ds0 = xr.open_dataset('data/different_porosities/0_po45-25_di10e-9/water.nc')
+    ds1 = xr.open_dataset('data/different_porosities/1_po55-25_di10e-9/water.nc')
+    ds2 = xr.open_dataset('data/different_porosities/2_po65-25_di10e-9/water.nc')
+    ds3 = xr.open_dataset('data/different_porosities/3_po75-25_di10e-9/water.nc')
     
     alk_year = []
     alkflux_bottom_year = []
@@ -389,10 +389,10 @@ def plot_alkalinity_porosities():
     fig = plt.figure(figsize=(14, 4))
     ax = fig.add_subplot(1, 1, 1) # row-col-num
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m'))
-    ax.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'55-25')
-    ax.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'65-25')
-    ax.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'75-25')
-    ax.plot(alk_year[3]['time'], alk_year[3]['B_C_Alk'], linewidth=2, label=r'85-25')
+    ax.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'45-25')
+    ax.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'55-25')
+    ax.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'65-25')
+    ax.plot(alk_year[3]['time'], alk_year[3]['B_C_Alk'], linewidth=2, label=r'75-25')
     # --- add title and axis labels
     ax.set_title('Alkalinity')
     ax.set_ylabel('Delta', fontsize=16)
@@ -408,10 +408,10 @@ def plot_alkalinity_flux_porosities():
     import xarray as xr
     
   
-    ds0 = xr.open_dataset('data/different_porosities/0_po55-25_di10e-9/water.nc')
-    ds1 = xr.open_dataset('data/different_porosities/1_po65-25_di10e-9/water.nc')
-    ds2 = xr.open_dataset('data/different_porosities/2_po75-25_di10e-9/water.nc')
-    ds3 = xr.open_dataset('data/different_porosities/3_po85-25_di10e-9/water.nc')
+    ds0 = xr.open_dataset('data/different_porosities/0_po45-25_di10e-9/water.nc')
+    ds1 = xr.open_dataset('data/different_porosities/1_po55-25_di10e-9/water.nc')
+    ds2 = xr.open_dataset('data/different_porosities/2_po65-25_di10e-9/water.nc')
+    ds3 = xr.open_dataset('data/different_porosities/3_po75-25_di10e-9/water.nc')
     
     alk_year = []
     alkflux_bottom_year = []
@@ -432,10 +432,10 @@ def plot_alkalinity_flux_porosities():
     fig = plt.figure(figsize=(14, 4))
     ax = fig.add_subplot(1, 1, 1) # row-col-num
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%m'))
-    ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'55-25')
-    ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'65-25')
-    ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'75-25')
-    ax.plot(alkflux_bottom_year[3]['time'], alkflux_bottom_year[3]['B_C_Alk   _flux'], linewidth=2, label=r'85-25')
+    ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'45-25')
+    ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'55-25')
+    ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'65-25')
+    ax.plot(alkflux_bottom_year[3]['time'], alkflux_bottom_year[3]['B_C_Alk   _flux'], linewidth=2, label=r'75-25')
     
     # --- add title and axis labels
     ax.set_title('Alkalinity_fluxes')

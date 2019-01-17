@@ -34,7 +34,7 @@ There are several factors able to induce these differences:
 At our knowledge currently, there is no study quantifying the alkalinity release and its origin in the Wadden Sea, what can be a still important source of alkalinity in the German Bight of the North Sea.
 The Wadden Sea is a unique allochthonous reservoir with organic matter ($\textrm{OM}$) oxidation prevail over $\textrm{OM}$ production (Beusekom 1999, Postma 1984) inducing alkalinity generation.
 Also, tidal effects cause significant mixing in this area, which can enhance alkalinity fluxes on the $\textrm{SWI}$.
-Therefore, the goal of this study is to estimate the maximum value of $\textrm{TA}$ can be generated in the Wadden sea and how different biogeochemical processes contribute to this value.
+Therefore, the goal of this study is to estimate the maximum value of $\textrm{TA}$ can be generated in the Wadden sea and which biogeochemical processes contribute to this value.
 
 
 The “explicitly conservative form of total alkalinity” ($\textrm{TA}_{ec}$) proposed by Wolf-Gladrow (2007) contains the following terms: 
@@ -90,8 +90,11 @@ The model was implemented in Fortran, but some parts of it were reimplemented in
 We do not separate biogeochemical model into pelagic and benthic modules.
 Instead, we use the same equations for the both domains and use functional responses and inhibitors (Soetaert 2009, page 36) to get a required behaviour when the appropriate processess happen in the appropriate conditions.
 It contains the following state variables: phototrophic producers, $\textrm{Phy}\ [\textrm{mg C m}^{-3}]$; pelagic and benthic heterotrophs, $\textrm{Het}\ [\textrm{mg C m}^{-3}]$; $\textrm{NH}_4^+\ [\textrm{mM N m}^{-3}]$; $\textrm{NO}_2^-\ [\textrm{mM N m}^{-3}]$; $\textrm{NO}_3^-\ [\textrm{mM N m}^{-3}]$; $\textrm{Si}\ [\textrm{mM Si m}^{-3}]$; $\textrm{PO}_4^{3-}\ [\textrm{mM P m}^{-3}]$; $\textrm{O}_2\ [\textrm{mM O}_2\ \textrm{m}^{-3}]$; $\textrm{SO}_4^{2-}\ [\textrm{mM S m}^{-3}]$; $\textrm{S}_2\textrm{O}_3^{2-}\ [\textrm{mM S m}^{-3}]$; $\textrm{S}^{0}\ [\textrm{mM S m}^{-3}]$; $\textrm{H}_2\textrm{S}\ [\textrm{mM S m}^{-3}]$; dissolved inorganic carbon, $\textrm{DIC}\ [\textrm{mM C m}^{-3}]$; dissolved $\textrm{OM}$, $\textrm{DOM}\ [\textrm{mg C m}^{-3}]$; particulate $\textrm{OM}$, $\textrm{POM}\ [\textrm{mg C m}^{-3}]$; dissolved organic carbon, $\textrm{DOC}\ [\textrm{mg C m}^{-3}]$; particulate organic carbon, $\textrm{POC}\ [\textrm{mg C m}^{-3}]$; $\textrm{TA}\ [\textrm{mM m}^{-3}]$.
-For sake of clarity we have not included $\textrm{Ca}^{2+}$ in our model since the alkalinity alteration due to calcium precipitation / dissolution to some extent is a stand alone process and its influence can be considered separately.
 $\textrm{OM}$ is assumed to have a Redfield stoichiometry $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4}$.
+There are two main processes can induce substantial increase of alkalinity: calcium carbonate dissolution and uptake of $\textrm{SO}_4^{2-}$ during sulfate reduction.
+Other processes can not produce so large seasonal increase of $\textrm{TA}$ since there are not so much nutrients available.
+As the upper bound of possible calcium carbonate dissolution can be calcium carbonate participation.
+Therefore for sake of clarity we have not included $\textrm{Ca}^{2+}$ in our model, calcium precipitation / dissolution can be considered separately.
 
 
 #### Phototrophic producers
@@ -286,6 +289,7 @@ The Wadden Sea water column is entirely mixed during all year, therefore the ver
 Since in our study we use the 1-dimensional transport model we have to reproduce some advective effects on the local biogeochemistry.
 To do so we implemented a constant advective exchange of phosphates, ammonium, nitrates, and silicates with the model water column domain (2 layers) controlled by the advective exchange coefficient $K_{advective}$, which is a multiplier of the difference between the current state variable value and the forcing-value.
 Along with concentrations profiles of corresponding elements phosphates, ammonium and nitrates exchange also affects the alkalinity according to the Eq. 1.
+We do not have a data of $\textrm{NH}_4^+$ seasonal variations, but in presense of oxygen it will be inevitably oxidized to $\textrm{NO}_3^-$ therefore we applied a value of 0.1 $\textrm{mmol m}^{-3}$ for all time.
 
 To reproduce a heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999) an additional $\textrm{OC}$ inflow was incorporated into the transport model.
 $\textrm{OC}$ instead of $\textrm{OM}$ was chosen since we want to track alkalinity generation without changing the local $\textrm{OM}$ production (additional $\textrm{OM}$ brings additional nutrients which in turn can enhance the local production).
@@ -346,13 +350,13 @@ $\textrm{OM}$ oxidation rates depend on local microbial and sediments physical p
 Beer (2005) investigated transport and mineralization rates in an intertidal sand flat which is part of the Sylt-Rømø Basin in the North Frisian Wadden Sea near the German–Danish border.
 The maximum value of oxygen uptake in stagnant conditions they received was 36 $\textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$.
 It is the same order as the measured maximum total oxygen uptake rate by sediments ($\approx 30\ \textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$) in the Southern North Sea (Brenner 2016).
-According to our preliminary simulation with various $\textrm{OC}$ oxygen respiration rates and $\textrm{OM}$ by primary producers generation with additional $\textrm{OM}$ input described above we found out that the most of the oxygen consumption in our model happen actually not in the sediments, but in the lower level of $\textrm{BBL}$ and an average $\textrm{POC}$ concentration near bottom and in the upper layers of sediments is about $200000\ \textrm{mg C m}^{-3}$.
+According to our preliminary simulation with various $\textrm{OC}$ oxygen respiration rates and $\textrm{OM}$ by primary producers generation with additional $\textrm{OC}$ input described above we found out that the most of the oxygen consumption in our model happen actually not in the sediments, but in the lower level of $\textrm{BBL}$ and an average $\textrm{POC}$ concentration near bottom and in the upper layers of sediments is about $200000\ \textrm{mg C m}^{-3}$.
 We have the depth of the $\textrm{BBL}$ layers equals $5\ \textrm{cm}$.
 Therefore we can estimate the upper bound value of the minerelized $\textrm{OM}$ per a day if considering that all oxygen is counsumed only for mineralization as $\approx 36 \cdot 20 = 720\ \textrm{mM C m}^{-3}\ \textrm{d}^{-1}$ or $8640\ \textrm{mg C m}^{-3}\ \textrm{d}^{-1}$.
 Accounting for average $\textrm{POC}$ concentration and the first order reaction parametrization with respect to $\textrm{POC}$ concentration we can estimate the yearly overall upper bound of oxygen respiration rate as $8640 \div 200 000 = 0.043$.
-We have a temperature $\textrm{q10}$ dependency (with a multiplier 2) in our $\textrm{OM}$ respiration reaction parametrization and according to the $\textrm{WOD}$ data used for the calibration the range of possible temperatures in the Wadden Sea lies within approximately $20^\circ C$.
-Therefore the basic upper bound of oxygen respiration rate for the first order reaction with $\textrm{q10 = 2}$ temperature factor and temperature range of $20^\circ C$ shall be $\frac{0.043}{2 \cdot 2} \approx 0.01$.
-We assume all $\textrm{POM}$ hydrolysis reaction have the same rate, also we assume all $\textrm{DOM}$ rates have the values just 10 times higher then corresponding $\textrm{POM}$ rates.
+We have a temperature $\textrm{q10}$ dependency (with a multiplier 2) in our $\textrm{OM}$ respiration reaction parametrization and according to the $\textrm{WOD}$ data used for the calibration the difference between temperature of maximum $\textrm{OM}$ concentration period and minimum temperature in the Wadden Sea lies within approximately $10^\circ C$.
+Therefore the basic upper bound of oxygen respiration rate for the first order reaction with $\textrm{q10 = 2}$ temperature factor and temperature range of $10^\circ C$ shall be $\frac{0.043}{2} \approx 0.02$.
+We assume all $\textrm{POM}$ hydrolysis reaction have the same rate, also we assume all $\textrm{DOM(C)}$ rates have the values just 10 times higher then corresponding $\textrm{POM(C)}$ rates.
 Since we do not know the reaction rates of denitrification and sulfate reduction we performed two set of simulations with following upper and lower bounds of these rates.
 As the upper bounds, we applied the derived oxygen respiration rate, which seems to be far too large rate for sulfate reduction but still suitable as the upper bound.
 Krumins (2013) scales the rates of the different electron accepting pathways by their relative cell yields, we do not explicitly add this scaling in our parametrization but instead, adopt these values to scale rates of denitrification and sulfate reduction.
