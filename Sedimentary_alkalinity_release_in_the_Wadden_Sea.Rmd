@@ -317,9 +317,12 @@ The Wadden sea sediments can be roughly separated into two zones with different 
 About $50 \%$ of the sediments in the Wadden Sea are exposed during low tide (Beer 2005), and tidal flats consist mostly of sands (Beer 2005, Asmus 1998).
 While muds environment is reported to have higher $\textrm{OM}$ content, the sands are more permeable for electron acceptors and for organic material from overlying water (Beer 2005).
 Regarding to alkalinity generation we are more interested to reproduce the conditions happen in the sands environment (with porosity $\phi \approx 0.45$ according to Beer 2005), also there can be various of advective regimes in sediments.
-To distinguish advective and diffusive exchange in sediments (Patsch 2018) and (Neumann 2017) used the vertical diffusion coefficient around $1 \cdot 10^{-8} m^{2} sec^{-1}$.
-We applied a range around this value for $kz_{dispersion}$ in our series of runs simulating different vertical mixing conditions in sediments.
-Therefore we can reproduce different alkalinity fluxes from the regions of the Wadden Sea exposed during low tide which is assumed to have mostly advective vertical mixing to the regions of the Wadden Sea with the prevailing diffusive vertical mixing in sediments.
+Neumann (2017) according to their nitrates advective fluxes in sediments estimations in the German Bight calculated Peclet numbers for permeable sediments, they varied from 1 up to 1000.
+Using a relation for dispersion offered by de Ligny (1970) (Boudreau 1997, page 138) and Peclet numbers it is possible to evaluate despersion coefficients range.
+For the Peclet numbers $\approx$ 1 the dispersion coefficient $\approx$ to molecular diffusion coefficient which we can equal $\approx$ $1 \cdot 10^{-9} m^{2} sec^{-1}$.
+For the Peclet numbers $\approx$ 1000 the dispersion coefficients $\approx$ 2500 times larger than the molecular diffusion coefficient.
+Therefore we applied a wide range starting from 0 for $kz_{dispersion}$ in our series of runs simulating different vertical mixing conditions in sediments.
+Thus we can reproduce different alkalinity fluxes from the regions of the Wadden Sea exposed during low tide which is assumed to have mostly advective vertical mixing to the regions of the Wadden Sea with the prevailing diffusive vertical mixing in sediments.
 We can not apply these calculations to the concrete region, but using this approach we can achieve the possible range of values of $\textrm{TA}$ values and $\textrm{TA}$ fluxes on $\textrm{SWI}$ in the Wadden Sea.
 
 
