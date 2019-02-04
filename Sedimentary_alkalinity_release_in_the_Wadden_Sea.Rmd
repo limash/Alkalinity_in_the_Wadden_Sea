@@ -27,7 +27,7 @@ vs.plot_intro()
 ```
 
 There are several factors able to induce these differences:
-  * A riverine influence.This factor is strongly geographically dependent and can cause both increase and decrease of $\textrm{TA}$ values. Since the main riverine outflow is supposed to be in the spring, we assume that this factor does not have a main importance of the presented alkalinity yearly profile with maximum in the end of the summer. But, Neumann 2017 reports that Elbe estuary discharges brackish waters with nitrate concentrations as high as 300 $\textrm{mM}$ during winter, what can contribute to the tota decrease of $\textrm{TA}$ in the German Bight (see furher Eq. 1); 
+  * A riverine influence.This factor is strongly geographically dependent and can cause both increase and decrease of $\textrm{TA}$ values. Since the main riverine outflow is supposed to be in the spring, we assume that this factor does not have a main importance of the presented alkalinity yearly profile with maximum in the end of the summer. But, Neumann 2017 reports that Elbe estuary discharges brackish waters with nitrate concentrations as high as 300 $\textrm{mM}$ during winter, what can contribute to the total decrease of $\textrm{TA}$ in the German Bight (see further Eq. 1); 
   * An influence of the pelagic and benthic activities in the adjoining Wadden Sea. Thomas (2009) according to the observed alkalinity values proposed that the main driver of the seasonal southeastern North sea alkalinity variability is the alkalinity flux from the Wadden Sea;
   * An influence of the pelagic and benthic activities in the German Bight. Moore (2011) suggests not so strong input of alkalinity into the North Sea from the Wadden sea compared to the input from the North sea sediments. Brenner (2016) estimated a sedimentary alkalinity mean flux from the southern North Sea ($\textrm{SNS}$) sediments 6.6 $\pm$ 5.2 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ in September 2011, and 5.7 $\pm$ 3.7 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ in June 2012. Assuming average depth of the SNS 40 m and average alkalinity mean flux 6 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ through the sediment-water interface ($\textrm{SWI}$) during 4 months from may until September, the accumulative increase of $\textrm{TA}$ in the $\textrm{SNS}$ water column should be roughly equal to 18.6 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ which is much lower than the measured values (see Fig. 1).
 
@@ -53,16 +53,16 @@ Therefore, we can consider following biogeochemical processes inducing changes i
   * Nitrogen uptake. Assimilation of one mole of $\textrm{NO}_{3}^{-}$ or $\textrm{NO}_{2}^{-}$ increase alkalinity by one mole, assimilation of $\textrm{NH}_{4}^{+}$ decrease alkalinity by a mole 
   * Assimilation of one mole of phosphate leads to increase of alkalinity by one mole;
 2. $\textrm{OM}$ destruction: 
-  * Oxygen respiration $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 106\textrm{O}_{2} \rightarrow 106\textrm{CO}_{2} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 106\textrm{H}_{2}\textrm{O}$ increases alkalinity by 15 moles per $16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$ moles released
-  * Denitrification $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 84.8\textrm{HNO}_{3} \rightarrow 106\textrm{CO}_{2} + 42.4\textrm{N}_{2} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 148.4\textrm{H}_{2}\textrm{O}$ increases alkalinity by 99.8 moles per $84.8\textrm{HNO}_{3}$ moles consumed plus $16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$ moles released 
-  * Sulphate reduction $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 53\textrm{SO}_{4}^{2-} \rightarrow 106\textrm{HCO}_{3}^{-} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 53\textrm{H}_{2}\textrm{S}$ increases alkalinity by 121 moles per $2 \cdot 53 \textrm{SO}_{4}^{2-}$ moles consumed plus $16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$ moles released 
+  * Oxygen respiration $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 106\textrm{O}_{2} \rightarrow 106\textrm{CO}_{2} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 106\textrm{H}_{2}\textrm{O}$ increases alkalinity by 15 moles ($16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$) per 106 moles of $\textrm{CH}_{2}\textrm{O}$ oxidized
+  * Denitrification $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 84.8\textrm{HNO}_{3} \rightarrow 106\textrm{CO}_{2} + 42.4\textrm{N}_{2} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 148.4\textrm{H}_{2}\textrm{O}$ increases alkalinity by 99.8 moles ($84.8\textrm{HNO}_{3} + 16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$) per 106 moles of $\textrm{CH}_{2}\textrm{O}$ oxidized
+  * Sulphate reduction $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 53\textrm{SO}_{4}^{2-} \rightarrow 106\textrm{HCO}_{3}^{-} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 53\textrm{H}_{2}\textrm{S}$ increases alkalinity by 121 moles  ($2 \cdot 53 \textrm{SO}_{4}^{2-} + 16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$) per 106 moles of $\textrm{CH}_{2}\textrm{O}$ oxidized 
   * other OM destruction reactions;
 3. Nitrification due to the reaction $\textrm{NH}_{4}^{+} + 1.5\textrm{O}_{2} \rightarrow \textrm{NO}_{3}^{-} + 2\textrm{H}^{+} + \textrm{H}_{2}\textrm{O}$ decreases alkalinity by two moles;
 4. Calcium carbonate precipitation $\textrm{Ca}^{2+} + 2\textrm{HCO}_{3}^{-} \rightarrow \textrm{CaCO}_{3} + \textrm{CO}_{2} + \textrm{H}_{2}\textrm{O}$ or $\textrm{Ca}^{2+} + \textrm{CO}_{3}^{-} \rightarrow \textrm{CaCO}_{3}$ induces a decrease of alkalinity by two moles per one mole of calcium carbonate precipitated and dissolution $\textrm{CaCO}_{3} + \textrm{CO}_{2} + \textrm{H}_{2}\textrm{O} \rightarrow \textrm{Ca}^{2+} + 2\textrm{HCO}_{3}^{-}$ induces an increase of alkalinity by two moles per one mole of calcium carbonate dissolved.
 
 
 
-To estimate the changes in alkalinity for the area of interest it is necessary to approximate the contributions of the mentioned biogeochemical processes.
+To estimate the changes in alkalinity it is necessary to approximate the contributions of the mentioned biogeochemical processes.
 These processes take place in general in both the water and sediment columns.
 For an istance, denitrification occurs in absence of oxygen which is often possible only in sediments, but phototrophic producers growth in the water domain.
 That's why we shall take into account the different domains and also parametrize the exchange between them.
@@ -75,7 +75,7 @@ In this study, we present such a model and use it to estimate the range of possi
 
 
 To construct the water and sediment domains grid we used the 1-d Sympagic-Pelagic-Benthic transport Model, $\textrm{SPBM}$ (Yakubov 2017) which provides an ability to calculate diffusion and sedimentation both in the water and sediments domains.
-A mean depth of the Wadden Sea is 2.5 $\textrm{m}$ (Beusekom 1999), so the water domain was split into the two layers of 1.25 $\textrm{m}$ depth each and benthic boundary layer ($\textrm{BBL}$) was incorporated consisting of 2 layers of 0.05 $\textrm{m}$ depth each.
+A mean depth of the Wadden Sea is 2.5 $\textrm{m}$ (Beusekom 1999), so the water domain was split into the two layers of 1.25 $\textrm{m}$ depth each and benthic boundary layer ($\textrm{BBL}$ - the layer with eddy diffusion coefficients decreasing lineary to zero on the $\textrm{SWI}$) was incorporated consisting of 2 layers of 0.05 $\textrm{m}$ depth each.
 The sediments domain has 40 layers of 0.01 $\textrm{m}$ depth each.
 We have not included explicit tidal dynamics into our calculations, instead, we introduced the dispersion coefficient (Boudreau 1996) in the sediment domain to reproduce different vertical mixing conditions.
 Since we are interested in the $\textrm{TA}$ seasonal dynamics we set the burial velocity to zero.
@@ -113,12 +113,14 @@ Therefore the data for forcing (seawater temperature, salinity, density, $\textr
 The Wadden Sea water column is entirely mixed during all year, therefore the vertical diffusion coefficients were calculated according to the vertical density distributions following Gargett (1984).
 
 Since in our study we use the 1-dimensional transport model we have to reproduce some advective effects on the local biogeochemistry.
-To do so we implemented a constant advective exchange of phosphates, ammonium, nitrates, and silicates with the model water column domain (2 layers) controlled by the advective exchange coefficient $K_{advective}$, which is a multiplier of the difference between the current state variable value and the forcing-value.
-Along with concentrations profiles of corresponding elements phosphates, ammonium and nitrates exchange also affects the alkalinity according to the Eq. 1.
-We do not have a data of $\textrm{NH}_4^+$ seasonal variations, but in presense of oxygen it will be inevitably oxidized to $\textrm{NO}_3^-$ therefore we applied a value of 0 $\textrm{mmol m}^{-3}$ for all time assuming that advection waters have a zero ammonium concentrarion.
+To do so we implemented an advective exchange of phosphates, ammonium, nitrates, and silicates with the model water column domain (2 layers) controlled by the advective exchange coefficient $K_{advective}$, which is a multiplier of the difference between the current state variable value and the forcing-value.
+Along with concentrations profiles of corresponding elements phosphates, ammonium and nitrates this exchange also affects the alkalinity according to the Eq. 1.
+We do not have data of $\textrm{NH}_4^+$ seasonal variations, but in presense of oxygen it will be inevitably oxidized to $\textrm{NO}_3^-$, therefore we assume advection waters have a zero ammonium concentrarion.
 
-To reproduce a heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999) an additional $\textrm{OC}$ inflow was incorporated into the transport model.
-$\textrm{OC}$ instead of $\textrm{OM}$ was chosen since we want to track alkalinity generation without changing the local $\textrm{OM}$ production (additional $\textrm{OM}$ brings additional nutrients which in turn can enhance the local production).
+In the biogeochemical model we implement an $\textrm{OM}$ decomposition as a two step process.
+The first step comsumes $\textrm{OM}$ and yeilds organic carbon ($\textrm{OC}$) and nutrients, the second step consumes electron acceptors and $\textrm{OC}$ and yeilds $\textrm{DIC}$ (for the detailed description see Appendix).
+Using this approach it is possible to reproduce a heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999).
+Along with the advective influx of nutrients (see above) an additional $\textrm{POC}$ inflow was incorporated into the Wadden Sea.
 This $\textrm{OC}$ input from the North Sea to the The North Frisian Wadden Sea was introduced according to the net import of $\textrm{OM}$ to Sylt-Romo basin value (110 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) reported in (Beusekom 1999) as a sinusoidal curve with a maximum in March (Beer 2005).
 This value is also close to the Wadden Sea average input (100 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) from the North Sea (Beusekom 1999).
 
