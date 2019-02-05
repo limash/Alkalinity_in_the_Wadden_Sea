@@ -83,7 +83,7 @@ We have not included explicit tidal dynamics into our calculations, instead, we 
 Since we are interested in the $\textrm{TA}$ seasonal dynamics we set the burial velocity to zero.
 
 
-To add all necessary biogeochemical processes to our calculations we constructed a biogeochemical model which is based on the empirical model of the phytoplankton Chlorophyll a $\div$ Carbon ratio (Cloern 1995) and some redox reactions partly based on the Bottom RedOx Model, $\textrm{BROM}$ (Yakushev 2017).
+To add all necessary biogeochemical processes to our calculations we constructed a biogeochemical model which is based on the empirical model of the phytoplankton Chlorophyll a $\div$ Carbon ratio (Cloern 1995) and some redox reactions partly adapted from the Bottom RedOx Model, $\textrm{BROM}$ (Yakushev 2017).
 Biogeochemical model resolves only instant sinks and sources and then send increments to the transport model.
 The $\textrm{SPBM}$ and biogeochemical model were linked with each other through the Framework for Aquatic Biogeochemical Models, $\textrm{FABM}$ (Bruggeman 2014).
 The model was implemented in Fortran, but some parts of it were reimplemented in Python and Non-Linear Least-Square Minimization and Curve-Fitting for Python (Newville 2014) module ($\textrm{LMFIT}$) was applied for optimization.
@@ -96,7 +96,8 @@ Here we will explain the most important for the $\textrm{TA}$ calculations parts
 For the detailed description of the model see Appendix.
 The main purpose of the model is to estimate the possible yearly range of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ and the corresponging $\textrm{TA}$ values in the water column of the Wadden Sea.
 As a least bound of the range of the alkalinity fluxes we can apply a zero flux, so the main task is to estimate an upper bound of the alkalinity fluxes.
-Here and further in all assumptions we have to make we will chose those ones which will increase the upper bound of the alkalinity fluxes, so it will help us to overestimate this upper bound and not to underestimate it.
+Here and further in all assumptions we have to make we will choose those ones which will increase the upper bound of the alkalinity fluxes, so it will help us to maybe overestimate this upper bound but not to underestimate it.
+
 We do not separate the biogeochemical model into pelagic and benthic modules.
 Instead, we use the same equations for the both domains and use functional responses and inhibitors (Soetaert 2009, page 36) to get a required behaviour when the appropriate processess happen in the appropriate conditions.
 The biogeochemical model contains the following state variables: phototrophic producers ($\textrm{Phy}$), pelagic and benthic heterotrophs ($\textrm{Het}$), $\textrm{NH}_4^+$, $\textrm{NO}_2^-$, $\textrm{NO}_3^-$, $\textrm{Si}$, $\textrm{PO}_4^{3-}$, $\textrm{O}_2$, $\textrm{SO}_4^{2-}$, $\textrm{S}_2\textrm{O}_3^{2-}$, $\textrm{S}^{0}$, $\textrm{H}_2\textrm{S}$, dissolved inorganic carbon ($\textrm{DIC}$), dissolved $\textrm{OM}$ ($\textrm{DOM}$), particulate $\textrm{OM}$ ($\textrm{POM}$), dissolved organic carbon ($\textrm{DOC}$), particulate organic carbon ($\textrm{POC}$), and total alkalinity ($\textrm{TA}$).
@@ -106,7 +107,7 @@ In the biogeochemical model we have implemented the $\textrm{OM}$ degradation as
 The first step comsumes $\textrm{OM}$ and yeilds organic carbon ($\textrm{OC}$) and nutrients (hydrolysis), the second step consumes electron acceptors and $\textrm{OC}$ and yeilds $\textrm{DIC}$ (oxidation).
 We have two reactive classes for both $\textrm{OM}$ and $\textrm{OC}$: dissolved (labile) and particulate (semi-labile).
 Therefore in the model semi-labile (particulate) $\textrm{OM}$ keeps an ability to sink after converting to $\textrm{OC}$.
-This helps to establish an upper bound of $\textrm{TA}$ production since more organic reaches sediments.
+This assumption can only increase the upper bound of $\textrm{TA}$ production since more organic reaches sediments.
 Also the biogeochemical model contains nitrogen and sulfur cycles, but it does not include calcium carbonates precipitation/dissolution.
 In the Wadden Sea calcium carbonate autochthonous production can serve as the upper bound of calcium carbonate dissolution since there is no allochthonous calcium carbonate input (Thomas 2009).
 Therefore for the sake of clarity we have not included $\textrm{Ca}^{2+}$ in our model, calcium precipitation/dissolution can be considered separately.
