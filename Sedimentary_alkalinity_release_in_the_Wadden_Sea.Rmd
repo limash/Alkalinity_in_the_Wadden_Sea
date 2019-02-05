@@ -26,11 +26,13 @@ It can roughly show the importance of the coastal area processes regarding to al
 vs.plot_intro()
 ```
 
-There are several factors able to induce these differences:
-  * A riverine influence.This factor is strongly geographically dependent and can cause both increase and decrease of $\textrm{TA}$ values. Since the main riverine outflow is supposed to be in the spring, we assume that this factor does not have a main importance of the presented alkalinity yearly profile with maximum in the end of the summer. But, Neumann 2017 reports that Elbe estuary discharges brackish waters with nitrate concentrations as high as 300 $\textrm{mM}$ during winter, what can contribute to the total decrease of $\textrm{TA}$ in the German Bight (see further Eq. 1); 
-  * An influence of the pelagic and benthic activities in the adjoining Wadden Sea. Thomas (2009) according to the observed alkalinity values proposed that the main driver of the seasonal southeastern North sea alkalinity variability is the alkalinity flux from the Wadden Sea;
-  * An influence of the pelagic and benthic activities in the German Bight. Moore (2011) suggests not so strong input of alkalinity into the North Sea from the Wadden sea compared to the input from the North sea sediments. Brenner (2016) estimated a sedimentary alkalinity mean flux from the southern North Sea ($\textrm{SNS}$) sediments 6.6 $\pm$ 5.2 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ in September 2011, and 5.7 $\pm$ 3.7 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ in June 2012. Assuming average depth of the SNS 40 m and average alkalinity mean flux 6 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ through the sediment-water interface ($\textrm{SWI}$) during 4 months from may until September, the accumulative increase of $\textrm{TA}$ in the $\textrm{SNS}$ water column should be roughly equal to 18.6 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ which is much lower than the measured values (see Fig. 1).
+**Figure 1.** Surface water $\textrm{TA}$ measured and calculated from the alkalinity-salinity relation (Millero 1997), FerryBox measurements (54.19$^\circ$ N, 6.99$^\circ$ E, 2017)
 
+
+There are several factors able to induce these differences:
+  * A riverine influence.This factor is strongly geographically dependent and can cause both increase and decrease of $\textrm{TA}$ values. Since the main riverine outflow is supposed to be in the spring, we assume that this factor does not have a main importance of the presented alkalinity yearly profile with maximum in the end of the summer. Though, Neumann 2017 reports that Elbe estuary discharges brackish waters with nitrate concentrations as high as 300 $\textrm{mM}$ during winter, what can contribute to the total decrease of $\textrm{TA}$ in the German Bight (see further Eq. 1); 
+  * An influence of the pelagic and benthic activities in the adjoining Wadden Sea. Thomas (2009) according to the observed alkalinity values proposed that the main driver of the seasonal southeastern North sea alkalinity variability is the alkalinity flux from the Wadden Sea;
+  * An influence of the pelagic and benthic activities in the German Bight. Moore (2011) suggests not so strong input of alkalinity into the North Sea from the Wadden sea compared to the input from the North sea sediments. Brenner (2016) estimated a sedimentary alkalinity mean flux from the southern North Sea ($\textrm{SNS}$) sediments 6.6 $\pm$ 5.2 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ in September 2011, and 5.7 $\pm$ 3.7 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ in June 2012. Assuming average depth of the SNS is 40 m and average alkalinity mean flux is 6 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ through the sediment-water interface ($\textrm{SWI}$) during 7 months from March until the end of September, the accumulative increase of $\textrm{TA}$ in the $\textrm{SNS}$ water column should be roughly equal to 31.5 $\textrm{mM}\ \textrm{m}^{-2}\ \textrm{d}^{-1}$ which is lower than the measured values (see Fig. 1).
 
 
 At our knowledge currently, there is no study quantifying the alkalinity release and its origin in the Wadden Sea, what can be a still important source of alkalinity in the German Bight of the North Sea.
@@ -46,13 +48,13 @@ $\textrm{TA}_{ec} = [\textrm{Na}^{+}] + 2[\textrm{Mg}^{2+}] + 2[\textrm{Ca}^{2+}
 , where $\textrm{TNH}_{3} = [\textrm{NH}_{3}] + [\textrm{NH}_{4}^{+}]$, $\textrm{TPO}_{4} = [\textrm{H}_{3}\textrm{PO}_{4}] + [\textrm{H}_{2}\textrm{PO}_{4}^{-}] + [\textrm{HPO}_{4}^{2-}] + [\textrm{PO}_{4}^{3-}]$, $\textrm{TSO}_{4} = [\textrm{SO}_{4}^{2-}] + [\textrm{HSO}_{4}^{-}]$, $\textrm{THF} = [\textrm{F}^{-}] + [\textrm{HF}]$, and $\textrm{THNO}_{2} = [\textrm{NO}_{2}^{-}] + [\textrm{HNO}_{2}]$.
 
 
-Thus increase or decrease of concentrations of any of the mentioned terms will change alkalinity.
+Thus increase or decrease of concentrations of any of the $\textrm{TA}_{ec}$ compounds will change alkalinity.
 In anoxic conditions there are some more terms can appear in Eq. 1 ($\textrm{Fe}^{2+}$, etc.) but in presence of oxygen we assume that their contribution is cancelled since they should be oxidized and participate (Canfield 2005).
-Therefore, we can consider following biogeochemical processes inducing changes in Eq. 1:
+Therefore, we can consider following biogeochemical processes inducing changes of constituent elements concentrations in Eq. 1:
 1. Nutrients assimilation by primary producers which includes 
   * Nitrogen uptake. Assimilation of one mole of $\textrm{NO}_{3}^{-}$ or $\textrm{NO}_{2}^{-}$ increase alkalinity by one mole, assimilation of $\textrm{NH}_{4}^{+}$ decrease alkalinity by a mole 
   * Assimilation of one mole of phosphate leads to increase of alkalinity by one mole;
-2. $\textrm{OM}$ destruction: 
+2. Organic matter destruction: 
   * Oxygen respiration $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 106\textrm{O}_{2} \rightarrow 106\textrm{CO}_{2} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 106\textrm{H}_{2}\textrm{O}$ increases alkalinity by 15 moles ($16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$) per 106 moles of $\textrm{CH}_{2}\textrm{O}$ oxidized
   * Denitrification $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 84.8\textrm{HNO}_{3} \rightarrow 106\textrm{CO}_{2} + 42.4\textrm{N}_{2} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 148.4\textrm{H}_{2}\textrm{O}$ increases alkalinity by 99.8 moles ($84.8\textrm{HNO}_{3} + 16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$) per 106 moles of $\textrm{CH}_{2}\textrm{O}$ oxidized
   * Sulphate reduction $(\textrm{CH}_{2}\textrm{O})_{106}(\textrm{NH}_{3})_{16}\textrm{H}_{3}\textrm{PO}_{4} + 53\textrm{SO}_{4}^{2-} \rightarrow 106\textrm{HCO}_{3}^{-} + 16\textrm{NH}_{3} + \textrm{H}_{3}\textrm{PO}_{4} + 53\textrm{H}_{2}\textrm{S}$ increases alkalinity by 121 moles  ($2 \cdot 53 \textrm{SO}_{4}^{2-} + 16\textrm{NH}_{3} - 1\textrm{H}_{3}\textrm{PO}_{4}$) per 106 moles of $\textrm{CH}_{2}\textrm{O}$ oxidized 
@@ -62,9 +64,9 @@ Therefore, we can consider following biogeochemical processes inducing changes i
 
 
 
-To estimate the changes in alkalinity it is necessary to approximate the contributions of the mentioned biogeochemical processes.
-These processes take place in general in both the water and sediment columns.
-For an istance, denitrification occurs in absence of oxygen which is often possible only in sediments, but phototrophic producers growth in the water domain.
+To estimate the changes in alkalinity it is necessary to approximate the contributions of these biogeochemical processes.
+They take place in general in both the water and sediment columns.
+For an instance, denitrification occurs in absence of oxygen which is often possible only in sediments, but phototrophic producers grow mostly in the water domain.
 That's why we shall take into account the different domains and also parametrize the exchange between them.
 On the other hand, as a first approximation, we can skip a spatial and consider only a vertical distribution since the exchange of the water and sediment domains happens mainly vertically.
 Therefore to mimic some of the processes which can occur in the Wadden sea and influence $\textrm{TA}$ we can construct a vertically resolved box containing several layers of water and sediments, calculate necessary biogeochemical reactions for each layer and evaluate mixing between these layers.
@@ -87,20 +89,29 @@ The $\textrm{SPBM}$ and biogeochemical model were linked with each other through
 The model was implemented in Fortran, but some parts of it were reimplemented in Python and Non-Linear Least-Square Minimization and Curve-Fitting for Python (Newville 2014) module ($\textrm{LMFIT}$) was applied for optimization.
 
 
-#### 1 Biogeochemical model
+#### 1 The Biogeochemical model
 
 
+Here we will explain the most important for the $\textrm{TA}$ calculations parts of the biogeochemical model.
+For the detailed description of the model see Appendix.
+The main purpose of the model is to estimate the possible yearly range of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ and the corresponging $\textrm{TA}$ values in the water column of the Wadden Sea.
+As a least bound of the range of the alkalinity fluxes we can apply a zero flux, so the main task is to estimate an upper bound of the alkalinity fluxes.
+Here and further in all assumptions we have to make we will chose those ones which will increase the upper bound of the alkalinity fluxes, so it will help us to overestimate this upper bound and not to underestimate it.
 We do not separate the biogeochemical model into pelagic and benthic modules.
 Instead, we use the same equations for the both domains and use functional responses and inhibitors (Soetaert 2009, page 36) to get a required behaviour when the appropriate processess happen in the appropriate conditions.
 The biogeochemical model contains the following state variables: phototrophic producers ($\textrm{Phy}$), pelagic and benthic heterotrophs ($\textrm{Het}$), $\textrm{NH}_4^+$, $\textrm{NO}_2^-$, $\textrm{NO}_3^-$, $\textrm{Si}$, $\textrm{PO}_4^{3-}$, $\textrm{O}_2$, $\textrm{SO}_4^{2-}$, $\textrm{S}_2\textrm{O}_3^{2-}$, $\textrm{S}^{0}$, $\textrm{H}_2\textrm{S}$, dissolved inorganic carbon ($\textrm{DIC}$), dissolved $\textrm{OM}$ ($\textrm{DOM}$), particulate $\textrm{OM}$ ($\textrm{POM}$), dissolved organic carbon ($\textrm{DOC}$), particulate organic carbon ($\textrm{POC}$), and total alkalinity ($\textrm{TA}$).
 $\textrm{OM}$ is assumed to have a Redfield stoichiometry $106\textrm{C}:16\textrm{N}:1\textrm{P}$.
 The model resolves $\textrm{OM}$ production and destruction via oxygen respiration, denitrification, and sulfate reduction.
-Also it contains nitrogen and sulfur cycles, but it does not include calcium carbonates precipitation/dissolution.
+In the biogeochemical model we have implemented the $\textrm{OM}$ degradation as a two step process as in (Krumins 2013).
+The first step comsumes $\textrm{OM}$ and yeilds organic carbon ($\textrm{OC}$) and nutrients (hydrolysis), the second step consumes electron acceptors and $\textrm{OC}$ and yeilds $\textrm{DIC}$ (oxidation).
+We have two reactive classes for both $\textrm{OM}$ and $\textrm{OC}$: dissolved (labile) and particulate (semi-labile).
+Therefore in the model semi-labile (particulate) $\textrm{OM}$ keeps an ability to sink after converting to $\textrm{OC}$.
+This helps to establish an upper bound of $\textrm{TA}$ production since more organic reaches sediments.
+Also the biogeochemical model contains nitrogen and sulfur cycles, but it does not include calcium carbonates precipitation/dissolution.
 In the Wadden Sea calcium carbonate autochthonous production can serve as the upper bound of calcium carbonate dissolution since there is no allochthonous calcium carbonate input (Thomas 2009).
 Therefore for the sake of clarity we have not included $\textrm{Ca}^{2+}$ in our model, calcium precipitation/dissolution can be considered separately.
 The model at first calculates increments of alkalinity compounds which are involved in the biogeochemical reactions and then calculates alkalinity increment as the sum of these compounds increments: 
 $$\delta [\textrm{TA}] = \delta [\textrm{NH}_4^+] - \delta [\textrm{NO}_2^-] - \delta [\textrm{NO}_3^-] - \delta [\textrm{PO}_4^{3-}] - 2\delta [\textrm{SO}_4^{2-}]$$
-For the detailed description of the model see Appendix.
 
 
 #### 2 Forcing, Initial and boundary conditions
@@ -113,17 +124,15 @@ Therefore the data for forcing (seawater temperature, salinity, density, $\textr
 The Wadden Sea water column is entirely mixed during a year, the vertical diffusion coefficients were calculated according to the vertical density distributions following Gargett (1984).
 
 Since in our study we use the 1-dimensional transport model we have to reproduce some advective effects on the local biogeochemistry.
-To do so we implemented an advective exchange of phosphates, ammonium, nitrates, and silicates with the model water column domain (2 layers) controlled by the advective exchange coefficient $K_{advective}$, which is a multiplier of the difference between the current state variable value and the forcing-value.
+To do so we implemented an advective exchange of phosphates, ammonium, nitrates, and silicates within the model water column domain controlled by the advective exchange coefficient $K_{advective}$, which is a multiplier of the difference between the current state variable value and the forcing-value.
 Along with concentrations profiles of corresponding elements phosphates, ammonium and nitrates exchange also affects the alkalinity according to the Eq. 1.
 In presense of oxygen $\textrm{NH}_4^+$ will be inevitably oxidized to $\textrm{NO}_3^-$, therefore we assume advection waters have a zero ammonium concentrarion.
 
-In the biogeochemical model we have implemented an $\textrm{OM}$ degradation as a two step process.
-The first step comsumes $\textrm{OM}$ and yeilds organic carbon ($\textrm{OC}$) and nutrients, the second step consumes electron acceptors and $\textrm{OC}$ and yeilds $\textrm{DIC}$ (for the detailed description see Appendix).
 To reflect a heterotrophic nature of the Wadden Sea (Postma 1954; Beusekom 1999) we have introduced an additional advective influx of $\textrm{POC}$, it represents an assumption that the entering $\textrm{POM}$ has been already processed by bacteria and decomposed to $\textrm{POC}$ and nutrients.
-This $\textrm{POC}$ input was adopted from the net import of $\textrm{OM}$ to Sylt-Romo basin value (110 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) reported in (Beusekom 1999) as a sinusoidal curve with a maximum in March (Beer 2005).
+This $\textrm{POC}$ input was adopted from the net import of $\textrm{OM}$ to Sylt-Rømø basin value (110 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) reported in (Beusekom 1999) as a sinusoidal curve with a maximum in March (Beer 2005).
 This value is also close to the Wadden Sea average input (100 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) from the North Sea (Beusekom 1999).
 
-Boundary conditions were set up for the $\textrm{DIC}$ and $\textrm{O}_2$ on the surface boundary as in Yakushev (2017).
+Boundary conditions were set up for the $\textrm{DIC}$ and $\textrm{O}_2$ on the surface boundary as an exchange with atmpsphere according to Yakushev (2017).
 For all other species, boundary conditions at bottom and surface were set to zero flux.
 
 
@@ -131,26 +140,30 @@ For all other species, boundary conditions at bottom and surface were set to zer
 
 
 The resulting biogeochemical model has 56 parameters in total.
-Also, we have to establish a value of the advective exchange coefficient $K_{advective}$ which in a great degree defines the $\textrm{OM}$ production in conditions of the 1-dimensional model and the values of $kz_{dispersion}$ and porosity $\phi$ which define the vertical mixing in sediments.
+Also, we have to establish a value of the advective exchange coefficient $K_{advective}$ which in a great degree defines the $\textrm{OM}$ production in conditions of the 1-dimensional model and values of the dispersion coefficient in the sediments $kz_{dispersion}$ and porosity $\phi$ which define the vertical mixing in the sediment domain.
 
-The Non-Linear Least-Squares Fitting method was applied to find the $K_{advective}$, photosynthetic efficiency at low irradiance ($\alpha$), half-saturation constants for nutrients uptake by phototrophic producers ($Ks_{PO_{4}^{3-}}$, $Ks_{Si}$, $Ks_{NH_{4}^{+}}$, $Ks_{NO_{x}}$), phototrophic producers mortality coefficient ($K_{phy\_mortality}$), and three coefficients controlling heterotrophs grazing and dying: $\textrm{Het}$ grazing on $\textrm{Phy}$ rate $K_{het\_phy}$, Half-saturation constant of $\textrm{Het}$ to $\textrm{Phy}$ ratio $Ks_{het\_phy\_ratio}$, $\textrm{Het}$ rate of mortality $K_{het\_mortality}$.
+The Non-Linear Least-Squares Fitting method was applied to find the $K_{advective}$, photosynthetic efficiency at low irradiance ($\alpha$), half-saturation constants for nutrients uptake by phototrophic producers ($Ks_{PO_{4}^{3-}}$, $Ks_{Si}$, $Ks_{NH_{4}^{+}}$, $Ks_{NO_{x}}$), phototrophic producers mortality coefficient ($K_{phy\_mortality}$), and three coefficients controlling heterotrophs grazing and dying: heterotrophs grazing on primary producers rate $K_{het\_phy}$, half-saturation constant of heterotrophs to primary producers ratio $Ks_{het\_phy\_ratio}$, Heterotrophs rate of mortality $K_{het\_mortality}$.
+For the detailed description see Appendix.
 The chi-square statistic was constructed using $\textrm{Chlorophyll a}$ data.
-After these values were got a new value of $K_{advective}$ was reestablished separately to make the model fit the total organic matter production (309 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) in the North Frisian Wadden Sea reported by (Beusekom 1999).
-The values of heterotrophs grazing on $\textrm{POM}$ rate ($K_{het\_pom}$) and half-saturation constant of $\textrm{Het}$ to $\textrm{POM}$ ratio, $Ks_{het\_pom\_ratio}$ were not found separately, but the corresponding values for phytoplankton were adopted.
+After these values were obtained a new value of $K_{advective}$ was reestablished separately to make the model fit the total organic matter production (309 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) in the North Frisian Wadden Sea reported by (Beusekom 1999).
+The values of heterotrophs grazing on $\textrm{POM}$ rate $K_{het\_pom}$ and half-saturation constant of heterotrophs to $\textrm{POM}$ ratio $Ks_{het\_pom\_ratio}$ were not found separately, but the corresponding values for phytoplankton were adopted.
 Therefore the mentioned parameters of the model were identifited to fit the seasonality of $\textrm{Chlorophyll a}$ concentrations and total yearly $\textrm{OM}$ produced in the North Frisian Wadden Sea.
-Along with additional input of $\textrm{OM}$ described above we have the total $\textrm{OM}$ input during a year fit the total remineralization (419 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) reported in a carbon budget of Sylt-Reme basin by Beusekom (1999).
+Along with additional input of $\textrm{OM}$ described above we have the total $\textrm{OM}$ input during a year fit the total remineralization (419 $\textrm{g}\ \textrm{m}^{2}\ \textrm{year}^{-1}$) reported in a carbon budget of Sylt-Rømø basin by Beusekom (1999).
 
 The Wadden sea sediments can be roughly separated into two zones with different permeabilities: sands cover $\approx 70 \%$,  and muds cover $\approx 30 \%$ (Beer 2005).
 About $50 \%$ of the sediments in the Wadden Sea are exposed during low tide (Beer 2005), and tidal flats consist mostly of sands (Beer 2005, Asmus 1998).
-While muds environment is reported to have higher $\textrm{OM}$ content, the sands are more permeable for electron acceptors and for organic material from overlying water (Beer 2005).
-Regarding to alkalinity generation we are more interested to reproduce the conditions happen in the sands environment (with porosity $\phi \approx 0.45$ according to Beer 2005), also there can be various of advective regimes in sediments.
-Neumann (2017) according to their nitrates advective fluxes in sediments estimations in the German Bight calculated Peclet numbers for permeable sediments, they varied from 1 up to 1000.
+While muds environment is reported to have higher $\textrm{OM}$ content, the sands are more permeable for electron acceptors and for new organic material from overlying water (Beer 2005).
+Alkalinity generation which needs both supply of electron acceptors and $\textrm{OM}$ should occure mostly in the sands environment (with porosity $\phi \approx 0.45$ according to Beer 2005), also there can be various of advective regimes in sandy sediments.
+Neumann (2017) according to nitrates advective fluxes in sediments estimations in the German Bight calculated Peclet numbers for permeable sediments, they approximately varied from 1 up to 1000.
 Using a relation for dispersion offered by de Ligny (1970) (Boudreau 1997, page 138) and Peclet numbers it is possible to evaluate despersion coefficients range.
-For the Peclet numbers $\approx$ 1 the dispersion coefficient $\approx$ to molecular diffusion coefficient which we can equal $\approx$ $1 \cdot 10^{-9} m^{2} sec^{-1}$.
-For the Peclet numbers $\approx$ 1000 the dispersion coefficients $\approx$ 2500 times larger than the molecular diffusion coefficient.
+For the Peclet numbers around 1, the dispersion coefficient is approximately equal to molecular diffusion coefficient which $\approx$ $1 \cdot 10^{-9} m^{2} sec^{-1}$.
+For the Peclet numbers around 1000, the dispersion coefficient is approximately 2500 times larger than the molecular diffusion coefficient.
 Therefore we applied a wide range starting from 0 for $kz_{dispersion}$ in our series of runs simulating different vertical mixing conditions in sediments.
-Thus we can reproduce different alkalinity fluxes from the regions of the Wadden Sea exposed during low tide which is assumed to have mostly advective vertical mixing to the regions with the prevailing diffusive vertical mixing in sediments.
-We can not apply these calculations to the concrete region, but using this approach we can achieve the possible range of values of $\textrm{TA}$ values and $\textrm{TA}$ fluxes on $\textrm{SWI}$ in the Wadden Sea.
+Thus we can reproduce different alkalinity fluxes from the regions of the Wadden Sea with mostly advective vertical mixing conditions in sediments to the regions with the prevailing diffusive vertical mixing.
+We can not apply these calculations to the specific region since the advection conditions can change significantly within short distances, but using this approach we can achieve the possible range of values of $\textrm{TA}$ and $\textrm{TA}$ fluxes on $\textrm{SWI}$ in the Wadden Sea.
+
+
+**Table 1.** Organic matter production related parameter values
 
 
 | Parameter | Notation | Units | Value (Range) | Source |
@@ -176,46 +189,56 @@ We can not apply these calculations to the concrete region, but using this appro
 | Porosity | $\phi$ | $-$ | 0.45 | Beer (2005) |
 
 
-$\textrm{OM}$ oxidation rates depend on local microbial and sediments physical properties conditions.
-Beer (2005) investigated transport and mineralization rates in an intertidal sand flat which is part of the Sylt-Rømø Basin in the North Frisian Wadden Sea near the German–Danish border.
-The maximum value of oxygen uptake in stagnant conditions they received was 36 $\textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$.
+$\textrm{OC}$ oxidation rate depends on the local microbial and sediments physical properties conditions.
+Here we want to derive the $\textrm{OC}$ respiration rate for our specific region.
+Beer (2005) investigated mineralization rates in an intertidal sand flat which is part of the Sylt-Rømø Basin in the North Frisian Wadden Sea near the German–Danish border.
+The maximum value of oxygen uptake by sediments in stagnant conditions they measured was 36 $\textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$.
 It is the same order as the measured maximum total oxygen uptake rate by sediments ($\approx 30\ \textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$) in the Southern North Sea (Brenner 2016).
-According to our preliminary simulation with various $\textrm{OC}$ oxygen respiration rates and $\textrm{OM}$ by primary producers generation with additional $\textrm{OC}$ input described above we found out that the most of the oxygen consumption in our model happen actually not in the sediments, but in the lower level of $\textrm{BBL}$ and an average $\textrm{POC}$ concentration near bottom and in the upper layers of sediments is about $200000\ \textrm{mg C m}^{-3}$.
+Assuming the most of the labile organics were oxidized in the water column $\textrm{POC}$ is the most abundant type of $\textrm{OC}$ in sediments.
+Therefore we have to estimate the oxygen $\textrm{POC}$ respiration rate.
+Varying $\textrm{POC}$ oxygen respiration rate we found out that the most of the oxygen consumption in our model occurs actually not in the sediments, but in the lower level of $\textrm{BBL}$ and an average $\textrm{POC}$ concentration near bottom and in the upper layers of sediments is about $200000\ \textrm{mg C m}^{-3}$.
+We want to derive the oxygen $\textrm{POC}$ respiration rate corresponding the oxygen uptake by sediments value (36 $\textrm{mM O}_2\ \textrm{m}^{-2}\ \textrm{d}^{-1}$) proposed by Beer (2005).
+We can calculate it as follows.
 We have the depth of the $\textrm{BBL}$ layers equals $5\ \textrm{cm}$.
-Therefore we can estimate the upper bound value of the minerelized $\textrm{OM}$ per a day if considering that all oxygen is counsumed only for mineralization as $\approx 36 \cdot 20 = 720\ \textrm{mM C m}^{-3}\ \textrm{d}^{-1}$ or $8640\ \textrm{mg C m}^{-3}\ \textrm{d}^{-1}$.
-Accounting for average $\textrm{POC}$ concentration and the first order reaction parametrization with respect to $\textrm{POC}$ concentration we can estimate the yearly overall upper bound of oxygen respiration rate as $8640 \div 200 000 = 0.043$.
-We have a temperature $\textrm{q10}$ dependency (with a multiplier 2) in our $\textrm{OM}$ respiration reaction parametrization and according to the $\textrm{WOD}$ data used for the calibration the difference between temperature of maximum $\textrm{OM}$ concentration period and minimum temperature in the Wadden Sea lies within approximately $10^\circ C$.
+Therefore the upper bound value of the mineralized $\textrm{OC}$ per a day considering that all oxygen is consumed only for mineralization is $\approx 36 \cdot 20 = 720\ \textrm{mM C m}^{-3}\ \textrm{d}^{-1}$ or $8640\ \textrm{mg C m}^{-3}\ \textrm{d}^{-1}$.
+Accounting for average $\textrm{POC}$ concentration and the first order reaction parametrization with respect to $\textrm{POC}$ concentration we can estimate the yearly overall upper bound of oxygen respiration rate as $8640 \div 200000 = 0.043$.
+We have a temperature $\textrm{q10}$ dependency (see Appendix) with a multiplier 2 in our $\textrm{OC}$ respiration reaction parametrization and according to the $\textrm{WOD}$ data used for the calibration the difference between temperature of maximum $\textrm{OC}$ concentration period and minimum temperature in the Wadden Sea lies within approximately $10^\circ C$.
 Therefore the basic upper bound of oxygen respiration rate for the first order reaction with $\textrm{q10 = 2}$ temperature factor and temperature range of $10^\circ C$ shall be $\frac{0.043}{2} \approx 0.02$.
-We assume all $\textrm{POM}$ hydrolysis reaction have the same rate, also we assume all $\textrm{DOM(C)}$ rates have the values just 10 times higher then corresponding $\textrm{POM(C)}$ rates.
+Since we split up a continuous process of $\textrm{OM}$ degradation to the 2 steps, the hydrolysis reaction rate can be approximated by oxidation reaction rate.
+Labile organics $\textrm{DOM(C)}$ hydrolysis and oxidation rates should be larger than the rates for semi-labile organics, the typical range reported in literature of differences of labile and semi-labile organics oxidation rates is about from 10 to 100 times (Krumins 2013).
+We applied the value of 10.
 Since we do not know the reaction rates of denitrification and sulfate reduction we performed two set of simulations with following upper and lower bounds of these rates.
-As the upper bounds, we applied the derived oxygen respiration rate, which seems to be far too large rate for sulfate reduction but still suitable as the upper bound.
+As the upper bounds, we applied the derived oxygen respiration rate which can be considered as an overestimated rate.
 Krumins (2013) scales the rates of the different electron accepting pathways by their relative cell yields, we do not explicitly add this scaling in our parametrization but instead, adopt these values to scale rates of denitrification and sulfate reduction.
 These values we applied as the lower (which should be closer to the 'real' conditions) bounds.
+
+
+**Table 2.** Organic matter destruction related parameter values
 
 
 | Parameter | Notation | Units | Value (Range) | Source |
 |-|-|-|-|-|
 | $\textrm{POM}$ to $\textrm{DOM}$ autolysis | $K_{pom\_dom}$ | $\textrm{d}^{-1}$ | 0.15 | Yakushev 2017 |
-| $\textrm{DOM}$ in $\textrm{O}_2$ hydrolysis | $K_{O_2dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.1 | see text |
-| $\textrm{POM}$ in $\textrm{O}_2$ hydrolysis | $K_{O_2pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.01 | see text |
-| $\textrm{DOC}$ oxygen respiration | $K_{O_2doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.1 | see text |
-| $\textrm{POC}$ oxygen respiration | $K_{O_2poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.01 | see text |
+| $\textrm{DOM}$ in $\textrm{O}_2$ hydrolysis | $K_{O_2dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.2 | see text |
+| $\textrm{POM}$ in $\textrm{O}_2$ hydrolysis | $K_{O_2pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.02 | see text |
+| $\textrm{DOC}$ oxygen respiration | $K_{O_2doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.2 | see text |
+| $\textrm{POC}$ oxygen respiration | $K_{O_2poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.02 | see text |
 | Half-saturation constant of $\textrm{O}_2$ for $\textrm{OM}$ oxygen respiration | $Ks_{O_2}$ | $\textrm{mM O}_2\ \textrm{m}^{-3}$ | 1 | Yakushev 2017 |
-| $\textrm{DOM}$ in $\textrm{NO}_3^-$ hydrolysis | $K_{NO_3^-dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.1 | see text |
-| $\textrm{POM}$ in $\textrm{NO}_3^-$ hydrolysis | $K_{NO_3^-pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.01 | see text |
-| $\textrm{DOC}$ denitrification 1st stage | $K_{NO_3^-doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.075 - 0.1 | see text |
-| $\textrm{POC}$ denitrification 1st stage | $K_{NO_3^-poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.0075 - 0.01 | see text |
+| $\textrm{DOM}$ in $\textrm{NO}_3^-$ hydrolysis | $K_{NO_3^-dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.2 | see text |
+| $\textrm{POM}$ in $\textrm{NO}_3^-$ hydrolysis | $K_{NO_3^-pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.02 | see text |
+| $\textrm{DOC}$ denitrification 1st stage | $K_{NO_3^-doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.15 - 0.2 | see text |
+| $\textrm{POC}$ denitrification 1st stage | $K_{NO_3^-poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.015 - 0.02 | see text |
 | Half-saturation constant of $\textrm{NO}_3^-$ for $\textrm{OM}$ denitrification | $Ks_{NO_3^{-}}$ | $\textrm{mM NO}_3^-\ \textrm{m}^{-3}$ | 0.1 | Yakushev 2017 |
 | Half-saturation constant of $\textrm{O}_2$ for $\textrm{OM}$ denitrification | $Ks_{O_2forNO_3^{-}}$ | $\textrm{mM O}_2^-\ \textrm{m}^{-3}$ | 10 | Yakushev 2017 |
-| $\textrm{DOM}$ in $\textrm{NO}_2^-$ hydrolysis | $K_{NO_2^-dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.1 | see text |
-| $\textrm{POM}$ in $\textrm{NO}_3^-$ hydrolysis | $K_{NO_2^-pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.01 | see text |
-| $\textrm{DOC}$ denitrification 2st stage | $K_{NO_2^-doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.075 - 0.1 | see text |
-| $\textrm{POC}$ denitrification 2st stage | $K_{NO_2^-poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.0075 - 0.01 | see text |
+| $\textrm{DOM}$ in $\textrm{NO}_2^-$ hydrolysis | $K_{NO_2^-dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.2 | see text |
+| $\textrm{POM}$ in $\textrm{NO}_3^-$ hydrolysis | $K_{NO_2^-pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.02 | see text |
+| $\textrm{DOC}$ denitrification 2st stage | $K_{NO_2^-doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.15 - 0.2 | see text |
+| $\textrm{POC}$ denitrification 2st stage | $K_{NO_2^-poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.015 - 0.02 | see text |
 | Half-saturation constant of $\textrm{NO}_2^-$ for $\textrm{OM}$ denitrification | $Ks_{NO_2^{-}}$ | $\textrm{mM NO}_2^-\ \textrm{m}^{-3}$ | 0.1 | Yakushev 2017 |
-| $\textrm{DOM}$ in $\textrm{SO}_4^{2-}$ hydrolysis | $K_{SO_4^{2-}dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.1 | see text |
-| $\textrm{POM}$ in $\textrm{SO}_4^{2-}$ hydrolysis | $K_{SO_4^{2-}pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.01 | see text |
-| $\textrm{DOC}$ sulphate reduction | $K_{SO_4^{2-}doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.02 - 0.1 | see text |
-| $\textrm{POC}$ sulphate reduction | $K_{SO_4^{2-}poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.002 - 0.01 | see text |
+| $\textrm{DOM}$ in $\textrm{SO}_4^{2-}$ hydrolysis | $K_{SO_4^{2-}dom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.2 | see text |
+| $\textrm{POM}$ in $\textrm{SO}_4^{2-}$ hydrolysis | $K_{SO_4^{2-}pom\_hydrolysis}$ | $\textrm{d}^{-1}$ | 0.02 | see text |
+| $\textrm{DOC}$ sulphate reduction | $K_{SO_4^{2-}doc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.04 - 0.2 | see text |
+| $\textrm{POC}$ sulphate reduction | $K_{SO_4^{2-}poc\_oxidation}$ | $\textrm{d}^{-1}$ | 0.004 - 0.02 | see text |
 | Half-saturation constant of $\textrm{SO}_4^{2-}$ for $\textrm{OM}$ sulphate reduction | $Ks_{SO_4^{2-}}$ | $\textrm{mM SO}_4^{2-}\ \textrm{m}^{-3}$ | 1 | Yakushev 2017 |
 | Half-saturation constant of $\textrm{O}_2$ for $\textrm{OM}$ sulphate reduction | $Ks_{O_2forSO_4^{2-}}$ | $\textrm{mM O}_2^-\ \textrm{m}^{-3}$ | 25 | Yakushev 2017 |
 | Half-saturation constant of $\textrm{NO}_3^-$ for $\textrm{OM}$ sulphate reduction | $Ks_{NO_3forSO_4^{2-}}$ | $\textrm{mM NO}_3^-\ \textrm{m}^{-3}$ | 5 | Yakushev 2017 |
@@ -224,12 +247,12 @@ These values we applied as the lower (which should be closer to the 'real' condi
 
 
 The rest of the reaction parameters for anammox, nitrification, and sulphur cycle were taken from the Yakushev (2017).
-Anammox do not change $\textrm{TA}$ directly, the evade of nitrogen compounds is compensated by the horizontal advection reproduced in the transport model.
+Anammox do not change $\textrm{TA}$ directly, loss of nitrogen compounds is compensated by the horizontal advection reproduced in the transport model.
 Due to the same reason of advection in the water column nitrification rates has a minor influence on the our assesment.
 Sulfur cycle reaction rates will be discussed futher.
 
 
-### Results
+### Results and discussion
 
 
 In our assumptions, we omit $\textrm{MnO}_2$ and  $\textrm{FeOOH}$ electron acceptors which are energetically more preferable then sulfate and can also oxidize sulfur compounds to sulfate.
@@ -237,16 +260,18 @@ Both can cause overestimation of $\textrm{TA}$ generation since in the first cas
 Also, we have not included calcium participation and dissolution in our calculations.
 Therefore resulting simulations can be considered as an upper bound of the possible $\textrm{TA}$ concentrations and $\textrm{TA}$ on the $\textrm{SWI}$ fickian fluxes for the range of different vertical advection regimes in the Wadden Sea without accounting calcium dissolution/participation and additional terrestrial influence on the $\textrm{TA}$.
 
-
-There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model and $\textrm{TA}$ fickian fluxes on the $\textrm{SWI}$ calculated using the lower bound of sulfate reduction rates.
-
 ```{python}
 vs.plot_alkalinity_low()
 ```
 
+**Figure 2.** yearly profiles for the different advection regimes of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model and $\textrm{TA}$ fickian fluxes on the $\textrm{SWI}$ calculated using the lower bound of sulfate reduction rates.
+
 ```{python}
 vs.plot_alkalinity_flux_low()
 ```
+
+**Figure 3.** yearly profiles for the different advection regimes of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model and $\textrm{TA}$ fickian fluxes on the $\textrm{SWI}$ calculated using the lower bound of sulfate reduction rates.
+
 
 There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments in the surface layer of the model and $\textrm{TA}$ fickian fluxes on the $\textrm{SWI}$ calculated using the upper bound of sulfate reduction rates.
 
