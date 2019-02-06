@@ -188,7 +188,7 @@ We can not apply these calculations to the specific region since the advection c
 | $\textrm{Het}$ food absorbency | $Uz$ | $-$ | 0.5 | Yakushev (2017) |
 | $\textrm{Het}$ ratio between dissolved and particulate excretion | $Hz$ | $-$ | 0.5 | Yakushev (2017) |
 | Advective exchange coefficient | $K_{advective}$ | $-$ | 0.002 | see text |
-| Vertical dispersion coefficient in sediments | $kz_{dispersion}$ | $m^2 s^{-1}$ | 0 - 35e-9 | see text |
+| Vertical dispersion coefficient in sediments | $kz_{dispersion}$ | $m^2 s^{-1}$ | 1e-9 - 35e-9 | see text |
 | Porosity | $\phi$ | $-$ | 0.45 | Beer (2005) |
 
 
@@ -271,30 +271,36 @@ Therefore the $\textrm{TA}$ fluxes can be considered as their maximum estimation
 vs.plot_alkalinity_flux_low()
 ```
 
-**Figure 2.** Yearly profiles of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ of the Wadden Sea for the different advection regimes calculated using the lower bound of sulfate reduction rates
+```{python}
+vs.plot_alkalinity_flux_high()
+```
+
+**Figure 2.** Yearly profiles of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ of the Wadden Sea for the different advection regimes
+
+
+$\textrm{TA}$ fluxes on the $\textrm{SWI}$ increase with dispersion coefficiens values (Fig. 2), according to intuition more advective regimes correspond to higher fluxes of elements including compounds of $\textrm{TA}$.
+With the higher sulfate reduction rates the outflux of alkalinity from sediments to the water column starts yearlier approximately by one month.
 
 ```{python}
 vs.plot_alkalinity_low()
 ```
 
-**Figure 3.** Yearly profiles of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model for the different advection regimes calculated using the lower bound of sulfate reduction rates.
-
-
-There are yearly profiles for the different advection regimes of the $\textrm{TA}$ increments in the surface layer of the model and $\textrm{TA}$ fickian fluxes on the $\textrm{SWI}$ calculated using the upper bound of sulfate reduction rates.
-
 ```{python}
 vs.plot_alkalinity_high()
 ```
 
-```{python}
-vs.plot_alkalinity_flux_high()
-```
+**Figure 3.** Yearly profiles of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model for the different advection regimes
 
-Note that on the both pictures there is a time lag between maximum values of $\textrm{TA}$ fluxes and $\textrm{TA}$ increments.
 
-Therefore for the extreme case of the sulfate reduction rate equal to oxygen respiration and dispersion coefficient of $28 \cdot 10^{-9}$ the fluxes reach 70 $\textrm{mmol m}^{-2}\ \textrm{d}^{-1}$.
-The yearly increment reaches 300 $\textrm{mmol m}^{-3}$ and also it stops growing.
-After this degree of advection vertical mixing alkalinity fluxes do not cause the increase of alkalinity in the water column, along with this fluxes there is a strong fluxes of the different reduced sulfur compounds which oxidation in the water column cause decrease of alkalinity.
+In general $\textrm{TA}$ increments also growth with values of dispersion coefficient (Fig. 3), except the border values with mostly diffusive and mostly advective regimes where this relation does not work, after the value of $kz_{dispersion} \approx 25 \cdot 10^{-9}$ the value of $\textrm{TA}$ maximum does not grow in case of low sulfate reduction rates and grow very slightly in case of high sulfate reduction rates. 
+The $\textrm{TA}$ increments calculated using the upped bound of sulfate reduction rates as it was observed for fluxes reach their maximum values earlier then increments caculated using the lower bound of sulfare reduction rates.
+
+
+For both upper and lower bounds of sulfate reduction rates there is a time lag between maximum values of $\textrm{TA}$ fluxes and $\textrm{TA}$ increments which equals approximately 1.5 month.
+The $\textrm{TA}$ increments represent the accumulated alkalinity and time of this accumulation should contribute to this delay gap.
+However only this accumulation can be responsible for this delay, we have positive alkalinity effluxes for the all time of calculatioins, but the $\textrm{TA}$ values in the water column decrease durin winter.
+There are the effluxes from the sediments of the other elements should be present along with alkalinity compound, and transformation of these elements change the alkalinity in the water column.
+
 In our modelling we have sulfur compounds oxidation rates somewhat orbitrary determined according to the values from other work.
 So assume how it can influence to the our estimation of the upper bound.
 Let's consider 2 cases where there is the overestimated total rate of the sulfide to sulfate oxidation or there is the underestimated total rate of the sulfide to sulfate oxidation.
