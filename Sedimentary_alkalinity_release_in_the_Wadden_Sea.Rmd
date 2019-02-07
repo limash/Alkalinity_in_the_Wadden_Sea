@@ -81,7 +81,7 @@ A mean depth of the Wadden Sea is 2.5 $\textrm{m}$ (Beusekom 1999), so the water
 The sediments domain has 40 layers of 0.01 $\textrm{m}$ depth each.
 We have not included explicit tidal dynamics into our calculations, instead, we introduced a dispersion coefficient (Boudreau 1996) in the sediment domain to reproduce different vertical mixing conditions.
 Since we are interested in the $\textrm{TA}$ seasonal dynamics we set the burial velocity to zero.
-
+Porosity $\phi$ is implemented as exponentially decreasing function, for the details see Yakubov (2017).
 
 To add all necessary biogeochemical processes to our calculations we constructed a biogeochemical model which is based on the empirical model of the phytoplankton Chlorophyll a $\div$ Carbon ratio (Cloern 1995) and some redox reactions partly adapted from the Bottom RedOx Model, $\textrm{BROM}$ (Yakushev 2017).
 Biogeochemical model resolves only instant sinks and sources and then send increments to the transport model.
@@ -259,66 +259,67 @@ Sulfur cycle reaction rates will be discussed futher.
 ### Results and discussion
 
 
-To estimate the range of possible $\textrm{TA}$ production values in the Wadden Sea we simplified this comprehensive region with the 1-dimensional setup.
+To estimate the range of possible $\textrm{TA}$ production values in the Wadden Sea we simplified this comprehensive region with the 1-dimensional setup and have not included explicit tidal dynamics.
 Therefore at first, we will discuss the interpretation of the results presented below.
+
+The actual process of the sedimentary alkalinity generation in the coastal area as the Wadden Sea is split to the different stages depending on the tidal phase.
+$\textrm{TA}$ generation requires new organics and oxidizers which come with the tide, while during air exposure there are stagnant conditions in sediments (Beer 2005) which means no additional $\textrm{OM}$ and electron acceptors.
+Instead this dynamics for the sake of simplicity we have implemented a continuous advective mixing during a day within the sediments using the dispersion coefficient.
+It is reasonable simplification for the alkalinity generation estimation since:
+1) We are interested in the seasonal scales, tides affect hourly scales;
+2) There is always sufficient amount of sulfates available in the sediments (Al-Raei 2010) and $\textrm{OM}$ is the only limitor for the sulfate reduction - the main alkalinity generation driver in conditions of lack of other electron acceptors, which are quickly consumed in the uppermost layer of sediments and the $\textrm{BBL}$, but the amount of the $\textrm{OM}$ does not depend on tides and was determined according to (Beusekom 1999);
+3) Tides probably should redistribute the alkalinity generation according to the tidal phase, during stagnant conditions of low tide no oxygen inflows to sediments (Al-Raei 2010) what should enhance sulfate reduction and alkalinity generation consequently, but while incoming tide oxygen penetrate deeply into sediments (Beer 2005) which will inhibit sulfate reduction, here we assume these processes compensate each other.
+
 In the biogeochemical model we omit $\textrm{MnO}_2$ and  $\textrm{FeOOH}$ electron acceptors which are energetically more preferable then sulfate and can also oxidize sulfur compounds to sulfate.
 Both can cause overestimation of $\textrm{TA}$ generation since in the first case there will be less $\textrm{OM}$ for sulfate reduction and in the second oxidizing to sulfate will decrease $\textrm{TA}$ according to Eq. 1.
 Also, we have not included calcium participation and dissolution in our calculations.
+
 According to the goal of the study there are two quantities were calculated based on the local $\textrm{OM}$ production, additional external $\textrm{OM}$ input, and $\textrm{OM}$ degradation rates in the Wadden Sea: $\textrm{TA}$ on the $\textrm{SWI}$ fluxes and $\textrm{TA}$ concentrations increments in the water column (both without accounting calcium dissolution/participation and additional terrestrial inflow influence on the $\textrm{TA}$).
-Therefore the $\textrm{TA}$ fluxes can be considered as their maximum estimations, the $\textrm{TA}$ concentrations increments represent the maximum value of the accumulated alkalinity within a water mass.
+$\textrm{TA}$ fluxes can be considered as their maximum estimations, the $\textrm{TA}$ concentration increments represent the maximum value of the accumulated alkalinity within a water mass.
+The values on the Fig. 2 and Fig. 3 are reported for the case of porosity $\approx 0.45$ (Beer 2005).
 
 ```{python}
-vs.plot_alkalinity_flux_low()
+vs.plot_alkalinity_flux_low(); vs.plot_alkalinity_flux_high()
 ```
+
+**Figure 2.** Yearly profiles of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ of the Wadden Sea for the different advection regimes with the average porosity of the top 10 cm of sediments $\phi \approx 0.45$
+
+
+$\textrm{TA}$ fluxes on the $\textrm{SWI}$ increase with the dispersion coefficients values (Fig. 2), according to intuition more advective regimes correspond to higher fluxes of elements including compounds of $\textrm{TA}$.
+With the higher sulfate reduction rates, the outflux of alkalinity from sediments to the water column starts earlier approximately by one month.
 
 ```{python}
-vs.plot_alkalinity_flux_high()
+vs.plot_alkalinity_low(); vs.plot_alkalinity_high()
 ```
 
-**Figure 2.** Yearly profiles of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ of the Wadden Sea for the different advection regimes
+**Figure 3.** Yearly profiles of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model for the different advection regimes with the average porosity of the top 10 cm of sediments $\phi \approx 0.45$
 
 
-$\textrm{TA}$ fluxes on the $\textrm{SWI}$ increase with dispersion coefficiens values (Fig. 2), according to intuition more advective regimes correspond to higher fluxes of elements including compounds of $\textrm{TA}$.
-With the higher sulfate reduction rates the outflux of alkalinity from sediments to the water column starts yearlier approximately by one month.
+In general $\textrm{TA}$ increments also growth with the values of the dispersion coefficient (Fig. 3), except the border values with mostly diffusive and mostly advective regimes where this relation does not work, after the value of $kz_{dispersion} \approx 25 \cdot 10^{-9}$ the value of $\textrm{TA}$ maximum does not grow in the case of low sulfate reduction rates and grow very slightly in the case of high sulfate reduction rates. 
+The $\textrm{TA}$ increments calculated using the upper bound of sulfate reduction rates as it was observed for fluxes reach their maximum values earlier then increments calculated using the lower bound of sulfate reduction rates.
 
-```{python}
-vs.plot_alkalinity_low()
-```
-
-```{python}
-vs.plot_alkalinity_high()
-```
-
-**Figure 3.** Yearly profiles of the $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model for the different advection regimes
-
-
-In general $\textrm{TA}$ increments also growth with values of dispersion coefficient (Fig. 3), except the border values with mostly diffusive and mostly advective regimes where this relation does not work, after the value of $kz_{dispersion} \approx 25 \cdot 10^{-9}$ the value of $\textrm{TA}$ maximum does not grow in case of low sulfate reduction rates and grow very slightly in case of high sulfate reduction rates. 
-The $\textrm{TA}$ increments calculated using the upped bound of sulfate reduction rates as it was observed for fluxes reach their maximum values earlier then increments caculated using the lower bound of sulfare reduction rates.
-
-
-For both upper and lower bounds of sulfate reduction rates there is a time lag between maximum values of $\textrm{TA}$ fluxes and $\textrm{TA}$ increments which equals approximately 1.5 month.
+For both upper and lower bounds of sulfate reduction rates, there is a time lag of approximately 1.5 months between maximum values of $\textrm{TA}$ fluxes and $\textrm{TA}$ increments.
 The $\textrm{TA}$ increments represent the accumulated alkalinity and time of this accumulation should contribute to this delay gap.
-However only this accumulation can be responsible for this delay, we have positive alkalinity effluxes for the all time of calculatioins, but the $\textrm{TA}$ values in the water column decrease durin winter.
-There are the effluxes from the sediments of the other elements should be present along with alkalinity compound, and transformation of these elements change the alkalinity in the water column.
+However only this accumulation cannot be responsible for this delay, the alkalinity effluxes are positive for the all-time of calculations, although the $\textrm{TA}$ values in the water column decrease during winter.
+There are effluxes from the sediments of other elements not included in eq. 1 should be present along with alkalinity compounds, and transformation of these elements change the alkalinity in the water column.
 
-In our modelling we have sulfur compounds oxidation rates somewhat orbitrary determined according to the values from other work.
-So assume how it can influence to the our estimation of the upper bound.
-Let's consider 2 cases where there is the overestimated total rate of the sulfide to sulfate oxidation or there is the underestimated total rate of the sulfide to sulfate oxidation.
-In the first case with the less true total oxidation rate there is should be bigger flux of alkalinity out of the $\textrm{SWI}$ (which is in fact the flux of the sulfate into the $\textrm{SWI}$) and bigger corresponding fluxes of the sulfur intermediate compounds.
+In our modelling we have sulfur compounds oxidation rates somewhat orbitrary determined according to the values from another work (Yakushev 2017).
+So let's look at how it can influence our estimation of the upper bound.
+Consider 2 cases where there is the overestimated total rate of the sulfide to sulfate oxidation or there is the underestimated total rate of the sulfide to sulfate oxidation.
+*In the first case* with the less true total oxidation rate there is should be bigger flux of alkalinity out of the $\textrm{SWI}$ (which is in fact the flux of the sulfate into the $\textrm{SWI}$) and bigger corresponding fluxes of the sulfur intermediate compounds.
 The resulting delay gap between alkalinity flux and alkalinity shall be even larger since sulfur compounds are oxidized with the less rate, which is unlikely according to the measurements showing the maximum values of alkalinity are observed during summer and autumn.
-In the second case with the bigger true total oxidation rate the resulting fluxes of alkalinity shall be less itself what makes our uppen bound even more overestimated.
-Therefore our estimation of the upper bound of alkalinity fluxes and alkalinity values in the Wadden sea according to the reported total $\textrm{OM}$ input in this area, oxigen respiration in stagnant conditions upper bound, and the average depth of 2.5 m is consistent.
-
-The increase of dispersion coefficient do not nesessary increase a value of alkalinity in the water column.
-Changind vertical advection conditions redistribute priority of processes influence to the alkalinity distribution in the sediments and in the BBL.
+*In the second case* with the bigger true total oxidation rate the resulting fluxes of alkalinity shall be less itself what makes our uppen bound even more overestimated.
 
 ```{python}
-vs.plot_alkalinity_porosities()
+vs.plot_alkalinity_flux_porosities(); vs.plot_alkalinity_porosities()
 ```
 
-```{python}
-vs.plot_alkalinity_flux_porosities()
-```
+**Figure 4.** Yearly profiles of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ and $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model for the different porosities of the top 10 cm of sediments calculated with lower bound of sulfate reduction rates
+
+
+Therefore our estimation of the upper bound of the alkalinity fluxes on the $\textrm{SWI}$ and the accumulated alkalinity values in the Wadden sea based on the reported total $\textrm{OM}$ input in this area, oxygen respiration rates in stagnant conditions, the average depth of 2.5 m, average porosity of the upper 10 cm of sediments $\approx 0.45$, without accounting calcium dissolution/participation and additional terrestrial inflow influence should be relevant for the averaged year.
+Anyway, taking other values of any of these input parameters will result in other estimates.
+
 
 ### Appendix - the biogeochemical model description
 
