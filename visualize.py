@@ -332,7 +332,7 @@ def plot_alkalinity_flux_sulfur_oxidation():
     ax.set_ylabel('Flux', fontsize=16)
     ax.set_xlabel('Month', fontsize=16)
     # --- plot a legend in the best location
-    ax.legend(loc='best')
+    ax.legend(loc='upper left', title='Sulfur compounds oxidation rates')
     # --- add grid – not in default classic style
     ax.grid(True)
     # --- improve the layout
@@ -346,7 +346,7 @@ def plot_alkalinity_flux_sulfur_oxidation():
     ax1.set_ylabel('Delta', fontsize=16)
     ax1.set_xlabel('Month', fontsize=16)
     # --- plot a legend in the best location
-    ax1.legend(loc='best')
+    ax1.legend(loc='upper left', title='Sulfur compounds oxidation rates')
     # --- add grid – not in default classic style
     ax1.grid(True)
     fig.tight_layout(pad=1)
@@ -389,7 +389,7 @@ def plot_alkalinity_flux_porosities():
     ax.set_ylabel('Flux', fontsize=16)
     ax.set_xlabel('Month', fontsize=16)
     # --- plot a legend in the best location
-    ax.legend(loc='best')
+    ax.legend(loc='upper left', title='Different porosities')
     # --- add grid – not in default classic style
     ax.grid(True)
     # --- improve the layout
@@ -404,7 +404,7 @@ def plot_alkalinity_flux_porosities():
     ax1.set_ylabel('Delta', fontsize=16)
     ax1.set_xlabel('Month', fontsize=16)
     # --- plot a legend in the best location
-    ax1.legend(loc='best')
+    ax1.legend(loc='upper left', title='Different porosities')
     # --- add grid – not in default classic style
     ax1.grid(True)
     fig.tight_layout(pad=1)
