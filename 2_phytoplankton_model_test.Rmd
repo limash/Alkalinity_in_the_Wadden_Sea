@@ -24,7 +24,6 @@ import matplotlib.pyplot as plt
 import plot_functions as pf
 import pandas as pd
 import xarray as xr
-import lmfit as lf
 ```
 
 #### Open an initial dataset (observed values) from 1_generated in generate_the_Wadden_Sed.ipynb file
@@ -50,6 +49,7 @@ po4 = levelface['phosphate'].values[0:365].astype(np.float64)
 si = levelface['silicate'].values[0:365].astype(np.float64)
 o2 = levelface['oxygen'].values[0:365].astype(np.float64)
 chl_a = levelface['chl_a'].values[0:365].astype(np.float64)
+om_flux = levelface['om_flux'].values[0:365].astype(np.float64)
 irradiance = par*86400/1000000 # convertion microM per second to M per day
 ```
 
@@ -79,6 +79,12 @@ plt.xlabel('Day'); plt.ylabel('PAR');
 ```{python}
 plt.plot(ox, chl_a); plt.gcf().set_size_inches(10, 2);
 plt.title('Chl a, $mg\,Chl\,a\,m^{-3}$');
+plt.xlabel('Day'); plt.ylabel('Chl a');
+```
+
+```{python}
+plt.plot(ox, om_flux); plt.gcf().set_size_inches(10, 2);
+plt.title('OM influx, $mg\,Chl\,a\,m^{-3}\,sec^{-1}$');
 plt.xlabel('Day'); plt.ylabel('Chl a');
 ```
 
@@ -410,6 +416,38 @@ PhyC_array = c_from_ratio(chl_a=chl_a, temperature=temperature,
 ```{python}
 plt.plot(ox,PhyC_array); plt.gcf().set_size_inches(10,2);
 plt.title('Phytoplankton'); plt.xlabel('days'); plt.ylabel('Phy, $mg\,C\,m^{-3}$');
+```
+
+####  Porosities
+
+```{python}
+def porosity(z, z_swi, phi_swi, phi_inf):
+    k_phi = 0.04
+    k = -(z-z_swi)/k_phi
+    return (phi_inf+(phi_swi-phi_inf)*np.exp(k))
+```
+
+```{python}
+porosity(2.505, 2.5, 0.75, 0.25)
+```
+
+```{python}
+z = np.linspace(2.505, 2.595, 10)
+```
+
+```{python}
+phi_inf_array = np.arange(0.05, 0.36, 0.01)
+```
+
+```{python}
+phi_swi_array = np.arange(0.45, 0.86, 0.01)
+```
+
+```{python}
+for phi_swi in phi_swi_array:
+    for phi_inf in phi_inf_array:
+        if (0.432 < sum(porosity(z, 2.5, phi_swi, phi_inf))/10 < 0.434):
+            print(phi_swi, phi_inf)
 ```
 
 ```{python}
