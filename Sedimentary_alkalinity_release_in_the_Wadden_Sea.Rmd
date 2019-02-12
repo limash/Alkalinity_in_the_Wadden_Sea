@@ -284,7 +284,7 @@ Also, we have not included calcium participation and dissolution in our calculat
 According to the goal of the study there are two quantities were calculated based on the local $\textrm{OM}$ production, additional external $\textrm{OM}$ input, and $\textrm{OM}$ degradation rates in the Wadden Sea: $\textrm{TA}$ on the $\textrm{SWI}$ fluxes and accumulated $\textrm{TA}$ concentrations increments in the water column (Fig. 2, both without accounting calcium dissolution/participation and additional terrestrial inflow influence on the $\textrm{TA}$).
 $\textrm{TA}$ fluxes on the $\textrm{SWI}$ increase with the dispersion coefficients values, according to intuition more advective regimes correspond to higher fluxes of elements including compounds of $\textrm{TA}$.
 With the higher sulfate reduction rates, the outflux of alkalinity from sediments to the water column starts earlier approximately by one month. 
-In general $\textrm{TA}$ increments also growth with the values of the dispersion coefficient, except the border values with mostly diffusive and mostly advective regimes where this relation does not work, after the value of $kz_{dispersion} \approx 25 \cdot 10^{-9}$ the value of $\textrm{TA}$ maximum does not grow in the case of low sulfate reduction rates and grow very slightly in the case of high sulfate reduction rates. 
+In general $\textrm{TA}$ increments also growth with the values of the dispersion coefficient, except the border values with mostly diffusive and mostly advective regimes where this relation does not work, after the value of $kz_{dispersion} \approx 25 \cdot 10^{-9}$ the value of $\textrm{TA}$ maximum does not grow in the case of low sulfate reduction rates and grows very slightly in the case of high sulfate reduction rates. 
 The $\textrm{TA}$ increments calculated using the upper bound of sulfate reduction rates as it was observed for fluxes reach their maximum values earlier then increments calculated using the lower bound of sulfate reduction rates.
 Notice that higher $\textrm{TA}$ fluxes values do not always result in higher $\textrm{TA}$ increments. 
 
@@ -310,8 +310,8 @@ Decreasing the rates resulted in decreasing accumulated $\textrm{TA}$ yearly max
 It does not help us to establish the general behaviour of the dependency of alkalinity increments on the sulfur compounds oxidizing rates, but shows that this dependency in general does not monotonic, though apparently it is monotonic among the values between 'regular' and 'high' cases.
 The concentrations of $\textrm{S}_2\textrm{O}_3^{2-}$ and $\textrm{S}^{0}$ in the simulation corresponding to 'regular' line in Fig. 3 are about $\approx 1 - 2 \ \textrm{mM S m}^{-3}$, what is somehow higher than typical values of these parameters for the aerated water column (Findlay 2017, Yakushev 2007).
 The actual sulfur compounds oxidizing rates are likely to be higher than we have implied for the 'regular' case. Therefore the 'regular case' overestimates $\textrm{TA}$ on the $\textrm{SWI}$ fluxes and $\textrm{TA}$ concentrations increments in the water column.
-With different sulfur compounds oxidation rates there are different $\textrm{TA}$ fluxes and increments, moreover different $\textrm{TA}$ fluxes can lead to similar $\textrm{TA}$ increments and similar $\textrm{TA}$ fluxes can lead to different $\textrm{TA}$ increments.
-The functional dependence of $\textrm{TA}$ increment on $\textrm{TA}$ flux is non-linear and non-monotonic for different sulfur compounds oxidation rates.
+With different sulfur compounds oxidation rates there are different $\textrm{TA}$ fluxes and increments.
+Interestingly, 'regular' and 'low' cases (Fig. 3) has the very similar fluxes, but the different corresponding alkalinity increments.
 
 ```{python}
 vs.plot_alkalinity_flux_sulfur_oxidation();
@@ -325,9 +325,14 @@ The porosity $\phi$ in the model is implemented as an exponentially decreasing f
 It depends on two parameters: the $\textrm{SWI}$ porosity (the upper bound) and the porosity of the 'infinite depth' layer (the lower bound).
 The porosities values of the surface sediments in the Wadden Sea according to the measurements (Jensen 1996, Beer 2005) varying from 0.32 to 0.58 with the most porous media in the uppermost layer of sediments.
 We do not know the actual distribution of porosities through the sediments, as well as we do not know the exact values of porosity on the top of sediments and in the 'infinite depth' layer.
-The $\textrm{TA}$ fluxes and increments for the base case were calculated with porosity of the surface layer = 0.75 and porosity of the 'infinite depth' layer = 0.25 which correspond to the value of $\phi \approx 0.43$ in the upper 10 cm of sediments (roughly the average value of the all porosity values were found in literature, Jensen 1996, Beer 2005), but there are other values of the $\textrm{SWI}$ porosity and the porosity of the 'infinite depth' layer correspond that $\phi$ value.
+The $\textrm{TA}$ fluxes and increments for the base case were calculated with porosity of the surface layer = 0.75 and porosity of the 'infinite depth' layer = 0.25 which correspond to the value of $\phi \approx 0.43$ in the upper 10 cm of sediments (roughly the average value of the all porosity values were found in literature, Jensen 1996, Beer 2005), but there are other values of the $\textrm{SWI}$ porosity and the porosity of the 'infinite depth' layer correspond to that $\phi$ value.
 Therefore let's look how different the $\textrm{SWI}$ porosity and the porosity of the 'infinite depth' layer combinations can influence on the resulting $\textrm{TA}$ profiles.
 In the Fig. 4 there are different $\textrm{TA}$ fluxes on the $\textrm{SWI}$ and $\textrm{TA}$ increments in the surface layer of the model calculated for the different porosities ranges: with the varying $\textrm{SWI}$ porosity, with the varying 'infinite depth' layer porosity, and some of their combinations correspond to $\phi \approx 0.43$.
+Alkalinity fluxes and alkalinity increments do not monotonically increase/decrease with the increasing porosity on the $\textrm{SWI}$ within the entire time range.
+The same is true for the varying 'infinite depth' layer porosity.
+Comparing 85-25 and 75-25 porosity ranges the smaller alkalinity fluxes in case of 85-25 range correspond to the higher alkalinity increments.
+In general variations of $\textrm{TA}$ increments with respect to porosity changes are higher than $\textrm{TA}$ fluxes variations.
+Also varying the upper bound ($\textrm{SWI}$ porosity) causes bigger changes of alkalinity than varying the lower bound ('infinite depth' layer porosity).
 
 ```{python}
 vs.plot_alkalinity_flux_porosities();vs.plot_alkalinity_flux_porosities_2();vs.plot_alkalinity_flux_porosities_3()
@@ -336,7 +341,19 @@ vs.plot_alkalinity_flux_porosities();vs.plot_alkalinity_flux_porosities_2();vs.p
 **Figure 4.** Yearly profiles of the $\textrm{TA}$ fluxes on the $\textrm{SWI}$ and $\textrm{TA}$ increments (actual value minus yearly minimum value) in the surface layer of the model for the different porosities of the top 10 cm of sediments calculated with the lower bound of sulfate reduction rates and $kz_{dispersion} = 10 \cdot 10^{-9}$ 
 
 
-Thus $\textrm{TA}$ fluxes and the accumulated $\textrm{TA}$ concentration increments can be considered as their maximum estimations both without accounting calcium dissolution/participation and additional terrestrial inflow influence on the $\textrm{TA}$ and taking into account all conditions mentioned in the Methods section.
+Thus analyzing resulting $\textrm{TA}$ fluxes and the accumulated $\textrm{TA}$ concentration increments (both without accounting calcium dissolution/participation and additional terrestrial inflow influence on the $\textrm{TA}$ and taking into account all conditions mentioned in the Methods section) we can do the several observations:
+  * Higher alkalinity fluxes on the $\textrm{SWI}$ do not always result in higher corresponding alkalinity increase in the water column.
+    It apparently can be important when measuring the alkalinity fluxes in the different points, in general, there are different biogeochemical processes (and also rates of these processes) in the different points, therefore similar alkalinity fluxes on the $\textrm{SWI}$ do not inevitably result in similar alkalinity generation in the water column.
+    Even with the same biogeochemical processes and their rates higher (lower) alkalinity fluxes on the $\textrm{SWI}$ do not always correspond to the higher (lower) alkalinity increments in the water column (Fig. 2).
+  * For the alkalinity accumulated in the water column calculations it is more important to know the porosity of the uppermost layer (porosity on the $\textrm{SWI}$), then the averaged porosity of the sediments.
+    Also the very close values of $\textrm{TA}$ fluxes corresponding to the different porosities can result in the very different values of $\textrm{TA}$ increments in the water column.
+  * For the 'low sulfate reduction rate' case the highest alkalinity fluxes $\approx 34\ \textrm{mM m}^{-2}\ \textrm{d}^{-1}$ in the end of July with $kz_{dispersion} = 35 \cdot 10^{-9} m^2 s^{-1}$.
+    Apparently there are more advective regimes possible in the Wadden Sea (according to Neumann (2017) up to $kz_{dispersion} = 2500 \cdot 10^{-9} m^2 s^{-1}$ in the German Bight), but with our biogeochemistry parametrization larger alkalinity fluxes do not result in alkalinity generation in the water column and we have not extended the range of dispersion coefficients any further.
+    Also according to Fig. 2, the functional dependence of alkalinity fluxes on dispersion coefficients in summer is roughly logarithmical, therefore it should increase very slowly with the higher $ks_{dispersion}$ coefficients.
+    These calculated alkalinity fluxes represent the averaged daily alkalinity fluxes and were derived using the assumptions are more likely to overestimate these fluxes than underestimate them.
+  * For the 'low sulfate reduction rate' case the highest alkalinity increments approximately are from 170 to 180 $\textrm{mM m}^{-3}$ in the end of August - September with $kz_{dispersion}$ coefficients from $25 \cdot 10^{-9}$ to $35 \cdot 10^{-9} m^2 s^{-1}$.
+    These alkalinity increments are represent the accumulated alkalinity within the water volume with accounting on mixing respect to phosphates, ammonium, and nitrates, but without respect to sulfates.
+    Therefore it represents the maximum $\textrm{TA}$ concentrations can be generated by the Wadden Sea accounting for the all mentioned assumptions during a season (as an istance of an idealistic case when a water volume moves along the area with the highest vertical advection regime in sediments ($kz_{dispersion} = 35 \cdot 10^{-9} m^2 s^{-1}$) during the all season and absorbes the remaining from the local $\textrm{OM}$ decomposition nutrients).
 
 
 ### Appendix - the biogeochemical model description
