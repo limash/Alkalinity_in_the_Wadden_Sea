@@ -528,4 +528,124 @@ def plot_alkalinity_flux_porosities_3():
     ax1.grid(True)
     fig.tight_layout(pad=1)
 
+def plot_alk_sulfur_fluxes():
+    import xarray as xr
 
+    ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
+    ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
+    ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/4_po75-25_di5e-9/water.nc')
+    ds4 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+
+    alkflux_bottom_july = []
+    nh4flux_bottom_july = []
+    no2flux_bottom_july = []
+    no3flux_bottom_july = []
+    po4flux_bottom_july = []
+    so4flux_bottom_july = []
+
+    alk_mean = []
+    nh4_mean = []
+    no2_mean = []
+    no3_mean = []
+    po4_mean = []
+    so4_mean = []
+
+    i = 0
+    for ds in (ds1, ds2, ds3, ds4):
+        alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
+        nh4flux_df = ds['B_NUT_NH4 _flux'].to_dataframe()
+        no2flux_df = ds['B_NUT_NO2 _flux'].to_dataframe()
+        no3flux_df = ds['B_NUT_NO3 _flux'].to_dataframe()
+        po4flux_df = ds['B_NUT_PO4 _flux'].to_dataframe()
+        so4flux_df = ds['B_S_SO4   _flux'].to_dataframe()
+
+        alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5)
+        nh4flux_bottom = nh4flux_df.groupby('z_faces').get_group(2.5)
+        no2flux_bottom = no2flux_df.groupby('z_faces').get_group(2.5)
+        no3flux_bottom = no3flux_df.groupby('z_faces').get_group(2.5)
+        po4flux_bottom = po4flux_df.groupby('z_faces').get_group(2.5)
+        so4flux_bottom = so4flux_df.groupby('z_faces').get_group(2.5)
+
+        alkflux_bottom_july.append(alkflux_bottom.loc['2011-07-01':'2011-08-01'])
+        nh4flux_bottom_july.append(nh4flux_bottom.loc['2011-07-01':'2011-08-01'])
+        no2flux_bottom_july.append(no2flux_bottom.loc['2011-07-01':'2011-08-01'])
+        no3flux_bottom_july.append(no3flux_bottom.loc['2011-07-01':'2011-08-01'])
+        po4flux_bottom_july.append(po4flux_bottom.loc['2011-07-01':'2011-08-01'])
+        so4flux_bottom_july.append(so4flux_bottom.loc['2011-07-01':'2011-08-01'])
+
+        alkflux_bottom_july[i] = alkflux_bottom_july[i].reset_index()
+        nh4flux_bottom_july[i] = nh4flux_bottom_july[i].reset_index()
+        no2flux_bottom_july[i] = no2flux_bottom_july[i].reset_index()
+        no3flux_bottom_july[i] = no3flux_bottom_july[i].reset_index()
+        po4flux_bottom_july[i] = po4flux_bottom_july[i].reset_index()
+        so4flux_bottom_july[i] = so4flux_bottom_july[i].reset_index()
+
+        alk_mean.append(alkflux_bottom_july[i]['B_C_Alk   _flux'].mean())
+        nh4_mean.append(nh4flux_bottom_july[i]['B_NUT_NH4 _flux'].mean())
+        no2_mean.append(no2flux_bottom_july[i]['B_NUT_NO2 _flux'].mean())
+        no3_mean.append(no3flux_bottom_july[i]['B_NUT_NO3 _flux'].mean())
+        po4_mean.append(po4flux_bottom_july[i]['B_NUT_PO4 _flux'].mean())
+        so4_mean.append(so4flux_bottom_july[i]['B_S_SO4   _flux'].mean())
+
+        i += 1
+
+    alk = np.array(alk_mean)
+    nh4 = np.array(nh4_mean)
+    no2 = np.array(no2_mean)
+    no3 = np.array(no3_mean)
+    po4 = np.array(po4_mean)
+    so4 = np.array(so4_mean)
+
+    h2s__flux_bottom_july = []
+    s0___flux_bottom_july = []
+    s2o3_flux_bottom_july = []
+
+    h2s__mean = []
+    s0___mean = []
+    s2o3_mean = []
+
+    i = 0
+    for ds in (ds1, ds2, ds3, ds4):
+        h2s__flux_df = ds['B_S_S0    _flux'].to_dataframe()
+        s0___flux_df = ds['B_S_H2S   _flux'].to_dataframe()
+        s2o3_flux_df = ds['B_S_S2O3  _flux'].to_dataframe()
+
+        h2s__flux_bottom = h2s__flux_df.groupby('z_faces').get_group(2.5)
+        s0___flux_bottom = s0___flux_df.groupby('z_faces').get_group(2.5)
+        s2o3_flux_bottom = s2o3_flux_df.groupby('z_faces').get_group(2.5)
+
+        h2s__flux_bottom_july.append(h2s__flux_bottom.loc['2011-07-01':'2011-08-01'])
+        s0___flux_bottom_july.append(s0___flux_bottom.loc['2011-07-01':'2011-08-01'])
+        s2o3_flux_bottom_july.append(s2o3_flux_bottom.loc['2011-07-01':'2011-08-01'])
+
+        h2s__flux_bottom_july[i] = h2s__flux_bottom_july[i].reset_index()
+        s0___flux_bottom_july[i] = s0___flux_bottom_july[i].reset_index()
+        s2o3_flux_bottom_july[i] = s2o3_flux_bottom_july[i].reset_index()
+
+        h2s__mean.append(h2s__flux_bottom_july[i]['B_S_S0    _flux'].mean())
+        s0___mean.append(s0___flux_bottom_july[i]['B_S_H2S   _flux'].mean())
+        s2o3_mean.append(s2o3_flux_bottom_july[i]['B_S_S2O3  _flux'].mean())
+
+        i += 1
+
+    h2s = np.array(h2s__mean)
+    s0 = np.array(s0___mean)
+    s2o3 = np.array(s2o3_mean)
+
+    alk_calc = nh4-no2-no3-po4-2*so4
+    s_total = h2s + s0 + s2o3
+    x = np.array([1e-9, 2e-9, 5e-9, 10e-9])
+
+    plt.style.use('classic')
+    fig = plt.figure(figsize=(5, 3))
+    ax = fig.add_subplot(1, 1, 1) # row-col-num
+    ax.plot(x, alk_calc, linewidth=2, label=r'alkalinity flux')
+    ax.plot(x, s_total, linewidth=2, label=r'sulfur flux')
+    # --- add title and axis labels
+    ax.set_title('Fluxes')
+    ax.set_ylabel('Flux', fontsize=16)
+    ax.set_xlabel('Dispersion coefficient', fontsize=16)
+    # --- plot a legend in the best location
+    ax.legend(loc='upper left', title='Fluxes')
+    # --- add grid – not in default classic style
+    ax.grid(True)

@@ -365,6 +365,9 @@ Thus considering the calculated daily average $\textrm{TA}$ fluxes on the $\text
   * The destribution of porosity can be an important factor for the alkalinity measurements, our simulations show that with the same average porosity of the top $10\ \textrm{cm}$ of sediments and similar alkalinity fluxes on the $\textrm{SWI}$ the resulting alkalinity increments in the water column can be completely different. 
     For the alkalinity accumulated in the water column it is more important to know the porosity of the uppermost layer (porosity on the $\textrm{SWI}$), then the averaged porosity of the sediments.
 
+```{python}
+vs.plot_alk_sulfur_fluxes()
+```
 
 We have not included calcium carbonates dissolution/participation into our calculations.
 Beukema (1982) estimated the production of calcareous shells in the Wadden Sea $\approx 1\ \textrm{M}\ \textrm{CaCO}_{3}\ \textrm{m}^{-2} \textrm{year}^{-1} = 2.73\ \textrm{mM}\ \textrm{CaCO}_{3}\ \textrm{m}^{-2} \textrm{day}^{-1}$.
