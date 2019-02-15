@@ -639,7 +639,7 @@ def plot_alk_sulfur_fluxes():
     plt.style.use('classic')
     fig = plt.figure(figsize=(5, 3))
     ax = fig.add_subplot(1, 1, 1) # row-col-num
-    ax.plot(x, alk_calc, linewidth=2, label=r'alkalinity flux')
+    ax.plot(x, alk, linewidth=2, label=r'alkalinity flux')
     ax.plot(x, s_total, linewidth=2, label=r'sulfur flux')
     # --- add title and axis labels
     ax.set_title('Fluxes')

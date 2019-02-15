@@ -347,7 +347,7 @@ vs.plot_alkalinity_flux_porosities();vs.plot_alkalinity_flux_porosities_2();vs.p
 
 Thus considering the calculated daily average $\textrm{TA}$ fluxes on the $\textrm{SWI}$ and the corresponding accumulated $\textrm{TA}$ concentration increments in the Wadden Sea for the 'low sulfate reduction rate' case without accounting calcium dissolution/participation and additional terrestrial inflow influence on the $\textrm{TA}$, taking into account all conditions mentioned in the Methods section:
   * The highest alkalinity flux $\approx 34\ \textrm{mM m}^{-2}\ \textrm{d}^{-1}$ in the end of July with $kz_{dispersion} = 35 \cdot 10^{-9} \textrm{m}^2 \textrm{s}^{-1}$.
-    Apparently there is more extensive advective pore water exchange in the Wadden Sea sediments possible (according to Neumann (2017) up to $kz_{dispersion} = 2500 \cdot 10^{-9} \textrm{m}^2 \textrm{s}^{-1}$ in the German Bight), but in our calculations larger alkalinity fluxes do not result in alkalinity generation in the water column and we have not extended the range of dispersion coefficients any further.
+    Apparently there is more extensive advective pore water exchange in the Wadden Sea sediments possible (according to Neumann (2017) up to $kz_{dispersion} = 2500 \cdot 10^{-9} \textrm{m}^2 \textrm{s}^{-1}$ in the German Bight), but in our calculations larger alkalinity fluxes do not result in alkalinity generation in the water column and we have not extended the range of the dispersion coefficients any further.
     Also, the functional dependence of alkalinity fluxes on dispersion coefficients in summer is roughly logarithmical (Fig. 2), therefore it should increase very slowly with the higher $ks_{dispersion}$ coefficients.
   * The highest alkalinity increments $\approx 170 - 180\ \textrm{mM m}^{-3}$ in the end of August - September with $kz_{dispersion}$ coefficients from $25 \cdot 10^{-9}$ to $35 \cdot 10^{-9}\ \textrm{m}^2 \textrm{s}^{-1}$.
     These alkalinity increments represent the accumulated alkalinity within the water volume with accounting on mixing respect to phosphates, ammonium, and nitrates, but without respect to sulfates.
@@ -357,17 +357,24 @@ Thus considering the calculated daily average $\textrm{TA}$ fluxes on the $\text
     Revise that the alkalinity flux is in fact the flux of the following compounds $\delta [\textrm{TA}] = \delta [\textrm{NH}_4^+] - \delta [\textrm{NO}_2^-] - \delta [\textrm{NO}_3^-] - \delta [\textrm{PO}_4^{3-}] - 2\delta [\textrm{SO}_4^{2-}]$.
     Thus it is upward(+) from the sediments with the upward flux of $\textrm{NH}_4^+$ and the downward(-) fluxes of $\textrm{NO}_2^-$, $\textrm{NO}_3^-$, $\textrm{PO}_4^{3-}$, and $\textrm{SO}_4^{2-}$.
     Indeed, for an instance for the case $kz_{dispersion} = 10 \cdot 10^{-9} \textrm{m}^2 \textrm{s}^{-1}$ in July (see Fig. 2 'low sulfate reduction rate') the $\textrm{TA}$ flux $\approx +18\ \textrm{mM m}^{-2}\ \textrm{d}^{-1}$, the corresponding $\textrm{NH}_4^+$ flux $\approx +2\ \textrm{mM m}^{-2}\ \textrm{d}^{-1}$, the $\textrm{NO}_2^-$, $\textrm{NO}_3^-$, $\textrm{PO}_4^{3-}$ fluxes $\approx 0\ \textrm{mM m}^{-2}\ \textrm{d}^{-1}$, and $\textrm{SO}_4^{2-}$ flux $\approx -8\ \textrm{mM m}^{-2}\ \textrm{d}^{-1}$.
-    The quotas of the contributions of these compartment can change the resulting alkalinity in the water column, as an instance increase of the $\textrm{NH}_4^+$ flux should decrease $\textrm{TA}$ since it will be either consumed by primary producers or oxidized to $\textrm{NO}_3^-$.
-    Anyway in our calculations the quotas of the alkalinity compounds do not change crucially with different dispersion coefficients, $\textrm{SO}_4^{2-}$ flux contribute $\approx 0.9$ and $\textrm{NH}_4^+$ flux $\approx 0.1$ to the total $\textrm{TA}$ flux for the any advective regime.
-    If there is a strong flux of sulfate to the sediments, there should be a strong flux of the reduced sulfur compounds backwards, which oxidizing to sulfate will reduce alkalinity in the water column.
+    The quotas of these compartments contributions can change the resulting alkalinity in the water column, for example an increase of the $\textrm{NH}_4^+$ flux quota should decrease $\textrm{TA}$ in the water column since $\textrm{NH}_4^+$ will be either consumed by primary producers or oxidized to $\textrm{NO}_3^-$.
+    In our calculations the quotas of the alkalinity compounds do not change significantly with different dispersion coefficients, $\textrm{SO}_4^{2-}$ flux contribute $\approx 0.9$ and $\textrm{NH}_4^+$ flux $\approx 0.1$ to the total $\textrm{TA}$ flux for the any advective regime.
+    If there is a strong flux of sulfates to the sediments, there should be a strong flux of the reduced sulfur compounds backwards, which oxidizing to sulfate will reduce alkalinity in the water column.
     Indeed, the modelling shows this flux.
-    The ratio of the $\textrm{TA}$ flux to the reduced sulfur compounds ($[\textrm{S}_2\textrm{O}_3^{2-}] + [\textrm{S}^{0}] + [\textrm{H}_2\textrm{S}]$) flux should determine the resulting $\textrm{TA}$ increase in the water column.
+    Therefore the ratio of the $\textrm{TA}$ flux to the reduced sulfur compounds ($[\textrm{S}_2\textrm{O}_3^{2-}] + [\textrm{S}^{0}] + [\textrm{H}_2\textrm{S}]$) flux should determine the resulting $\textrm{TA}$ change in the water column.
+    Roughly if $\textrm{TA}$ flux prevails (with a multiplier 0.9 in our simulation to neglect an $\textrm{NH}_4^+$ compound which as marked before will not increase the resulting alkalinity in the water column) over the reduced sulfur compounds flux than $\textrm{TA}$ in the water column will increase, otherwise if the reduced sulfur compounds flux prevails (with a multiplier 2 according to Eq. 1) the $\textrm{TA}$ in the water column will decrease.
+    In our modelling, we have these rations changing with different dispersion coefficients.
+    See $\textrm{TA}$ and the reduced sulfur componds fluxes on the $\textrm{SWI}$ corresponding to different dispersion coefficients (Fig. 5).
+    
   * The destribution of porosity can be an important factor for the alkalinity measurements, our simulations show that with the same average porosity of the top $10\ \textrm{cm}$ of sediments and similar alkalinity fluxes on the $\textrm{SWI}$ the resulting alkalinity increments in the water column can be completely different. 
     For the alkalinity accumulated in the water column it is more important to know the porosity of the uppermost layer (porosity on the $\textrm{SWI}$), then the averaged porosity of the sediments.
 
 ```{python}
 vs.plot_alk_sulfur_fluxes()
 ```
+
+**Figure 5.** $\textrm{TA}$ and the reduced sulfur compounds fluxes on the $\textrm{SWI}$ with the lower bound of sulfate reduction rates for the different dispersion coefficients
+
 
 We have not included calcium carbonates dissolution/participation into our calculations.
 Beukema (1982) estimated the production of calcareous shells in the Wadden Sea $\approx 1\ \textrm{M}\ \textrm{CaCO}_{3}\ \textrm{m}^{-2} \textrm{year}^{-1} = 2.73\ \textrm{mM}\ \textrm{CaCO}_{3}\ \textrm{m}^{-2} \textrm{day}^{-1}$.
