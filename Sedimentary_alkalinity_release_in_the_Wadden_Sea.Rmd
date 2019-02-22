@@ -364,8 +364,9 @@ Thus considering the calculated daily average $\textrm{TA}$ fluxes on the $\text
     Therefore the ratio of the $\textrm{TA}$ flux to the reduced sulfur compounds ($[\textrm{S}_2\textrm{O}_3^{2-}] + [\textrm{S}^{0}] + [\textrm{H}_2\textrm{S}]$) flux should determine the resulting $\textrm{TA}$ change in the water column.
     Roughly if $\textrm{TA}$ flux prevails (with a multiplier 0.9 in our simulation to neglect an $\textrm{NH}_4^+$ compound which as marked before will not increase the resulting alkalinity in the water column) over the reduced sulfur compounds flux than $\textrm{TA}$ in the water column will increase, otherwise if the reduced sulfur compounds flux prevails (with a multiplier 2 according to Eq. 1) the $\textrm{TA}$ in the water column will decrease.
     In our modelling, we have these rations changing with different dispersion coefficients.
-    See $\textrm{TA}$ and the reduced sulfur componds fluxes on the $\textrm{SWI}$ corresponding to different dispersion coefficients (Fig. 5).
-    
+    See $\textrm{TA}$ and the reduced sulfur compounds fluxes on the $\textrm{SWI}$ in July calculated corresponding to different dispersion coefficients (Fig. 5).
+    With $kz_{dispersion} = 0.1 \cdot 10^{-8}$ the reduced sulfur compounds flux compesate the alkalinity flux, but with $kz_{dispersion} = 1 \cdot 10^{-8}$ alkalinity flux prevails.
+    Indeed, on Fig. 2 we see $\textrm{TA}$ increment increase with the $\textrm{TA}$ flux from the $kz_{dispersion} = 1 \cdot 10^{-8}$.
   * The destribution of porosity can be an important factor for the alkalinity measurements, our simulations show that with the same average porosity of the top $10\ \textrm{cm}$ of sediments and similar alkalinity fluxes on the $\textrm{SWI}$ the resulting alkalinity increments in the water column can be completely different. 
     For the alkalinity accumulated in the water column it is more important to know the porosity of the uppermost layer (porosity on the $\textrm{SWI}$), then the averaged porosity of the sediments.
 
@@ -373,7 +374,7 @@ Thus considering the calculated daily average $\textrm{TA}$ fluxes on the $\text
 vs.plot_alk_sulfur_fluxes()
 ```
 
-**Figure 5.** $\textrm{TA}$ and the reduced sulfur compounds fluxes on the $\textrm{SWI}$ with the lower bound of sulfate reduction rates for the different dispersion coefficients
+**Figure 5.** Average $\textrm{TA}$ and the reduced sulfur compounds fluxes on the $\textrm{SWI}$ in July with the lower bound of sulfate reduction rates for the different dispersion coefficients
 
 
 We have not included calcium carbonates dissolution/participation into our calculations.
