@@ -452,8 +452,10 @@ for phi_swi in phi_swi_array:
 ds = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
 alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
 biogrow_df = ds['B_BIO_GrowthPhy'].to_dataframe()
+omresp_df  = ds['B_BIO_DcPOC_O2'].to_dataframe()
 alk_df     = ds['B_C_Alk'].to_dataframe()
 alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5)
+omresp_bottom  = omresp_df.groupby('z').get_group(2.4749999046325684)
 biogrow_surfac = biogrow_df.groupby('z').get_group(0.625)
 alk_surface    = alk_df.groupby('z').get_group(0.625)
 alk_surface_year = alk_surface.loc['2011-01-01':'2011-12-31']
@@ -472,50 +474,46 @@ year_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 ```{python}
 alk_year = []
 bio_year = []
+res_year = []
 for month in year:
     alk_month = alkflux_bottom.loc[month[0]:month[1]]
     bio_month = biogrow_surfac.loc[month[0]:month[1]]
+    res_month =  omresp_bottom.loc[month[0]:month[1]]
     alk_year.append(alk_month['B_C_Alk   _flux'].mean())
     bio_year.append(bio_month['B_BIO_GrowthPhy'].mean())
+    res_year.append(res_month['B_BIO_DcPOC_O2'].mean())
 ```
 
 ```{python}
 bio_year_quotas = bio_year/sum(bio_year)
 alk_year_quotas = alk_year/sum(alk_year)
+res_year_quotas = res_year/sum(res_year)
 ```
 
 ```{python}
-alk_year_quotas
+caco3_precipitation = bio_year_quotas*1000/year_days #mM
+caco3_precipitation
 ```
 
 ```{python}
-bio_year_quotas
-```
-
-```{python}
-caco3_participation = bio_year_quotas*1000/year_days #mM
-caco3_participation
-```
-
-```{python}
-caco3_dissolution = alk_year_quotas*1000/year_days
+caco3_dissolution = res_year_quotas*1000/year_days
 caco3_dissolution
 ```
 
 ```{python}
-caco3_flux = caco3_participation - caco3_dissolution
+ca_flux = caco3_dissolution - caco3_precipitation
 ```
 
 ```{python}
-caco3_flux
+ca_flux
 ```
 
 ```{python}
-caco3_array = np.array(caco3_flux)/2.5*2
+ca_array = np.array(ca_flux)/2.5*2
 ```
 
 ```{python}
-caco3_array
+ca_array
 ```
 
 ```{python}
@@ -525,11 +523,13 @@ alkflux_bottom_year = alkflux_bottom.loc['2011-01-01':'2011-12-31']
 alkflux_bottom_year = alkflux_bottom_year.reset_index()
 ```
 
+#### Calculate a total increment of Ca$^{2+}$ concentration changes due to fluxes previously estimated
+
 ```{python}
 calpart = np.zeros(365)
 day = 0
 last_entry = 0
-for month, increment in zip(year_days, caco3_array):
+for month, increment in zip(year_days, ca_array):
     temp = np.linspace(last_entry+increment, last_entry+increment*month, num=month)
     calpart[day:day+month] = temp
     last_entry = temp[-1]
@@ -545,6 +545,14 @@ for month, increment in zip(year_days, caco3_dissolution):
 ```
 
 ```{python}
+caco3_pre = np.zeros(365)
+day = 0
+for month, increment in zip(year_days, caco3_precipitation):
+    caco3_pre[day:day+month] = increment
+    day += month
+```
+
+```{python}
 result_array = alk_array + calpart
 ```
 
@@ -553,7 +561,22 @@ import matplotlib.dates as mdates
 
 plt.style.use('classic')
 fig = plt.figure(figsize=(14, 4))
-ax = fig.add_subplot(1, 2, 1) # row-col-num
+ax1 = fig.add_subplot(1, 2, 1) # row-col-num
+ax1.xaxis_date()
+ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+ax1.plot(alk_surface_year['time'], caco3_dis*2, linewidth=2, label=r'CaCO$_3$ dissolution')
+ax1.plot(alk_surface_year['time'], caco3_pre*2, linewidth=2, label=r'CaCO$_3$ precipitation')
+ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label=r'modelled')
+ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label=r'CaCO$_3$ + modelled')
+# --- add title and axis labels
+#ax.set_title('Alkalinity fluxes')
+ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
+#ax.set_xlabel('Month', fontsize=16)
+# --- plot a legend in the best location
+ax1.legend(loc='upper left', title='Alkalinity sources')
+# --- add grid – not in default classic style
+ax1.grid(True)
+ax = fig.add_subplot(1, 2, 2) # row-col-num
 ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'CaCO$_3$')
 ax.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'modelled')
@@ -567,20 +590,6 @@ ax.legend(loc='upper left', title='Alkalinity sources')
 # --- add grid – not in default classic style
 ax.grid(True)
 
-ax1 = fig.add_subplot(1, 2, 2) # row-col-num
-ax1.xaxis_date()
-ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-ax1.plot(alk_surface_year['time'], caco3_dis*2, linewidth=2, label=r'CaCO$_3$')
-ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label=r'modelled')
-ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label=r'CaCO$_3$ + modelled')
-# --- add title and axis labels
-#ax.set_title('Alkalinity fluxes')
-ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
-#ax.set_xlabel('Month', fontsize=16)
-# --- plot a legend in the best location
-ax1.legend(loc='upper left', title='Alkalinity sources')
-# --- add grid – not in default classic style
-ax1.grid(True)
 fig.tight_layout(pad=1)
 ```
 
