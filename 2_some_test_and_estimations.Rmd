@@ -573,7 +573,7 @@ ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _f
 ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
 #ax.set_xlabel('Month', fontsize=16)
 # --- plot a legend in the best location
-ax1.legend(loc='upper left', title='Alkalinity sources')
+ax1.legend(loc='upper left', title='Alkalinity fluxes')
 # --- add grid – not in default classic style
 ax1.grid(True)
 ax = fig.add_subplot(1, 2, 2) # row-col-num
@@ -586,7 +586,7 @@ ax.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2
 ax.set_ylabel('TA increment, mmol m$^{-3}$', fontsize=16)
 #ax.set_xlabel('Month', fontsize=16)
 # --- plot a legend in the best location
-ax.legend(loc='upper left', title='Alkalinity sources')
+ax.legend(loc='upper left', title='Alkalinity increments')
 # --- add grid – not in default classic style
 ax.grid(True)
 
