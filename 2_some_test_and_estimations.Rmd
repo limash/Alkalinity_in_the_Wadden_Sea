@@ -472,22 +472,30 @@ year_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 ```
 
 ```{python}
+year_acc_days = np.cumsum(year_days)
+year_acc_days
+```
+
+```{python}
+alk_year_delta = []
 alk_year = []
 bio_year = []
 res_year = []
 for month in year:
+    alk_delta_month = alk_surface.loc[month[0]:month[1]]
     alk_month = alkflux_bottom.loc[month[0]:month[1]]
     bio_month = biogrow_surfac.loc[month[0]:month[1]]
     res_month =  omresp_bottom.loc[month[0]:month[1]]
+    alk_year_delta.append(alk_delta_month['B_C_Alk'][0])
     alk_year.append(alk_month['B_C_Alk   _flux'].mean())
     bio_year.append(bio_month['B_BIO_GrowthPhy'].mean())
     res_year.append(res_month['B_BIO_DcPOC_O2'].mean())
 ```
 
 ```{python}
-bio_year_quotas = bio_year/sum(bio_year)
-alk_year_quotas = alk_year/sum(alk_year)
-res_year_quotas = res_year/sum(res_year)
+bio_year_quotas = np.array(bio_year)/sum(bio_year)
+alk_year_quotas = np.array(alk_year)/sum(alk_year)
+res_year_quotas = np.array(res_year)/sum(res_year)
 ```
 
 ```{python}
@@ -591,6 +599,178 @@ ax.legend(loc='upper left', title='Alkalinity increments')
 ax.grid(True)
 
 fig.tight_layout(pad=1)
+```
+
+```{python}
+ca_array
+```
+
+```{python}
+ca_array_monthly = ca_array*year_days
+ca_array_monthly
+```
+
+```{python}
+alk_array = np.array(alk_year_delta)
+```
+
+```{python}
+alk_array = alk_array - alk_array.min()
+alk_array
+```
+
+#### Alkalinity fluxes quotas
+
+```{python}
+ds = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
+nh4flux_df = ds['B_NUT_NH4 _flux'].to_dataframe()
+no2flux_df = ds['B_NUT_NO2 _flux'].to_dataframe()
+no3flux_df = ds['B_NUT_NO3 _flux'].to_dataframe()
+po4flux_df = ds['B_NUT_PO4 _flux'].to_dataframe()
+so4flux_df = ds['B_S_SO4   _flux'].to_dataframe()
+alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5)
+nh4flux_bottom = nh4flux_df.groupby('z_faces').get_group(2.5)
+no2flux_bottom = no2flux_df.groupby('z_faces').get_group(2.5)
+no3flux_bottom = no3flux_df.groupby('z_faces').get_group(2.5)
+po4flux_bottom = po4flux_df.groupby('z_faces').get_group(2.5)
+so4flux_bottom = so4flux_df.groupby('z_faces').get_group(2.5)
+```
+
+```{python}
+year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'), 
+        ('2011-05-01','2011-05-31'), ('2011-06-01','2011-06-30'), ('2011-07-01','2011-07-31'), ('2011-08-01','2011-08-31'),
+        ('2011-09-01','2011-09-30'), ('2011-10-01','2011-10-31'), ('2011-11-01','2011-11-30'), ('2011-12-01','2011-12-31'))
+```
+
+```{python}
+year_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+```
+
+```{python}
+alk_year = []
+nh4_year = []
+no2_year = []
+no3_year = []
+po4_year = []
+so4_year = []
+for month in year:
+    alk_month = alkflux_bottom.loc[month[0]:month[1]]
+    nh4_month = nh4flux_bottom.loc[month[0]:month[1]]
+    no2_month = no2flux_bottom.loc[month[0]:month[1]]
+    no3_month = no3flux_bottom.loc[month[0]:month[1]]
+    po4_month = po4flux_bottom.loc[month[0]:month[1]]
+    so4_month = so4flux_bottom.loc[month[0]:month[1]]
+    alk_year.append(alk_month['B_C_Alk   _flux'].mean())
+    nh4_year.append(nh4_month['B_NUT_NH4 _flux'].mean())
+    no2_year.append(no2_month['B_NUT_NO2 _flux'].mean())
+    no3_year.append(no3_month['B_NUT_NO3 _flux'].mean())
+    po4_year.append(po4_month['B_NUT_PO4 _flux'].mean())
+    so4_year.append(so4_month['B_S_SO4   _flux'].mean())
+```
+
+```{python}
+nh4 = np.array(nh4_year)
+no2 = np.array(no2_year)
+no3 = np.array(no3_year)
+po4 = np.array(po4_year)
+so4 = np.array(so4_year)
+```
+
+```{python}
+all_components = nh4-no2-no3-po4-2*so4
+```
+
+```{python}
+nh4_quota = nh4/all_components
+nh4_quota
+```
+
+```{python}
+no2_quota = -no2/all_components
+no2_quota
+```
+
+```{python}
+no3_quota = -no3/all_components
+no3_quota
+```
+
+```{python}
+po4_quota = -po4/all_components
+po4_quota
+```
+
+```{python}
+so4_quota = -so4*2/all_components
+so4_quota
+```
+
+```{python}
+nh4_quota+no2_quota+no3_quota+po4_quota+so4_quota
+```
+
+#### Alkalinity to reduced sulfur compounds fluxes quotas
+
+```{python}
+ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
+ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
+```
+
+```{python}
+ds = ds2    
+
+alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
+h2s__flux_df = ds['B_S_H2S   _flux'].to_dataframe()
+s0___flux_df = ds['B_S_S0    _flux'].to_dataframe()
+s2o3_flux_df = ds['B_S_S2O3  _flux'].to_dataframe()
+
+alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5)
+h2sflux_bottom  = h2s__flux_df.groupby('z_faces').get_group(2.5)
+s0flux_bottom   = s0___flux_df.groupby('z_faces').get_group(2.5)
+s2o3flux_bottom = s2o3_flux_df.groupby('z_faces').get_group(2.5)
+```
+
+```{python}
+year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'), 
+        ('2011-05-01','2011-05-31'), ('2011-06-01','2011-06-30'), ('2011-07-01','2011-07-31'), ('2011-08-01','2011-08-31'),
+        ('2011-09-01','2011-09-30'), ('2011-10-01','2011-10-31'), ('2011-11-01','2011-11-30'), ('2011-12-01','2011-12-31'))
+```
+
+```{python}
+alk_year = []
+h2s_year = []
+s0_year = []
+s2o3_year = []
+for month in year:
+    alk_month = alkflux_bottom.loc[month[0]:month[1]]
+    h2s_month = h2sflux_bottom.loc[month[0]:month[1]]
+    s0_month = s0flux_bottom.loc[month[0]:month[1]]
+    s2o3_month = s2o3flux_bottom.loc[month[0]:month[1]]
+    alk_year.append(alk_month['B_C_Alk   _flux'].mean())
+    h2s_year.append(h2s_month['B_S_H2S   _flux'].mean())
+    s0_year.append(s0_month['B_S_S0    _flux'].mean())
+    s2o3_year.append(s2o3_month['B_S_S2O3  _flux'].mean())
+```
+
+```{python}
+alk = np.array(alk_year)
+h2s = np.array(h2s_year)
+s0 = np.array(s0_year)
+s2o3 = np.array(s2o3_year)
+```
+
+```{python}
+s_total = h2s + s0 + s2o3
+```
+
+```{python}
+alk*so4_quota
+```
+
+```{python}
+s_total*2
 ```
 
 ```{python}
