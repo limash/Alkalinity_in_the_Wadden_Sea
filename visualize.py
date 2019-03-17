@@ -262,9 +262,9 @@ def plot_alkalinity_flux_sulfur_oxidation():
         ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n][alkflux_var], linewidth=lnw, label=labels[n])
         ax1.plot(alk_year[n]['time'], alk_year[n][alk_var], linewidth=lnw,label=labels[n])
     
-    ax.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=lgndsz)
+    ax.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
     ax.set_title('Flux',fontsize = fntsz)
-    ax1.set_ylabel(' mmol m$^{-3}$', fontsize=lgndsz) 
+    ax1.set_ylabel(' mmol m$^{-3}$', fontsize=fntsz) 
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
     
     labels = ('(A) ','(B)')
@@ -326,12 +326,12 @@ def plot_alkalinity_flux_porosities1_2_3():
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 
     for axis in [ax,ax_2,ax_3]:      
-        axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=lgndsz)
+        axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
         axis.legend(loc='best', title='Porosities', fontsize=lgndsz) 
         axis.set_ylim(2,23)
 
     for axis in [ax1,ax1_2,ax1_3]:
-        axis.set_ylabel('mmol m$^{-3}$', fontsize=lgndsz)
+        axis.set_ylabel('mmol m$^{-3}$', fontsize=fntsz)
         axis.set_ylim(0,210)
     ax.set_title('Flux', fontsize=fntsz)
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
