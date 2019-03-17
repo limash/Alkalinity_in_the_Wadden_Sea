@@ -12,6 +12,7 @@
 #     language: python
 #     name: python3
 # ---
+
 import xarray as xr
 import numpy as np # imports a fast numerical programming library
 import matplotlib.pyplot as plt #sets up plotting under plt
@@ -144,11 +145,11 @@ def plotTA(biogeodata):
     ax.legend(fontsize = 14,loc = 'upper left')
     plt.ylabel('Total Alkalinity, $ \mu M$')
     plt.show()
+
 def plot_intro():
     north7 = pd.read_csv("HafniaDataNorth7Shamil.csv")
     north7 = treatbiogeodata(north7)
-    fig = plotTA(north7)
-
+    plotTA(north7)
 
 def get_data_time(dtsts):
     strt ='2011-01-01'
@@ -217,7 +218,6 @@ def plot_alkalinity_flux_low_high():
     ax.set_title('Low sulfate reduction', fontsize=fntsz)
     ax1.set_title('High sulfate reduction', fontsize=fntsz)
 
-
     ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
     ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
 
@@ -235,7 +235,6 @@ def plot_alkalinity_flux_low_high():
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
                  fontsize=14, fontweight='bold', va='top', ha='right')
 
-
     fig.tight_layout(pad=1)
     plt.show()
 
@@ -248,8 +247,12 @@ def plot_alkalinity_flux_sulfur_oxidation():
     alk_year,alkflux_bottom_year = get_data_time([ds0, ds1, ds2])
 
     fig = plt.figure(figsize=(14, 4))
+    x_text = 0.97
+    y_text = 0.98
     ax = fig.add_subplot(1, 2, 1) # row-col-num
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    ax.text(x_text, y_text, '(A)', transform=ax.transAxes,
+             fontsize=14, fontweight='bold', va='top', ha='right')
     ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'high')
     ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'low')
     ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'regular')
@@ -264,12 +267,14 @@ def plot_alkalinity_flux_sulfur_oxidation():
     # --- improve the layout
     ax1 = fig.add_subplot(1, 2, 2) # row-col-num
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    ax1.text(x_text, y_text, '(B)', transform=ax1.transAxes,
+             fontsize=14, fontweight='bold', va='top', ha='right')
     ax1.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'high')
     ax1.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'low')
     ax1.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'regular')
     # --- add title and axis labels
     #ax1.set_title('Alkalinity')
-    ax1.set_ylabel('TA increment, mmol m$^{-3}$', fontsize=16)
+    ax1.set_ylabel('Reative TA, mmol m$^{-3}$', fontsize=16)
 
     # --- plot a legend in the best location
     ax1.legend(loc='upper left', title='Sulfur compounds oxidation rates')
