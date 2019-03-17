@@ -20,6 +20,7 @@ import matplotlib.dates as mdates
 import pandas as pd #lets us handle data as dataframes
 from datetime import datetime
 import seaborn as sns #sets up styles and gives us more plotting options
+sns.set()
 
 #sets up pandas table display
 pd.set_option('display.width', 500)
@@ -29,8 +30,8 @@ pd.options.mode.chained_assignment = None
 font = {'family' : 'normal',
         'weight' : 'bold',
         'size'   : 22}
-rc('font', **font)
-sns.set()
+#rc('font', **font)
+
 
 
 def addseason(datestring):
@@ -141,154 +142,117 @@ def plotTA(biogeodata):
         item.set_fontsize(15)
     ax.legend(fontsize = 14,loc = 'upper left')
     plt.ylabel('Total Alkalinity, $ \mu M$')
-
+    plt.show()
 def plot_intro():
     north7 = pd.read_csv("HafniaDataNorth7Shamil.csv")
     north7 = treatbiogeodata(north7)
     fig = plotTA(north7)
 
-def plot_alkalinity_flux_low():
+
+
+
+def plot_alkalinity_flux_low_high():
     import xarray as xr
-    
-    ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
-    ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
-    ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/4_po75-25_di5e-9/water.nc')
-    ds4 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
-    ds5 = xr.open_dataset('data/low_sulfate_reduction_rate/6_po75-25_di15e-9/water.nc')
-    ds6 = xr.open_dataset('data/low_sulfate_reduction_rate/7_po75-25_di20e-9/water.nc')
-    ds7 = xr.open_dataset('data/low_sulfate_reduction_rate/8_po75-25_di25e-9/water.nc')
-    ds8 = xr.open_dataset('data/low_sulfate_reduction_rate/9_po75-25_di30e-9/water.nc')
-    ds9 = xr.open_dataset('data/low_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
-    
+    base_path = 'data/low_sulfate_reduction_rate'
+    ds1 = xr.open_dataset('{}/2_po75-25_di1e-9/water.nc'.format(base_path))
+    ds2 = xr.open_dataset('{}/3_po75-25_di2e-9/water.nc'.format(base_path))
+    ds3 = xr.open_dataset('{}/4_po75-25_di5e-9/water.nc'.format(base_path))
+    ds4 = xr.open_dataset('{}/5_po75-25_di10e-9/water.nc'.format(base_path))
+    ds5 = xr.open_dataset('{}/6_po75-25_di15e-9/water.nc'.format(base_path))
+    ds6 = xr.open_dataset('{}/7_po75-25_di20e-9/water.nc'.format(base_path))
+    ds7 = xr.open_dataset('{}/8_po75-25_di25e-9/water.nc'.format(base_path))
+    ds8 = xr.open_dataset('{}/9_po75-25_di30e-9/water.nc'.format(base_path))
+    ds9 = xr.open_dataset('{}/10_po75-25_di35e-9/water.nc'.format(base_path))
+
+    ds1_high = xr.open_dataset('data/high_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
+    ds2_high = xr.open_dataset('data/high_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
+    ds3_high = xr.open_dataset('data/high_sulfate_reduction_rate/4_po75-25_di5e-9/water.nc')
+    ds4_high = xr.open_dataset('data/high_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+    ds5_high = xr.open_dataset('data/high_sulfate_reduction_rate/6_po75-25_di15e-9/water.nc')
+    ds6_high = xr.open_dataset('data/high_sulfate_reduction_rate/7_po75-25_di20e-9/water.nc')
+    ds7_high = xr.open_dataset('data/high_sulfate_reduction_rate/8_po75-25_di25e-9/water.nc')
+    ds8_high = xr.open_dataset('data/high_sulfate_reduction_rate/9_po75-25_di30e-9/water.nc')
+    ds9_high = xr.open_dataset('data/high_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
+
+    strt ='2011-01-01'
+    stp = '2011-12-31'
     alk_year = []
     alkflux_bottom_year = []
-    
-    i = 0
-    for ds in (ds1, ds2, ds3, ds4, ds5, ds6, ds7, ds8, ds9):#, ds10, ds11, ds12, ds13):
+
+    for i,ds in enumerate((ds1, ds2, ds3, ds4, ds5, ds6, ds7, ds8, ds9),start = 0):#, ds10, ds11, ds12, ds13):
         alk_df = ds['B_C_Alk'].to_dataframe()
         alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
-        alk = alk_df.groupby('z').get_group(0.625)
-        alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5)
-        alk_year.append(alk.loc['2011-01-01':'2011-12-31'])
-        alkflux_bottom_year.append(alkflux_bottom.loc['2011-01-01':'2011-12-31'])
+        alk = alk_df.groupby('z').get_group(0.625).reset_index('z',drop = True)
+        alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop = True)
+        #alkflux_bottom = alkflux_bottom.reset_index('z_faces',drop = True)
+
+        alk_year.append(alk[strt:stp])
+        alkflux_bottom_year.append(alkflux_bottom[strt:stp])
         alk_year[i] = alk_year[i].reset_index()
         alkflux_bottom_year[i] = alkflux_bottom_year[i].reset_index()
         alk_year[i]['B_C_Alk'] = alk_year[i]['B_C_Alk']-alk_year[i]['B_C_Alk'].min()
-        i += 1
-    plt.style.use('classic')
-    fig = plt.figure(figsize=(14, 4))
-    ax = fig.add_subplot(1, 2, 1) # row-col-num
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'$1e-9$')
-    ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'$2e-9$')
-    ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'$5e-9$')
-    ax.plot(alkflux_bottom_year[3]['time'], alkflux_bottom_year[3]['B_C_Alk   _flux'], linewidth=2, label=r'$10e-9$')
-    ax.plot(alkflux_bottom_year[4]['time'], alkflux_bottom_year[4]['B_C_Alk   _flux'], linewidth=2, label=r'$15e-9$')
-    ax.plot(alkflux_bottom_year[5]['time'], alkflux_bottom_year[5]['B_C_Alk   _flux'], linewidth=2, label=r'$20e-9$')
-    ax.plot(alkflux_bottom_year[6]['time'], alkflux_bottom_year[6]['B_C_Alk   _flux'], linewidth=2, label=r'$25e-9$')
-    ax.plot(alkflux_bottom_year[7]['time'], alkflux_bottom_year[7]['B_C_Alk   _flux'], linewidth=2, label=r'$30e-9$')
-    ax.plot(alkflux_bottom_year[8]['time'], alkflux_bottom_year[8]['B_C_Alk   _flux'], linewidth=2, label=r'$35e-9$')
-    
+
+   
+    alk_year_high, alkflux_bottom_year_high = [],[]
+    for i,ds_high in enumerate((ds1_high, ds2_high, ds3_high, ds4_high, ds5_high, ds6_high, ds7_high, ds8_high, ds9_high),start = 0):
+        alk_df = ds_high['B_C_Alk'].to_dataframe()
+        alkflux_df = ds_high['B_C_Alk   _flux'].to_dataframe()
+        alk_high = alk_df.groupby('z').get_group(0.625).reset_index('z',drop=True)
+        alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop=True)
+        alk_year_high.append(alk_high[strt:stp])
+        alkflux_bottom_year_high.append(alkflux_bottom[strt:stp])
+        alk_year_high[i] = alk_year_high[i].reset_index()
+        alkflux_bottom_year_high[i] = alkflux_bottom_year_high[i].reset_index()
+        alk_year_high[i]['B_C_Alk'] = alk_year_high[i]['B_C_Alk']-alk_year_high[i]['B_C_Alk'].min()
+
+
+    fig = plt.figure(figsize=(14, 8))
+    ax = fig.add_subplot(2, 2, 1) # row-col-num
+    ax1 = fig.add_subplot(2, 2, 2) # row-col-num
+    ax_2 = fig.add_subplot(2, 2, 3) # row-col-num
+    ax_3 = fig.add_subplot(2, 2, 4) # row-col-num
+    lnw = 1.5
+    labels = [r'$1e-9$',r'$2e-9$',r'$5e-9$',r'$10e-9$',r'$15e-9$',r'$20e-9$',r'$25e-9$',r'$30e-9$',r'$35e-9$']
+
+    for n in range(0,9):
+        ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n]['B_C_Alk   _flux'], linewidth=lnw, label=labels[n])
+        ax_2.plot(alkflux_bottom_year_high[n]['time'], alkflux_bottom_year_high[n]['B_C_Alk   _flux'], linewidth=lnw, label=labels[n])
+        #ax.plot(alk_year[n]['time'], alk_year[n]['B_C_Alk'], linewidth=2, label=labels[n])
+        ax1.plot(alk_year[n]['time'], alk_year[n]['B_C_Alk'], linewidth=2, label=labels[n])
+        ax_3.plot(alk_year_high[n]['time'], alk_year_high[n]['B_C_Alk'], linewidth=2, label=labels[n])
+
+ 
     # --- add title and axis labels
     ax.set_title('Low sulfate reduction')
     ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
-    #ax.set_xlabel('Month', fontsize=16)
-    # --- plot a legend in the best location
-    ax.legend(loc='lower left', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')
-    # --- add grid – not in default classic style
-    ax.grid(True)
-    # --- improve the layout
-    ax1 = fig.add_subplot(1, 2, 2) # row-col-num
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax1.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'$1e-9$')
-    ax1.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'$2e-9$')
-    ax1.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'$5e-9$')
-    ax1.plot(alk_year[3]['time'], alk_year[3]['B_C_Alk'], linewidth=2, label=r'$10e-9$')
-    ax1.plot(alk_year[4]['time'], alk_year[4]['B_C_Alk'], linewidth=2, label=r'$15e-9$')
-    ax1.plot(alk_year[5]['time'], alk_year[5]['B_C_Alk'], linewidth=2, label=r'$20e-9$')
-    ax1.plot(alk_year[6]['time'], alk_year[6]['B_C_Alk'], linewidth=2, label=r'$25e-9$')
-    ax1.plot(alk_year[7]['time'], alk_year[7]['B_C_Alk'], linewidth=2, label=r'$30e-9$')
-    ax1.plot(alk_year[8]['time'], alk_year[8]['B_C_Alk'], linewidth=2, label=r'$35e-9$')
-    # --- add title and axis labels
+  
+
     ax1.set_title('Low sulfate reduction')
     ax1.set_ylabel('TA increment, mmol m$^{-3}$', fontsize=16)
-    #ax1.set_xlabel('Month', fontsize=16)
-    # --- plot a legend in the best location
-    ax1.legend(loc='lower left', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')
-    # --- add grid – not in default classic style
-    ax1.grid(True)
-    fig.tight_layout(pad=1)
 
-def plot_alkalinity_flux_high():
-    import xarray as xr
-    
-    ds1 = xr.open_dataset('data/high_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
-    ds2 = xr.open_dataset('data/high_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
-    ds3 = xr.open_dataset('data/high_sulfate_reduction_rate/4_po75-25_di5e-9/water.nc')
-    ds4 = xr.open_dataset('data/high_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
-    ds5 = xr.open_dataset('data/high_sulfate_reduction_rate/6_po75-25_di15e-9/water.nc')
-    ds6 = xr.open_dataset('data/high_sulfate_reduction_rate/7_po75-25_di20e-9/water.nc')
-    ds7 = xr.open_dataset('data/high_sulfate_reduction_rate/8_po75-25_di25e-9/water.nc')
-    ds8 = xr.open_dataset('data/high_sulfate_reduction_rate/9_po75-25_di30e-9/water.nc')
-    ds9 = xr.open_dataset('data/high_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
-    
-    alk_year = []
-    alkflux_bottom_year = []
-    
-    i = 0
-    for ds in (ds1, ds2, ds3, ds4, ds5, ds6, ds7, ds8, ds9):#, ds10, ds11, ds12, ds13):
-        alk_df = ds['B_C_Alk'].to_dataframe()
-        alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
-        alk = alk_df.groupby('z').get_group(0.625)
-        alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5)
-        alk_year.append(alk.loc['2011-01-01':'2011-12-31'])
-        alkflux_bottom_year.append(alkflux_bottom.loc['2011-01-01':'2011-12-31'])
-        alk_year[i] = alk_year[i].reset_index()
-        alkflux_bottom_year[i] = alkflux_bottom_year[i].reset_index()
-        alk_year[i]['B_C_Alk'] = alk_year[i]['B_C_Alk']-alk_year[i]['B_C_Alk'].min()
-        i += 1
-    plt.style.use('classic')
-    fig = plt.figure(figsize=(14, 4))
-    ax = fig.add_subplot(1, 2, 1) # row-col-num
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'$1e-9$')
-    ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'$2e-9$')
-    ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'$5e-9$')
-    ax.plot(alkflux_bottom_year[3]['time'], alkflux_bottom_year[3]['B_C_Alk   _flux'], linewidth=2, label=r'$10e-9$')
-    ax.plot(alkflux_bottom_year[4]['time'], alkflux_bottom_year[4]['B_C_Alk   _flux'], linewidth=2, label=r'$15e-9$')
-    ax.plot(alkflux_bottom_year[5]['time'], alkflux_bottom_year[5]['B_C_Alk   _flux'], linewidth=2, label=r'$20e-9$')
-    ax.plot(alkflux_bottom_year[6]['time'], alkflux_bottom_year[6]['B_C_Alk   _flux'], linewidth=2, label=r'$25e-9$')
-    ax.plot(alkflux_bottom_year[7]['time'], alkflux_bottom_year[7]['B_C_Alk   _flux'], linewidth=2, label=r'$30e-9$')
-    ax.plot(alkflux_bottom_year[8]['time'], alkflux_bottom_year[8]['B_C_Alk   _flux'], linewidth=2, label=r'$35e-9$')
-    # --- add title and axis labels
-    ax.set_title('High sulfate reduction')
-    ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
+    ax.legend(loc='best', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')
+    #ax_2.legend(loc='best', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')   
+    #ax_3.legend(loc='best', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')
+
+
+    # --- add title and ax_2is labels
+    ax_2.set_title('High sulfate reduction')
+    ax_2.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
     #ax.set_xlabel('Month', fontsize=16)
-    # --- plot a legend in the best location
-    ax.legend(loc='lower left', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')
-    # --- add grid – not in default classic style
-    ax.grid(True)
-    # --- improve the layout
-    ax1 = fig.add_subplot(1, 2, 2) # row-col-num
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax1.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'$1e-9$')
-    ax1.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'$2e-9$')
-    ax1.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'$5e-9$')
-    ax1.plot(alk_year[3]['time'], alk_year[3]['B_C_Alk'], linewidth=2, label=r'$10e-9$')
-    ax1.plot(alk_year[4]['time'], alk_year[4]['B_C_Alk'], linewidth=2, label=r'$15e-9$')
-    ax1.plot(alk_year[5]['time'], alk_year[5]['B_C_Alk'], linewidth=2, label=r'$20e-9$')
-    ax1.plot(alk_year[6]['time'], alk_year[6]['B_C_Alk'], linewidth=2, label=r'$25e-9$')
-    ax1.plot(alk_year[7]['time'], alk_year[7]['B_C_Alk'], linewidth=2, label=r'$30e-9$')
-    ax1.plot(alk_year[8]['time'], alk_year[8]['B_C_Alk'], linewidth=2, label=r'$35e-9$')
+
+    # --- improve the layout   
+    for axis in (ax,ax1,ax_2,ax_3):
+        axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+
     # --- add title and axis labels
-    ax1.set_title('High sulfate reduction')
-    ax1.set_ylabel('TA increment, mmol m$^{-3}$', fontsize=16)
-    #ax1.set_xlabel('Month', fontsize=16)
-    # --- plot a legend in the best location
-    ax1.legend(loc='lower left', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')
-    # --- add grid – not in default classic style
-    ax1.grid(True)
+    ax_3.set_title('High sulfate reduction')
+    ax_3.set_ylabel('TA increment, mmol m$^{-3}$', fontsize=16)
+
+
     fig.tight_layout(pad=1)
+    plt.show()
+
+plot_alkalinity_flux_low_high()
 
 def plot_alkalinity_flux_sulfur_oxidation():
     import xarray as xr
