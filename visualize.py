@@ -19,6 +19,7 @@ from matplotlib import rc
 import matplotlib.dates as mdates
 import pandas as pd #lets us handle data as dataframes
 from datetime import datetime
+import matplotlib as mpl
 import seaborn as sns #sets up styles and gives us more plotting options
 sns.set()
 from pandas.plotting import register_matplotlib_converters
@@ -33,7 +34,15 @@ font = {'family' : 'normal',
         'size'   : 22}
 #rc('font', **font)
 
-
+lnw = 1.5
+fntsz = 16
+lgndsz = 13
+mpl.rcParams['xtick.labelsize'] = lgndsz
+mpl.rcParams['ytick.labelsize'] = lgndsz
+strt ='2011-01-01'
+stp = '2011-12-31'
+x_text = 0.97
+y_text = 0.98
 
 def addseason(datestring):
     item = datetime.strptime(datestring,"%Y-%m-%d %H:%M:%S")
@@ -141,7 +150,7 @@ def plotTA(biogeodata):
     for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
              ax.get_xticklabels() + ax.get_yticklabels()):
         item.set_fontsize(15)
-    ax.legend(fontsize = 14,loc = 'upper left')
+    ax.legend(loc = 'upper left',fontsize = lgndsz)
     plt.ylabel('Total Alkalinity, $ \mu M$')
     plt.show()
 def plot_intro():
@@ -149,16 +158,15 @@ def plot_intro():
     north7 = treatbiogeodata(north7)
     fig = plotTA(north7)
 
-
+alk_var = 'B_C_Alk'
+alkflux_var = 'B_C_Alk   _flux'
 def get_data_time(dtsts):
-    strt ='2011-01-01'
-    stp = '2011-12-31'
-    alk_year = []
-    alkflux_bottom_year = []
+
+    alk_year,alkflux_bottom_year  = [], []
 
     for i,ds in enumerate((dtsts),start = 0):
-        alk_df = ds['B_C_Alk'].to_dataframe()
-        alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
+        alk_df = ds[alk_var].to_dataframe()
+        alkflux_df = ds[alkflux_var].to_dataframe()
         alk = alk_df.groupby('z').get_group(0.625).reset_index('z',drop = True)
         alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop = True)
 
@@ -166,7 +174,7 @@ def get_data_time(dtsts):
         alkflux_bottom_year.append(alkflux_bottom[strt:stp])
         alk_year[i] = alk_year[i].reset_index()
         alkflux_bottom_year[i] = alkflux_bottom_year[i].reset_index()
-        alk_year[i]['B_C_Alk'] = alk_year[i]['B_C_Alk']-alk_year[i]['B_C_Alk'].min()
+        alk_year[i][alk_var] = alk_year[i][alk_var]-alk_year[i][alk_var].min()
 
     return alk_year,alkflux_bottom_year    
 
@@ -202,21 +210,18 @@ def plot_alkalinity_flux_low_high():
     ax_2 = fig.add_subplot(2, 2, 3) # row-col-num
     ax_3 = fig.add_subplot(2, 2, 4) # row-col-num
 
-    lnw = 1.5
-    fntsz = 16
     labels = [r'$1e-9$',r'$2e-9$',r'$5e-9$',r'$10e-9$',r'$15e-9$',r'$20e-9$',r'$25e-9$',r'$30e-9$',r'$35e-9$']
 
     for n in range(0,9):
-        ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n]['B_C_Alk   _flux'], linewidth=lnw, label=labels[n])
-        ax1.plot(alkflux_bottom_year_high[n]['time'], alkflux_bottom_year_high[n]['B_C_Alk   _flux'], linewidth=lnw, label=labels[n])
+        ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n][alkflux_var], linewidth=lnw, label=labels[n])
+        ax1.plot(alkflux_bottom_year_high[n]['time'], alkflux_bottom_year_high[n][alkflux_var], linewidth=lnw, label=labels[n])
 
-        ax_2.plot(alk_year[n]['time'], alk_year[n]['B_C_Alk'], linewidth=2, label=labels[n])
-        ax_3.plot(alk_year_high[n]['time'], alk_year_high[n]['B_C_Alk'], linewidth=2, label=labels[n])
+        ax_2.plot(alk_year[n]['time'], alk_year[n][alk_var], linewidth=lnw, label=labels[n])
+        ax_3.plot(alk_year_high[n]['time'], alk_year_high[n][alk_var], linewidth=lnw, label=labels[n])
 
     # --- add title and axis labels
     ax.set_title('Low sulfate reduction', fontsize=fntsz)
     ax1.set_title('High sulfate reduction', fontsize=fntsz)
-
 
     ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
     ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
@@ -224,17 +229,14 @@ def plot_alkalinity_flux_low_high():
     ax_2.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax_3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
 
-    ax.legend(loc='best', title='$kz_{dispersion}$, m$^2$ s$^{-1}$')
-    x_text = 0.97
-    y_text = 0.98
+    ax.legend(loc='best', title='$kz_{dispersion}$, m$^2$ s$^{-1}$',fontsize = lgndsz)
     
     labels = ('(A) ','(B)','(C) ','(D)')
     # --- improve the layout   
     for i,axis in enumerate((ax,ax1,ax_2,ax_3)):
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
-                 fontsize=14, fontweight='bold', va='top', ha='right')
-
+                 fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
     fig.tight_layout(pad=1)
     plt.show()
@@ -249,31 +251,25 @@ def plot_alkalinity_flux_sulfur_oxidation():
 
     fig = plt.figure(figsize=(14, 4))
     ax = fig.add_subplot(1, 2, 1) # row-col-num
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax.plot(alkflux_bottom_year[0]['time'], alkflux_bottom_year[0]['B_C_Alk   _flux'], linewidth=2, label=r'high')
-    ax.plot(alkflux_bottom_year[1]['time'], alkflux_bottom_year[1]['B_C_Alk   _flux'], linewidth=2, label=r'low')
-    ax.plot(alkflux_bottom_year[2]['time'], alkflux_bottom_year[2]['B_C_Alk   _flux'], linewidth=2, label=r'regular')
+    ax1 = fig.add_subplot(1, 2, 2) # row-col-num   
+ 
+    labels = ['high','low','regular']
+    for n in range(0,3):
+        ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n][alkflux_var], linewidth=lnw, label=labels[n])
+        ax1.plot(alk_year[n]['time'], alk_year[n][alk_var], linewidth=lnw,label=labels[n])
     
-    # --- add title and axis labels
-    #ax.set_title('Alkalinity fluxes')
-    ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
+    ax.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=lgndsz)
+    ax.set_title('Flux',fontsize = fntsz)
+    ax1.set_ylabel(' mmol m$^{-3}$', fontsize=lgndsz) 
+    ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
+    
+    labels = ('(A) ','(B)')
+    for i,axis in enumerate((ax,ax1)):
+        axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
+                 fontsize=fntsz, fontweight='bold', va='top', ha='right')
+        axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 
-    # --- plot a legend in the best location
-    ax.legend(loc='upper left', title='Sulfur compounds oxidation rates')
-
-    # --- improve the layout
-    ax1 = fig.add_subplot(1, 2, 2) # row-col-num
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax1.plot(alk_year[0]['time'], alk_year[0]['B_C_Alk'], linewidth=2, label=r'high')
-    ax1.plot(alk_year[1]['time'], alk_year[1]['B_C_Alk'], linewidth=2, label=r'low')
-    ax1.plot(alk_year[2]['time'], alk_year[2]['B_C_Alk'], linewidth=2, label=r'regular')
-    # --- add title and axis labels
-    #ax1.set_title('Alkalinity')
-    ax1.set_ylabel('TA increment, mmol m$^{-3}$', fontsize=16)
-
-    # --- plot a legend in the best location
-    ax1.legend(loc='upper left', title='Sulfur compounds oxidation rates')
-
+    ax.legend(loc='upper left', title='Sulfur compounds oxidation rates',fontsize = lgndsz)
     fig.tight_layout(pad=1)
     plt.show()
 
@@ -310,45 +306,41 @@ def plot_alkalinity_flux_porosities1_2_3():
     labels = ('45-25','55-25','65-25','75-25','85-25')
     labels_2 =('75-05','75-15','75-25','75-35')
     labels_3 = ('63-32','70-28','75-25','82-21')
-    lnw = 2
+
     for n in range(0,5):
         ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n]['B_C_Alk   _flux'], linewidth=lnw,alpha = 1, label=labels[n])
         ax1.plot(alk_year[n]['time'], alk_year[n]['B_C_Alk'], linewidth=lnw, label=labels[n])
 
     for n in range(0,4):
         ax_2.plot(alkflux_bottom_year_2[n]['time'], alkflux_bottom_year_2[n]['B_C_Alk   _flux'], linewidth=lnw, label=labels_2[n])  
-        ax1_2.plot(alk_year_2[n]['time'], alk_year_2[n]['B_C_Alk'], linewidth=2, label= labels_2[n])
+        ax1_2.plot(alk_year_2[n]['time'], alk_year_2[n]['B_C_Alk'], linewidth=lnw, label= labels_2[n])
      
         ax_3.plot(alkflux_bottom_year_3[n]['time'], alkflux_bottom_year_3[n]['B_C_Alk   _flux'], linewidth=2, label=labels_3[n])
-        ax1_3.plot(alk_year_3[n]['time'], alk_year_3[n]['B_C_Alk'], linewidth=2, label=labels_3[n])
+        ax1_3.plot(alk_year_3[n]['time'], alk_year_3[n]['B_C_Alk'], linewidth=lnw, label=labels_3[n])
 
     for axis in [ax,ax1,ax_2,ax1_2,ax_3,ax1_3]:
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 
-    for axis in [ax,ax_2,ax_3]:
-        axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=14)
-        axis.legend(loc='best', title='Porosities', fontsize=12) 
+    for axis in [ax,ax_2,ax_3]:      
+        axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=lgndsz)
+        axis.legend(loc='best', title='Porosities', fontsize=lgndsz) 
         axis.set_ylim(2,23)
 
     for axis in [ax1,ax1_2,ax1_3]:
-        axis.set_ylabel('mmol m$^{-3}$', fontsize=14)
+        axis.set_ylabel('mmol m$^{-3}$', fontsize=lgndsz)
         axis.set_ylim(0,210)
-    ax.set_title('Flux', fontsize=16)
-    ax1.set_title('Relative Total Alkalinity', fontsize=16)
-
-    x_text = 0.97
-    y_text = 0.98
+    ax.set_title('Flux', fontsize=fntsz)
+    ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
     
     labels = ('(A) ','(B)','(C) ','(D)','(E)','(F)')
     for i,axis in enumerate((ax,ax1,ax_2,ax1_2,ax_3,ax1_3)):
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
-                 fontsize=14, fontweight='bold', va='top', ha='right')
+                 fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
     fig.tight_layout(pad=1)
     plt.show()
 
 def plot_alk_sulfur_fluxes():
-
 
     ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
     ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
@@ -365,7 +357,6 @@ def plot_alk_sulfur_fluxes():
             var_mean.append(varflux_bottom_july[i][varname].mean())
         return np.array(var_mean),varflux_bottom_july
 
-
     dtsts = [ds1, ds2, ds3, ds4]
     alk, alkflux_bottom_july = get_var_data_time(dtsts,'B_C_Alk   _flux')
     nh4, nh4flux_bottom_july = get_var_data_time(dtsts,'B_NUT_NH4 _flux')
@@ -380,26 +371,21 @@ def plot_alk_sulfur_fluxes():
     s_total = h2s + s0 + s2o3
     x = np.array([1e-9, 2e-9, 5e-9, 10e-9])
 
-
     fig = plt.figure(figsize=(5, 3))
     ax = fig.add_subplot(1, 1, 1) # row-col-num
-    ax.plot(x, alk, linewidth=2, label=r'alkalinity flux')
-    ax.plot(x, s_total, linewidth=2, label=r'sulfur flux')
-    # --- add title and axis labels
-    #ax.set_title('Fluxes')
-    ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
-    ax.set_xlabel('$kz_{dispersion}$, m$^2$ s$^{-1}$', fontsize=16)
-    # --- plot a legend in the best location
-    ax.legend(loc='upper left', title='Fluxes')
-    # --- add grid – not in default classic style
+    ax.plot(x, alk, linewidth=lnw, label=r'alkalinity flux')
+    ax.plot(x, s_total, linewidth=lnw, label=r'sulfur flux')
+
+    ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
+    ax.set_xlabel('$kz_{dispersion}$, m$^2$ s$^{-1}$', fontsize=fntsz)
+
+    ax.legend(loc='upper left', title='Fluxes',fontsize = lgndsz)
     fig.tight_layout()
     plt.show()
 
 
 if __name__ == "__main__":
     #plot_alkalinity_flux_low_high()
-    #plot_alkalinity_flux_sulfur_oxidation()
+    plot_alkalinity_flux_sulfur_oxidation()
     #plot_alkalinity_flux_porosities1_2_3()
-    #plot_alkalinity_flux_porosities()
-    #plot_alkalinity_flux_porosities_3()
-    plot_alk_sulfur_fluxes()
+    #plot_alk_sulfur_fluxes()
