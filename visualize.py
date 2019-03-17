@@ -12,6 +12,7 @@
 #     language: python
 #     name: python3
 # ---
+
 import xarray as xr
 import numpy as np # imports a fast numerical programming library
 import matplotlib.pyplot as plt #sets up plotting under plt
@@ -153,6 +154,7 @@ def plotTA(biogeodata):
     ax.legend(loc = 'upper left',fontsize = lgndsz)
     plt.ylabel('Total Alkalinity, $ \mu M$')
     plt.show()
+
 def plot_intro():
     north7 = pd.read_csv("HafniaDataNorth7Shamil.csv")
     north7 = treatbiogeodata(north7)
@@ -250,6 +252,8 @@ def plot_alkalinity_flux_sulfur_oxidation():
     alk_year,alkflux_bottom_year = get_data_time([ds0, ds1, ds2])
 
     fig = plt.figure(figsize=(14, 4))
+    x_text = 0.97
+    y_text = 0.98
     ax = fig.add_subplot(1, 2, 1) # row-col-num
     ax1 = fig.add_subplot(1, 2, 2) # row-col-num   
  
@@ -385,7 +389,7 @@ def plot_alk_sulfur_fluxes():
 
 
 if __name__ == "__main__":
-    #plot_alkalinity_flux_low_high()
+    plot_alkalinity_flux_low_high()
     plot_alkalinity_flux_sulfur_oxidation()
-    #plot_alkalinity_flux_porosities1_2_3()
-    #plot_alk_sulfur_fluxes()
+    plot_alkalinity_flux_porosities1_2_3()
+    plot_alk_sulfur_fluxes()
