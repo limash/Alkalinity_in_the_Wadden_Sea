@@ -373,7 +373,9 @@ def plot_alk_sulfur_fluxes():
     no3, no3flux_bottom_july = get_var_data_time(dtsts,'B_NUT_NO3 _flux')
     po4, po4flux_bottom_july = get_var_data_time(dtsts,'B_NUT_PO4 _flux')
     so4, so4flux_bottom_july = get_var_data_time(dtsts,'B_S_SO4   _flux')
-
+    h2s, h2sflux_bottom_july = get_var_data_time(dtsts,'B_S_H2S   _flux')
+    s0, s0flux_bottom_july = get_var_data_time(dtsts,'B_S_S0    _flux')
+    s2o3, s2o3flux_july = get_var_data_time(dtsts,'B_S_S2O3  _flux')
     alk_calc = nh4-no2-no3-po4-2*so4
     s_total = h2s + s0 + s2o3
     x = np.array([1e-9, 2e-9, 5e-9, 10e-9])
@@ -395,9 +397,9 @@ def plot_alk_sulfur_fluxes():
 
 
 if __name__ == "__main__":
-    plot_alkalinity_flux_low_high()
+    #plot_alkalinity_flux_low_high()
     #plot_alkalinity_flux_sulfur_oxidation()
     #plot_alkalinity_flux_porosities1_2_3()
     #plot_alkalinity_flux_porosities()
     #plot_alkalinity_flux_porosities_3()
-    #plot_alk_sulfur_fluxes()
+    plot_alk_sulfur_fluxes()
