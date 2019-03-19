@@ -225,8 +225,8 @@ def plot_alkalinity_flux_low_high():
     ax.set_title('Low sulfate reduction', fontsize=fntsz)
     ax1.set_title('High sulfate reduction', fontsize=fntsz)
 
-    ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
-    ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
+    ax.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
+    ax1.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
 
     ax_2.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax_3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
@@ -257,14 +257,14 @@ def plot_alkalinity_flux_sulfur_oxidation():
     ax = fig.add_subplot(1, 2, 1) # row-col-num
     ax1 = fig.add_subplot(1, 2, 2) # row-col-num   
  
-    labels = ['high','low','regular']
+    labels = ['high','low','base']
     for n in range(0,3):
         ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n][alkflux_var], linewidth=lnw, label=labels[n])
         ax1.plot(alk_year[n]['time'], alk_year[n][alk_var], linewidth=lnw,label=labels[n])
     
     ax.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
-    ax.set_title('Flux',fontsize = fntsz)
-    ax1.set_ylabel(' mmol m$^{-3}$', fontsize=fntsz) 
+    ax.set_title('TA fluxes',fontsize = fntsz)
+    ax1.set_ylabel('mmol m$^{-3}$', fontsize=fntsz) 
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
     
     labels = ('(A) ','(B)')
@@ -299,7 +299,7 @@ def plot_alkalinity_flux_porosities1_2_3():
     alk_year_2,alkflux_bottom_year_2 = get_data_time([ds0_2, ds1_2, ds2_2, ds3_2])
     alk_year_3,alkflux_bottom_year_3 = get_data_time([ds0_3, ds1_3, ds2_3, ds3_3])
 
-    fig = plt.figure(figsize=(10, 9))
+    fig = plt.figure(figsize=(14, 12))
     ax = fig.add_subplot(3, 2, 1) # row-col-num
     ax1 = fig.add_subplot(3, 2, 2) # row-col-num   
     ax_2 = fig.add_subplot(3, 2, 3) # row-col-num
@@ -327,13 +327,13 @@ def plot_alkalinity_flux_porosities1_2_3():
 
     for axis in [ax,ax_2,ax_3]:      
         axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
-        axis.legend(loc='best', title='Porosities', fontsize=lgndsz) 
+        axis.legend(loc='upper left', title='Porosities', fontsize=lgndsz) 
         axis.set_ylim(2,23)
 
     for axis in [ax1,ax1_2,ax1_3]:
         axis.set_ylabel('mmol m$^{-3}$', fontsize=fntsz)
         axis.set_ylim(0,210)
-    ax.set_title('Flux', fontsize=fntsz)
+    ax.set_title('TA fluxes', fontsize=fntsz)
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
     
     labels = ('(A) ','(B)','(C) ','(D)','(E)','(F)')
