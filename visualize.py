@@ -387,9 +387,105 @@ def plot_alk_sulfur_fluxes():
     fig.tight_layout()
     plt.show()
 
+def plot_caco3():
+    ds = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+    alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
+    biogrow_df = ds['B_BIO_GrowthPhy'].to_dataframe()
+    omresp_df  = ds['B_BIO_DcPOC_O2'].to_dataframe()
+    alk_df     = ds['B_C_Alk'].to_dataframe()
+    alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop = True)
+    omresp_bottom  = omresp_df.groupby('z').get_group(2.4749999046325684).reset_index('z',drop = True)
+    biogrow_surfac = biogrow_df.groupby('z').get_group(0.625).reset_index('z',drop = True)
+    alk_surface    = alk_df.groupby('z').get_group(0.625).reset_index('z',drop = True)
+    alk_surface_year = alk_surface['2011-01-01':'2011-12-31']
+
+    year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'), 
+        ('2011-05-01','2011-05-31'), ('2011-06-01','2011-06-30'), ('2011-07-01','2011-07-31'), ('2011-08-01','2011-08-31'),
+        ('2011-09-01','2011-09-30'), ('2011-10-01','2011-10-31'), ('2011-11-01','2011-11-30'), ('2011-12-01','2011-12-31'))
+
+    year_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    #year_acc_days = np.cumsum(year_days)
+
+    alk_year_delta = []
+    alk_year = []
+    bio_year = []
+    res_year = []
+    for month in year:
+        alk_delta_month = alk_surface[month[0]:month[1]]
+        alk_month = alkflux_bottom[month[0]:month[1]]
+        bio_month = biogrow_surfac[month[0]:month[1]]
+        res_month =  omresp_bottom[month[0]:month[1]]
+        alk_year_delta.append(alk_delta_month['B_C_Alk'][0])
+        alk_year.append(alk_month['B_C_Alk   _flux'].mean())
+        bio_year.append(bio_month['B_BIO_GrowthPhy'].mean())
+        res_year.append(res_month['B_BIO_DcPOC_O2'].mean())
+
+    bio_year_quotas = np.array(bio_year)/sum(bio_year)
+    alk_year_quotas = np.array(alk_year)/sum(alk_year)
+    res_year_quotas = np.array(res_year)/sum(res_year)
+    caco3_precipitation = bio_year_quotas*1000/year_days #mM
+    caco3_dissolution = res_year_quotas*1000/year_days
+    ca_flux = caco3_dissolution - caco3_precipitation
+    ca_array = np.array(ca_flux)/2.5*2
+    alk_surface_year = alk_surface_year.reset_index()
+    alk_array = np.array(alk_surface_year['B_C_Alk'])
+    alkflux_bottom_year = alkflux_bottom[strt:stp]
+    alkflux_bottom_year = alkflux_bottom_year.reset_index()
+    calpart = np.zeros(365)
+    day = 0
+    last_entry = 0
+    for month, increment in zip(year_days, ca_array):
+        temp = np.linspace(last_entry+increment, last_entry+increment*month, num=month)
+        calpart[day:day+month] = temp
+        last_entry = temp[-1]
+        day += month
+    caco3_dis = np.zeros(365)
+
+    day = 0
+    for month, increment in zip(year_days, caco3_dissolution):
+        caco3_dis[day:day+month] = increment
+        day += month
+    caco3_pre = np.zeros(365)
+
+    day = 0
+    for month, increment in zip(year_days, caco3_precipitation):
+        caco3_pre[day:day+month] = increment
+        day += month
+    result_array = alk_array + calpart
+
+    fig = plt.figure(figsize=(14, 4.7))
+    ax1 = fig.add_subplot(1, 2, 1) # row-col-num
+    ax = fig.add_subplot(1, 2, 2) # row-col-num   
+
+    ax1.xaxis_date()
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+
+    ax1.plot(alk_surface_year['time'], caco3_dis*2,                                        linewidth=lnw, label='CaCO$_3$ \ndissolution')
+    ax1.plot(alk_surface_year['time'], caco3_pre*2,                                        linewidth=lnw, label='CaCO$_3$ \nprecipitation')
+    ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'],             linewidth=lnw, label='Modelled')
+    ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=lnw, label='CaCO$_3$ +\nmodelled')
+
+    ax1.set_title('Factors controlling alkalinity fluxes',fontsize = fntsz)
+    ax.set_title('Factors controlling alkalinity',fontsize = fntsz)
+
+    ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize = fntsz)
+    ax.set_ylabel('TA , mmol m$^{-3}$', fontsize=fntsz)
+
+    ax1.legend(loc='upper left',fontsize = fntsz)
+    ax.legend(loc='best', fontsize = fntsz)
+
+    ax.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'CaCO$_3$')
+    ax.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'modelled')
+    ax.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + modelled')
+
+    
+    fig.tight_layout(pad=1)
+    plt.show()
 
 if __name__ == "__main__":
-    plot_alkalinity_flux_low_high()
+    '''plot_alkalinity_flux_low_high()
     plot_alkalinity_flux_sulfur_oxidation()
     plot_alkalinity_flux_porosities1_2_3()
-    plot_alk_sulfur_fluxes()
+    plot_alk_sulfur_fluxes()'''
+    plot_caco3()
