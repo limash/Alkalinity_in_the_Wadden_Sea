@@ -393,11 +393,12 @@ def plot_caco3():
     biogrow_df = ds['B_BIO_GrowthPhy'].to_dataframe()
     omresp_df  = ds['B_BIO_DcPOC_O2'].to_dataframe()
     alk_df     = ds['B_C_Alk'].to_dataframe()
+
     alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop = True)
     omresp_bottom  = omresp_df.groupby('z').get_group(2.4749999046325684).reset_index('z',drop = True)
     biogrow_surfac = biogrow_df.groupby('z').get_group(0.625).reset_index('z',drop = True)
     alk_surface    = alk_df.groupby('z').get_group(0.625).reset_index('z',drop = True)
-    alk_surface_year = alk_surface['2011-01-01':'2011-12-31']
+    alk_surface_year = alk_surface[strt:stp].reset_index()
 
     year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'), 
         ('2011-05-01','2011-05-31'), ('2011-06-01','2011-06-30'), ('2011-07-01','2011-07-31'), ('2011-08-01','2011-08-31'),
@@ -427,10 +428,11 @@ def plot_caco3():
     caco3_dissolution = res_year_quotas*1000/year_days
     ca_flux = caco3_dissolution - caco3_precipitation
     ca_array = np.array(ca_flux)/2.5*2
-    alk_surface_year = alk_surface_year.reset_index()
+
     alk_array = np.array(alk_surface_year['B_C_Alk'])
-    alkflux_bottom_year = alkflux_bottom[strt:stp]
-    alkflux_bottom_year = alkflux_bottom_year.reset_index()
+    alkflux_bottom_year = alkflux_bottom[strt:stp].reset_index()
+
+
     calpart = np.zeros(365)
     day = 0
     last_entry = 0
@@ -439,19 +441,21 @@ def plot_caco3():
         calpart[day:day+month] = temp
         last_entry = temp[-1]
         day += month
-    caco3_dis = np.zeros(365)
+    
+    result_array = alk_array + calpart
 
+
+    caco3_dis = np.zeros(365)
     day = 0
     for month, increment in zip(year_days, caco3_dissolution):
         caco3_dis[day:day+month] = increment
         day += month
-    caco3_pre = np.zeros(365)
 
+    caco3_pre = np.zeros(365)
     day = 0
     for month, increment in zip(year_days, caco3_precipitation):
         caco3_pre[day:day+month] = increment
         day += month
-    result_array = alk_array + calpart
 
     fig = plt.figure(figsize=(14, 4.7))
     ax1 = fig.add_subplot(1, 2, 1) # row-col-num
@@ -460,11 +464,16 @@ def plot_caco3():
     ax1.xaxis_date()
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    prec_col = '#4076a9'
+    diss_col = '#6d3243'
+    mod = '#5b776b'
+    a = 0.7
+    ax1.fill_between(alk_surface_year['time'], 0, caco3_dis*2,label = 'CaCO$_3$ \ndissolution',alpha = a ),#color = diss_col)
+    ax1.fill_between(alk_surface_year['time'], caco3_dis*2, caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'],label = 'modelled',alpha = a)#),color = mod)       
+    ax1.fill_between(alk_surface_year['time'], 0, -caco3_pre*2,label = 'precipitation',alpha = a) #,color = prec_col)       
 
-    ax1.plot(alk_surface_year['time'], caco3_dis*2,                                        linewidth=lnw, label='CaCO$_3$ \ndissolution')
-    ax1.plot(alk_surface_year['time'], caco3_pre*2,                                        linewidth=lnw, label='CaCO$_3$ \nprecipitation')
-    ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'],             linewidth=lnw, label='Modelled')
-    ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=lnw, label='CaCO$_3$ +\nmodelled')
+    ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux']-caco3_pre*2, linewidth=2, label='Total Balance',color = 'k',linestyle = '--')
+
 
     ax1.set_title('Factors controlling alkalinity fluxes',fontsize = fntsz)
     ax.set_title('Factors controlling alkalinity',fontsize = fntsz)
@@ -472,14 +481,14 @@ def plot_caco3():
     ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize = fntsz)
     ax.set_ylabel('TA , mmol m$^{-3}$', fontsize=fntsz)
 
-    ax1.legend(loc='upper left',fontsize = fntsz)
-    ax.legend(loc='best', fontsize = fntsz)
+    ax1.legend(loc='upper left',fontsize = lgndsz)
 
-    ax.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'CaCO$_3$')
-    ax.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'modelled')
-    ax.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + modelled')
 
-    
+    ax.fill_between(alk_surface_year['time'],0, calpart-calpart.min(), linewidth=2, label=r'CaCO$_3$',alpha = a)
+    ax.fill_between(alk_surface_year['time'],0, alk_array-alk_array.min(), linewidth=2, label=r'modelled',alpha = a)
+    ax.fill_between(alk_surface_year['time'],0, result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + modelled',alpha = a)
+
+    ax.legend(loc='best', fontsize = lgndsz)    
     fig.tight_layout(pad=1)
     plt.show()
 
