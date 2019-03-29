@@ -781,6 +781,77 @@ sulfurquota = s_total*2
 sulfurquota
 ```
 
+#### Advection TA change
+
+```{python}
+ds = xr.open_dataset('data/advective_ta/1_10e-9/water.nc')
+```
+
+```{python}
+nh4ta_df = ds['TA_due_to_NH4'].to_dataframe()
+no3ta_df = ds['TA_due_to_NO3'].to_dataframe()
+po4ta_df = ds['TA_due_to_PO4'].to_dataframe()
+so4ta_df = ds['TA_due_to_SO4'].to_dataframe()
+```
+
+```{python}
+year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'), 
+        ('2011-05-01','2011-05-31'), ('2011-06-01','2011-06-30'), ('2011-07-01','2011-07-31'), ('2011-08-01','2011-08-31'),
+        ('2011-09-01','2011-09-30'), ('2011-10-01','2011-10-31'), ('2011-11-01','2011-11-30'), ('2011-12-01','2011-12-31'))
+```
+
+```{python}
+nh4ta_year = []
+no3ta_year = []
+po4ta_year = []
+so4ta_year = []
+for month in year:
+    nh4ta_month = nh4ta_df.loc[month[0]:month[1]]
+    no3ta_month = no3ta_df.loc[month[0]:month[1]]
+    po4ta_month = po4ta_df.loc[month[0]:month[1]]
+    so4ta_month = so4ta_df.loc[month[0]:month[1]]
+    nh4ta_year.append(nh4ta_month['TA_due_to_NH4'].sum())
+    no3ta_year.append(no3ta_month['TA_due_to_NO3'].sum())
+    po4ta_year.append(po4ta_month['TA_due_to_PO4'].sum())
+    so4ta_year.append(so4ta_month['TA_due_to_SO4'].sum())
+```
+
+```{python}
+nh4ta = np.array(nh4ta_year)
+no3ta = np.array(no3ta_year)
+po4ta = np.array(po4ta_year)
+so4ta = np.array(so4ta_year)
+total = nh4ta+no3ta+po4ta+so4ta
+```
+
+```{python}
+nh4ta
+```
+
+```{python}
+no3ta
+```
+
+```{python}
+po4ta
+```
+
+```{python}
+so4ta
+```
+
+```{python}
+total
+```
+
+```{python}
+sum(so4ta)
+```
+
+```{python}
+sum(total)
+```
+
 ```{python}
 
 ```

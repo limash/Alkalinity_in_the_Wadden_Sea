@@ -249,6 +249,8 @@ ammonium = rootgrp.createVariable("ammonium","f8",("time","levelcntr",))
 ammonium.units = "mM N m-3"
 nitrate = rootgrp.createVariable("nitrate","f8",("time","levelcntr",))
 nitrate.units = "mM N m-3"
+sulfate = rootgrp.createVariable("sulfate","f8",("time","levelcntr",))
+nitrate.units = "mM S m-3"
 silicate = rootgrp.createVariable("silicate","f8",("time","levelcntr",))
 silicate.units = "mM Si m-3"
 phosphate = rootgrp.createVariable("phosphate","f8",("time","levelcntr",))
@@ -299,6 +301,7 @@ turbulence[:,2] = ut.gargett(sigmaface[:,2], 1)
 
 ```{python}
 ammonium[:,:] = 0.1
+sulfate[:,:] = 25000
 nitrate[:,:] = np.vstack((df3years.Nitrate.values, df3years.Nitrate.values)).T
 silicate[:,:] = np.vstack((df3years.Silicate.values, df3years.Silicate.values)).T
 phosphate[:,:] = np.vstack((df3years.Phosphate.values, df3years.Phosphate.values)).T
