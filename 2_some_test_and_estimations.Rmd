@@ -20,6 +20,8 @@ import matplotlib.pyplot as plt
 import plot_functions as pf
 import pandas as pd
 import xarray as xr
+import seaborn as sns #sets up styles and gives us more plotting options
+sns.set()
 ```
 
 #### Open an initial dataset (observed values) from 1_generated in generate_the_Wadden_Sed.ipynb file
@@ -54,11 +56,6 @@ ox = np.arange(1,366,1)
 ```
 
 plot some data:
-
-```{python}
-# --- Select a style
-plt.style.use('classic')
-```
 
 ```{python}
 plt.plot(ox, temperature); plt.gcf().set_size_inches(10, 2);
@@ -567,38 +564,49 @@ result_array = alk_array + calpart
 ```{python}
 import matplotlib.dates as mdates
 
-plt.style.use('classic')
 fig = plt.figure(figsize=(14, 4))
 ax1 = fig.add_subplot(1, 2, 1) # row-col-num
-ax1.xaxis_date()
-ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+#ax1.xaxis_date()
+#ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 ax1.plot(alk_surface_year['time'], caco3_dis*2, linewidth=2, label=r'CaCO$_3$ dissolution')
 ax1.plot(alk_surface_year['time'], caco3_pre*2, linewidth=2, label=r'CaCO$_3$ precipitation')
-ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label=r'modelled')
-ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label=r'CaCO$_3$ + modelled')
+ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label=r'Modelled TA flux at the SWI')
+ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, 
+         label=r'CaCO$_3$ dissolution + TA flux at the SWI')
 # --- add title and axis labels
 #ax.set_title('Alkalinity fluxes')
-ax1.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
+ax1.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize=16)
 #ax.set_xlabel('Month', fontsize=16)
 # --- plot a legend in the best location
-ax1.legend(loc='upper left', title='Alkalinity fluxes')
+ax1.legend(loc='upper left')#, title='Alkalinity fluxes')
 # --- add grid – not in default classic style
 ax1.grid(True)
 ax = fig.add_subplot(1, 2, 2) # row-col-num
-ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-ax.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'CaCO$_3$')
-ax.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'modelled')
-ax.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + modelled')
+#ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+ax.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'Due to CaCO$_3$ dissolution/precipitation')
+ax.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
+ax.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
 # --- add title and axis labels
 #ax.set_title('Alkalinity fluxes')
-ax.set_ylabel('TA increment, mmol m$^{-3}$', fontsize=16)
+ax.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=16)
 #ax.set_xlabel('Month', fontsize=16)
 # --- plot a legend in the best location
-ax.legend(loc='upper left', title='Alkalinity increments')
+ax.legend(loc='upper left')#, title='Alkalinity increments')
 # --- add grid – not in default classic style
-ax.grid(True)
+#ax.grid(True)
 
+fntsz = 16
+x_text = 0.97
+y_text = 0.98
+labels = ('(A)', '(B)')
+# --- improve the layout   
+for i,axis in enumerate((ax1,ax)):
+    axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
+              fontsize=fntsz, fontweight='bold', va='top', ha='right')
+        
 fig.tight_layout(pad=1)
+plt.show()
 ```
 
 ```{python}
@@ -670,6 +678,7 @@ for month in year:
 ```
 
 ```{python}
+alk = np.array(alk_year)
 nh4 = np.array(nh4_year)
 no2 = np.array(no2_year)
 no3 = np.array(no3_year)
@@ -713,23 +722,42 @@ nh4_quota+no2_quota+no3_quota+po4_quota+so4_quota
 #### Alkalinity to reduced sulfur compounds fluxes quotas
 
 ```{python}
-ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
-ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
-ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
+ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di1e-9/sediments.nc')
+ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/sediments.nc')
+ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/10_po75-25_di35e-9/sediments.nc')
 ```
 
 ```{python}
-ds = ds2
+ds3 = xr.open_dataset('data/test/sediments.nc')
+```
+
+```{python}
+ds = ds3
 
 alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
+nh4flux_df = ds['B_NUT_NH4 _flux'].to_dataframe()
+no2flux_df = ds['B_NUT_NO2 _flux'].to_dataframe()
+no3flux_df = ds['B_NUT_NO3 _flux'].to_dataframe()
+po4flux_df = ds['B_NUT_PO4 _flux'].to_dataframe()
+so4flux_df = ds['B_S_SO4   _flux'].to_dataframe()
 h2s__flux_df = ds['B_S_H2S   _flux'].to_dataframe()
 s0___flux_df = ds['B_S_S0    _flux'].to_dataframe()
 s2o3_flux_df = ds['B_S_S2O3  _flux'].to_dataframe()
 
 alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5)
+nh4flux_bottom = nh4flux_df.groupby('z_faces').get_group(2.5)
+no2flux_bottom = no2flux_df.groupby('z_faces').get_group(2.5)
+no3flux_bottom = no3flux_df.groupby('z_faces').get_group(2.5)
+po4flux_bottom = po4flux_df.groupby('z_faces').get_group(2.5)
+so4flux_bottom = so4flux_df.groupby('z_faces').get_group(2.5)
 h2sflux_bottom  = h2s__flux_df.groupby('z_faces').get_group(2.5)
 s0flux_bottom   = s0___flux_df.groupby('z_faces').get_group(2.5)
 s2o3flux_bottom = s2o3_flux_df.groupby('z_faces').get_group(2.5)
+```
+
+```{python}
+alkflux_df = alkflux_df.reset_index()
+alkflux_df.z_faces[38]
 ```
 
 ```{python}
@@ -740,15 +768,30 @@ year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01',
 
 ```{python}
 alk_year = []
+nh4_year = []
+no2_year = []
+no3_year = []
+po4_year = []
+so4_year = []
 h2s_year = []
 s0_year = []
 s2o3_year = []
 for month in year:
     alk_month = alkflux_bottom.loc[month[0]:month[1]]
+    nh4_month = nh4flux_bottom.loc[month[0]:month[1]]
+    no2_month = no2flux_bottom.loc[month[0]:month[1]]
+    no3_month = no3flux_bottom.loc[month[0]:month[1]]
+    po4_month = po4flux_bottom.loc[month[0]:month[1]]
+    so4_month = so4flux_bottom.loc[month[0]:month[1]]
     h2s_month = h2sflux_bottom.loc[month[0]:month[1]]
     s0_month = s0flux_bottom.loc[month[0]:month[1]]
     s2o3_month = s2o3flux_bottom.loc[month[0]:month[1]]
     alk_year.append(alk_month['B_C_Alk   _flux'].mean())
+    nh4_year.append(nh4_month['B_NUT_NH4 _flux'].mean())
+    no2_year.append(no2_month['B_NUT_NO2 _flux'].mean())
+    no3_year.append(no3_month['B_NUT_NO3 _flux'].mean())
+    po4_year.append(po4_month['B_NUT_PO4 _flux'].mean())
+    so4_year.append(so4_month['B_S_SO4   _flux'].mean())
     h2s_year.append(h2s_month['B_S_H2S   _flux'].mean())
     s0_year.append(s0_month['B_S_S0    _flux'].mean())
     s2o3_year.append(s2o3_month['B_S_S2O3  _flux'].mean())
@@ -756,6 +799,11 @@ for month in year:
 
 ```{python}
 alk = np.array(alk_year)
+nh4 = np.array(nh4_year)
+no2 = np.array(no2_year)
+no3 = np.array(no3_year)
+po4 = np.array(po4_year)
+so4 = np.array(so4_year)
 h2s = np.array(h2s_year)
 s0 = np.array(s0_year)
 s2o3 = np.array(s2o3_year)
@@ -766,11 +814,23 @@ s_total = h2s + s0 + 2*s2o3
 ```
 
 ```{python}
-alkoquota = alk*so4_quota
+all_components = nh4-no2-no3-po4-2*so4
 ```
 
 ```{python}
-alkoquota
+alk_so4_quota = alk*so4_quota
+```
+
+```{python}
+alk_so4_quota
+```
+
+```{python}
+so4direct_quota = -2*so4
+```
+
+```{python}
+so4direct_quota
 ```
 
 ```{python}
@@ -779,6 +839,14 @@ sulfurquota = s_total*2
 
 ```{python}
 sulfurquota
+```
+
+```{python}
+sum(alk_so4_quota)-sum(sulfurquota)
+```
+
+```{python}
+sum(so4direct_quota)-sum(sulfurquota)
 ```
 
 #### Advection TA change
