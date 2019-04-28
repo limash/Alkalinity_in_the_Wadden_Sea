@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # ---
 # jupyter:
 #   jupytext:
@@ -307,9 +306,9 @@ def plot_alkalinity_flux_porosities1_2_3():
     ax1_3 = fig.add_subplot(3, 2, 6) # row-col-num
     ax_3 = fig.add_subplot(3, 2, 5) # row-col-num
 
-    labels = ('45-25','55-25','65-25','75-25','85-25')
-    labels_2 =('75-05','75-15','75-25','75-35')
-    labels_3 = ('63-32','70-28','75-25','82-21')
+    labels = ('0.45-0.25','0.55-0.25','0.65-0.25','0.75-0.25','0.85-0.25')
+    labels_2 =('0.75-0.05','0.75-0.15','0.75-0.25','0.75-0.35')
+    labels_3 = ('0.63-0.32','0.70-0.28','0.75-0.25','0.82-0.21')
 
     for n in range(0,5):
         ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n]['B_C_Alk   _flux'], linewidth=lnw,alpha = 1, label=labels[n])
