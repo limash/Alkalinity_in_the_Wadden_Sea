@@ -35,8 +35,8 @@ font = {'family' : 'normal',
 #rc('font', **font)
 
 lnw = 1.5
-fntsz = 16
-lgndsz = 13
+fntsz = 9
+lgndsz = 9
 mpl.rcParams['xtick.labelsize'] = lgndsz
 mpl.rcParams['ytick.labelsize'] = lgndsz
 strt ='2011-01-01'
@@ -137,27 +137,36 @@ def addlvlphase(biogeodata, sealvldata):
 def returndate(datestring):
     return datetime.strptime(datestring,"%Y-%m-%d %H:%M:%S")
 
+def cm2inch(*tupl):
+    inch = 2.54
+    if isinstance(tupl[0], tuple):
+        return tuple(i/inch for i in tupl[0])
+    else:
+        return tuple(i/inch for i in tupl)
+
 def plotTA(biogeodata):
-    fig, ax = plt.subplots(figsize=(12,5))
+    fig, ax = plt.subplots(figsize=cm2inch(18, 8))
     Time = biogeodata.Datetime.map(returndate).values
     TA = biogeodata.TA.values
     TAfromS = biogeodata.TAfromS.values
-    size = 14
+    size = lgndsz
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     ax.scatter(Time, TA, label= 'Total Alkalinity, measured', s=size)
     ax.scatter(Time, TAfromS,
                label='\nTotal Alkalinity, \n calculated from salinity', s=size)
     for item in ([ax.title, ax.xaxis.label, ax.yaxis.label] +
              ax.get_xticklabels() + ax.get_yticklabels()):
-        item.set_fontsize(15)
+        item.set_fontsize(lgndsz)
     ax.legend(loc = 'upper left',fontsize = lgndsz)
     plt.ylabel('Total Alkalinity, $ \mu M$')
-    plt.show()
+    plt.savefig('Figure1.png', dpi = 300)
+    plt.savefig('Figure1.eps', dpi = 300)
+    #plt.show() 
 
 def plot_intro():
     north7 = pd.read_csv("HafniaDataNorth7Shamil.csv")
     north7 = treatbiogeodata(north7)
-    fig = plotTA(north7)
+    plotTA(north7)
 
 alk_var = 'B_C_Alk'
 alkflux_var = 'B_C_Alk   _flux'
@@ -495,5 +504,6 @@ if __name__ == "__main__":
     '''plot_alkalinity_flux_low_high()
     plot_alkalinity_flux_sulfur_oxidation()
     plot_alkalinity_flux_porosities1_2_3()
-    plot_alk_sulfur_fluxes()'''
-    plot_caco3()
+    plot_alk_sulfur_fluxes()
+    plot_caco3()'''
+    plot_intro()
