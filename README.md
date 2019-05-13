@@ -1,17 +1,3 @@
----
-jupyter:
-  jupytext:
-    text_representation:
-      extension: .md
-      format_name: markdown
-      format_version: '1.0'
-      jupytext_version: 0.8.6
-  kernelspec:
-    display_name: Python 3
-    language: python
-    name: python3
----
-
 ## "Seasonal alkalinity release from coastal area sediments, the case of the Wadden Sea" research article supplementary material
 
 * 1_generate_the_Wadden_Sea.ipynb - is a jupyter notebook generating a NetCDF file for the [SPBM] transport model.
@@ -22,7 +8,3 @@ jupyter:
 [SPBM]:https://github.com/BottomRedoxModel/SPBM/tree/dev-sham
 [data]:https://drive.google.com/drive/folders/1YtCpb_DLIqm6IXdTP62cm4VwFFqfCRuI?usp=sharing
 [LMFIT]:https://lmfit.github.io/lmfit-py/intro.html
-
-```python
-
-```
