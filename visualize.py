@@ -78,7 +78,7 @@ def addband(longitude):
         return 0
 
 def addphase(seconds):
-    period = (12 * 60 * 60) + (25.2 * 60) 
+    period = (12 * 60 * 60) + (25.2 * 60)
     half_period = period / 2
     startphase = (half_period / 12) * 8
     modulus = (seconds - startphase) % period
@@ -159,7 +159,7 @@ def plotTA(biogeodata):
     ax.legend(loc = 'upper left',fontsize = lgndsz)
     plt.ylabel('Total Alkalinity, $\mu M$')
     plt.savefig('Figure1.eps', dpi = 300)
-    #plt.show() 
+    #plt.show()
 
 def plot_intro():
     north7 = pd.read_csv("HafniaDataNorth7Shamil.csv")
@@ -184,7 +184,7 @@ def get_data_time(dtsts):
         alkflux_bottom_year[i] = alkflux_bottom_year[i].reset_index()
         alk_year[i][alk_var] = alk_year[i][alk_var]-alk_year[i][alk_var].min()
 
-    return alk_year,alkflux_bottom_year    
+    return alk_year,alkflux_bottom_year
 
 def plot_alkalinity_flux_low_high():
     base_path = 'data/low_sulfate_reduction_rate'
@@ -208,8 +208,8 @@ def plot_alkalinity_flux_low_high():
     ds8_high = xr.open_dataset('data/high_sulfate_reduction_rate/9_po75-25_di30e-9/water.nc')
     ds9_high = xr.open_dataset('data/high_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
 
-    alk_year,alkflux_bottom_year = get_data_time([ds1, ds2, ds3, ds4, ds5, ds6, ds7, ds8, ds9]) 
-    alk_year_high, alkflux_bottom_year_high = get_data_time([ds1_high, ds2_high, ds3_high, ds4_high, 
+    alk_year,alkflux_bottom_year = get_data_time([ds1, ds2, ds3, ds4, ds5, ds6, ds7, ds8, ds9])
+    alk_year_high, alkflux_bottom_year_high = get_data_time([ds1_high, ds2_high, ds3_high, ds4_high,
                                             ds5_high, ds6_high, ds7_high, ds8_high, ds9_high])
 
     fig = plt.figure(figsize=cm2inch(18, 14))
@@ -238,9 +238,9 @@ def plot_alkalinity_flux_low_high():
     ax_3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
 
     ax.legend(loc='best', title='$kz_{dispersion}$, m$^2$ s$^{-1}$',fontsize = lgndsz, title_fontsize = lgndsz)
-    
+
     labels = ('(A) ','(B)','(C) ','(D)')
-    # --- improve the layout   
+    # --- improve the layout
     for i,axis in enumerate((ax,ax1,ax_2,ax_3)):
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
@@ -251,29 +251,29 @@ def plot_alkalinity_flux_low_high():
     #plt.show()
 
 def plot_alkalinity_flux_sulfur_oxidation():
-    
+
     ds0 = xr.open_dataset('data/different_sulfur_oxidation/high/water.nc')
     ds1 = xr.open_dataset('data/different_sulfur_oxidation/low/water.nc')
     ds2 = xr.open_dataset('data/different_sulfur_oxidation/regular/water.nc')
-    
+
     alk_year,alkflux_bottom_year = get_data_time([ds0, ds1, ds2])
 
     fig = plt.figure(figsize=cm2inch(18, 7))
     x_text = 0.97
     y_text = 0.98
     ax = fig.add_subplot(1, 2, 1) # row-col-num
-    ax1 = fig.add_subplot(1, 2, 2) # row-col-num   
- 
+    ax1 = fig.add_subplot(1, 2, 2) # row-col-num
+
     labels = ['high','low','base']
     for n in range(0,3):
         ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n][alkflux_var], linewidth=lnw, label=labels[n])
         ax1.plot(alk_year[n]['time'], alk_year[n][alk_var], linewidth=lnw,label=labels[n])
-    
+
     ax.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
     ax.set_title('TA fluxes',fontsize = fntsz)
-    ax1.set_ylabel('mmol m$^{-3}$', fontsize=fntsz) 
+    ax1.set_ylabel('mmol m$^{-3}$', fontsize=fntsz)
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
-    
+
     labels = ('(A) ','(B)')
     for i,axis in enumerate((ax,ax1)):
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
@@ -286,7 +286,7 @@ def plot_alkalinity_flux_sulfur_oxidation():
     #plt.show()
 
 def plot_alkalinity_flux_porosities1_2_3():
-  
+
     ds0 = xr.open_dataset('data/different_porosities/4_po45-25_di10e-9/water.nc')
     ds1 = xr.open_dataset('data/different_porosities/0_po55-25_di10e-9/water.nc')
     ds2 = xr.open_dataset('data/different_porosities/1_po65-25_di10e-9/water.nc')
@@ -297,19 +297,19 @@ def plot_alkalinity_flux_porosities1_2_3():
     ds1_2 = xr.open_dataset('data/different_porosities_2/1_po75-15_di10e-9/water.nc')
     ds2_2 = xr.open_dataset('data/different_porosities_2/2_po75-25_di10e-9/water.nc')
     ds3_2 = xr.open_dataset('data/different_porosities_2/3_po75-35_di10e-9/water.nc')
-    
+
     ds0_3 = xr.open_dataset('data/different_porosities_3/0_po63-32_di10e-9/water.nc')
     ds1_3 = xr.open_dataset('data/different_porosities_3/1_po70-28_di10e-9/water.nc')
     ds2_3 = xr.open_dataset('data/different_porosities_3/2_po75-25_di10e-9/water.nc')
     ds3_3 = xr.open_dataset('data/different_porosities_3/3_po82-21_di10e-9/water.nc')
-    
-    alk_year, alkflux_bottom_year = get_data_time([ds0, ds1, ds2, ds3, ds4]) 
+
+    alk_year, alkflux_bottom_year = get_data_time([ds0, ds1, ds2, ds3, ds4])
     alk_year_2,alkflux_bottom_year_2 = get_data_time([ds0_2, ds1_2, ds2_2, ds3_2])
     alk_year_3,alkflux_bottom_year_3 = get_data_time([ds0_3, ds1_3, ds2_3, ds3_3])
 
     fig = plt.figure(figsize=cm2inch(18, 18))
     ax = fig.add_subplot(3, 2, 1) # row-col-num
-    ax1 = fig.add_subplot(3, 2, 2) # row-col-num   
+    ax1 = fig.add_subplot(3, 2, 2) # row-col-num
     ax_2 = fig.add_subplot(3, 2, 3) # row-col-num
     ax1_2 = fig.add_subplot(3, 2, 4) # row-col-num
     ax1_3 = fig.add_subplot(3, 2, 6) # row-col-num
@@ -324,18 +324,18 @@ def plot_alkalinity_flux_porosities1_2_3():
         ax1.plot(alk_year[n]['time'], alk_year[n]['B_C_Alk'], linewidth=lnw, label=labels[n])
 
     for n in range(0,4):
-        ax_2.plot(alkflux_bottom_year_2[n]['time'], alkflux_bottom_year_2[n]['B_C_Alk   _flux'], linewidth=lnw, label=labels_2[n])  
+        ax_2.plot(alkflux_bottom_year_2[n]['time'], alkflux_bottom_year_2[n]['B_C_Alk   _flux'], linewidth=lnw, label=labels_2[n])
         ax1_2.plot(alk_year_2[n]['time'], alk_year_2[n]['B_C_Alk'], linewidth=lnw, label= labels_2[n])
-     
+
         ax_3.plot(alkflux_bottom_year_3[n]['time'], alkflux_bottom_year_3[n]['B_C_Alk   _flux'], linewidth=2, label=labels_3[n])
         ax1_3.plot(alk_year_3[n]['time'], alk_year_3[n]['B_C_Alk'], linewidth=lnw, label=labels_3[n])
 
     for axis in [ax,ax1,ax_2,ax1_2,ax_3,ax1_3]:
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 
-    for axis in [ax,ax_2,ax_3]:      
+    for axis in [ax,ax_2,ax_3]:
         axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
-        axis.legend(loc='upper left', title='Porosities', fontsize=lgndsz, title_fontsize = lgndsz) 
+        axis.legend(loc='upper left', title='Porosities', fontsize=lgndsz, title_fontsize = lgndsz)
         axis.set_ylim(2,23)
 
     for axis in [ax1,ax1_2,ax1_3]:
@@ -343,7 +343,7 @@ def plot_alkalinity_flux_porosities1_2_3():
         axis.set_ylim(0,210)
     ax.set_title('TA fluxes', fontsize=fntsz)
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
-    
+
     labels = ('(A) ','(B)','(C) ','(D)','(E)','(F)')
     for i,axis in enumerate((ax,ax1,ax_2,ax1_2,ax_3,ax1_3)):
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
@@ -398,11 +398,20 @@ def plot_alk_sulfur_fluxes():
     #plt.show()
 
 def plot_caco3():
+    import matplotlib.gridspec as gs
+
     ds = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+    ds_ad = xr.open_dataset('data/advective_ta/1_10e-9/water.nc')
+
     alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
     biogrow_df = ds['B_BIO_GrowthPhy'].to_dataframe()
     omresp_df  = ds['B_BIO_DcPOC_O2'].to_dataframe()
     alk_df     = ds['B_C_Alk'].to_dataframe()
+
+    nh4ta_df = ds_ad['TA_due_to_NH4'].to_dataframe()
+    no3ta_df = ds_ad['TA_due_to_NO3'].to_dataframe()
+    po4ta_df = ds_ad['TA_due_to_PO4'].to_dataframe()
+    so4ta_df = ds_ad['TA_due_to_SO4'].to_dataframe()
 
     alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop = True)
     omresp_bottom  = omresp_df.groupby('z').get_group(2.4749999046325684).reset_index('z',drop = True)
@@ -410,9 +419,29 @@ def plot_caco3():
     alk_surface    = alk_df.groupby('z').get_group(0.625).reset_index('z',drop = True)
     alk_surface_year = alk_surface[strt:stp].reset_index()
 
-    year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'), 
+    year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'),
         ('2011-05-01','2011-05-31'), ('2011-06-01','2011-06-30'), ('2011-07-01','2011-07-31'), ('2011-08-01','2011-08-31'),
         ('2011-09-01','2011-09-30'), ('2011-10-01','2011-10-31'), ('2011-11-01','2011-11-30'), ('2011-12-01','2011-12-31'))
+
+    nh4ta_year = []
+    no3ta_year = []
+    po4ta_year = []
+    so4ta_year = []
+    for month in year:
+        nh4ta_month = nh4ta_df.loc[month[0]:month[1]]
+        no3ta_month = no3ta_df.loc[month[0]:month[1]]
+        po4ta_month = po4ta_df.loc[month[0]:month[1]]
+        so4ta_month = so4ta_df.loc[month[0]:month[1]]
+        nh4ta_year.append(nh4ta_month['TA_due_to_NH4'].sum())
+        no3ta_year.append(no3ta_month['TA_due_to_NO3'].sum())
+        po4ta_year.append(po4ta_month['TA_due_to_PO4'].sum())
+        so4ta_year.append(so4ta_month['TA_due_to_SO4'].sum())
+
+    nh4ta = np.array(nh4ta_year)
+    no3ta = np.array(no3ta_year)
+    po4ta = np.array(po4ta_year)
+    so4ta = np.array(so4ta_year)
+    total = nh4ta+no3ta+po4ta+so4ta
 
     year_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     #year_acc_days = np.cumsum(year_days)
@@ -450,7 +479,7 @@ def plot_caco3():
         calpart[day:day+month] = temp
         last_entry = temp[-1]
         day += month
-    
+
     result_array = alk_array + calpart
 
     caco3_dis = np.zeros(365)
@@ -465,37 +494,40 @@ def plot_caco3():
         caco3_pre[day:day+month] = increment
         day += month
 
-    fig = plt.figure(figsize=cm2inch(18, 7))
-    ax1 = fig.add_subplot(1, 2, 1) # row-col-num
-    ax = fig.add_subplot(1, 2, 2) # row-col-num   
+    gs = gs.GridSpec(2, 2)
+    fig = plt.figure(figsize=cm2inch(18, 14))
+    ax1 = fig.add_subplot(gs[0,0])
+    ax2 = fig.add_subplot(gs[0,1])
+    ax3 = fig.add_subplot(gs[1,0:])
 
     ax1.xaxis_date()
     ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    ax2.xaxis_date()
+    ax2.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    ax3.xaxis_date()
+    ax3.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 
     ax1.plot(alk_surface_year['time'], caco3_dis*2, label = 'CaCO$_3$ dissolution')
     ax1.plot(alk_surface_year['time'], caco3_pre*2, label = 'CaCO$_3$ precipitation')
     ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'], label = 'Modelled TA flux at the SWI')
     ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label = r'CaCO$_3$ dissolution + TA flux at the SWI')
-
     ax1.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize = fntsz)
-    ax.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax1.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
 
-    ax.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'Due to CaCO$_3$ dissolution/precipitation')
-    ax.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
-    ax.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
-
-    ax.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)    
+    ax2.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'Due to CaCO$_3$ dissolution/precipitation')
+    ax2.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
+    ax2.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
+    ax2.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
+    ax2.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
 
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure7.eps', dpi = 300)
-    #plt.show()
+    #plt.savefig('Figure7.eps', dpi = 300)
+    plt.show()
 
 if __name__ == "__main__":
-    plot_intro()
-    plot_alkalinity_flux_low_high()
-    plot_alkalinity_flux_sulfur_oxidation()
-    plot_alkalinity_flux_porosities1_2_3()
-    plot_alk_sulfur_fluxes()
+    #plot_intro()
+    #plot_alkalinity_flux_low_high()
+    #plot_alkalinity_flux_sulfur_oxidation()
+    #plot_alkalinity_flux_porosities1_2_3()
+    #plot_alk_sulfur_fluxes()
     plot_caco3()
