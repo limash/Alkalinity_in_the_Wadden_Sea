@@ -408,10 +408,24 @@ def plot_caco3():
     omresp_df  = ds['B_BIO_DcPOC_O2'].to_dataframe()
     alk_df     = ds['B_C_Alk'].to_dataframe()
 
+    #minus values mean alkalinity goes to the North Sea
     nh4ta_df = ds_ad['TA_due_to_NH4'].to_dataframe()
     no3ta_df = ds_ad['TA_due_to_NO3'].to_dataframe()
     po4ta_df = ds_ad['TA_due_to_PO4'].to_dataframe()
-    so4ta_df = ds_ad['TA_due_to_SO4'].to_dataframe()
+
+    nh4ta_rolled = nh4ta_df.rolling(window=20).sum()
+    no3ta_rolled = no3ta_df.rolling(window=20).sum()
+    po4ta_rolled = po4ta_df.rolling(window=20).sum()
+
+    nh4ta_year = nh4ta_rolled.loc['2011-01-01':'2011-12-31']
+    no3ta_year = no3ta_rolled.loc['2011-01-01':'2011-12-31']
+    po4ta_year = po4ta_rolled.loc['2011-01-01':'2011-12-31']
+
+    nh4ta = np.array(nh4ta_year.TA_due_to_NH4.values)
+    no3ta = np.array(no3ta_year.TA_due_to_NO3.values)
+    po4ta = np.array(po4ta_year.TA_due_to_PO4.values)
+    total = nh4ta+no3ta+po4ta
+    total = total * (-1/2.5) # depth is 2.5, minus since we return nutrients influence back
 
     alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop = True)
     omresp_bottom  = omresp_df.groupby('z').get_group(2.4749999046325684).reset_index('z',drop = True)
@@ -422,26 +436,6 @@ def plot_caco3():
     year = (('2011-01-01','2011-01-31'), ('2011-02-01','2011-02-28'), ('2011-03-01','2011-03-31'), ('2011-04-01','2011-04-30'),
         ('2011-05-01','2011-05-31'), ('2011-06-01','2011-06-30'), ('2011-07-01','2011-07-31'), ('2011-08-01','2011-08-31'),
         ('2011-09-01','2011-09-30'), ('2011-10-01','2011-10-31'), ('2011-11-01','2011-11-30'), ('2011-12-01','2011-12-31'))
-
-    nh4ta_year = []
-    no3ta_year = []
-    po4ta_year = []
-    so4ta_year = []
-    for month in year:
-        nh4ta_month = nh4ta_df.loc[month[0]:month[1]]
-        no3ta_month = no3ta_df.loc[month[0]:month[1]]
-        po4ta_month = po4ta_df.loc[month[0]:month[1]]
-        so4ta_month = so4ta_df.loc[month[0]:month[1]]
-        nh4ta_year.append(nh4ta_month['TA_due_to_NH4'].sum())
-        no3ta_year.append(no3ta_month['TA_due_to_NO3'].sum())
-        po4ta_year.append(po4ta_month['TA_due_to_PO4'].sum())
-        so4ta_year.append(so4ta_month['TA_due_to_SO4'].sum())
-
-    nh4ta = np.array(nh4ta_year)
-    no3ta = np.array(no3ta_year)
-    po4ta = np.array(po4ta_year)
-    so4ta = np.array(so4ta_year)
-    total = nh4ta+no3ta+po4ta+so4ta
 
     year_days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     #year_acc_days = np.cumsum(year_days)
@@ -519,6 +513,12 @@ def plot_caco3():
     ax2.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
     ax2.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax2.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
+
+    ax3.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
+    ax3.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
+    ax3.plot(alk_surface_year['time'], result_array-result_array.min() + total - total.min(), linewidth=2, label=r'CaCO$_3$ + model calculations + nutriens advection')
+    ax3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
+    ax3.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
 
     fig.tight_layout(pad=0.5)
     #plt.savefig('Figure7.eps', dpi = 300)
