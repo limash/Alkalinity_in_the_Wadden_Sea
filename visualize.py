@@ -503,7 +503,9 @@ def plot_caco3():
 
     ax3.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
     ax3.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
-    ax3.plot(alk_surface_year['time'], result_array-result_array.min() + total - total.min(), linewidth=2, label=r'CaCO$_3$ + model calculations + nutriens advection')
+    topicture = result_array + total
+    topicture = topicture - topicture.min()
+    ax3.plot(alk_surface_year['time'], topicture, linewidth=2, label=r'CaCO$_3$ + model calculations + nutriens advection')
     ax3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax3.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
 
