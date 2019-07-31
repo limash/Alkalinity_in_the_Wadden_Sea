@@ -6,6 +6,7 @@ __pycache__/
 data/
 *.eps
 *.Rmd
+*.png
 
 #jupyter checkpoints
 .ipynb_checkpoints

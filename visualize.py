@@ -1,29 +1,16 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.3'
-#       jupytext_version: 0.8.6
-#   kernelspec:
-#     display_name: Python 3
-#     language: python
-#     name: python3
-# ---
-
 import xarray as xr
-import numpy as np # imports a fast numerical programming library
-import matplotlib.pyplot as plt #sets up plotting under plt
+import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib import rc
 import matplotlib.dates as mdates
-import pandas as pd #lets us handle data as dataframes
+import pandas as pd
 from datetime import datetime
 import matplotlib as mpl
-import seaborn as sns #sets up styles and gives us more plotting options
+import seaborn as sns
 sns.set()
 from pandas.plotting import register_matplotlib_converters
 register_matplotlib_converters()
+
 #sets up pandas table display
 pd.set_option('display.width', 500)
 pd.set_option('display.max_columns', 100)
@@ -158,7 +145,7 @@ def plotTA(biogeodata):
         item.set_fontsize(fntsz)
     ax.legend(loc = 'upper left',fontsize = lgndsz)
     plt.ylabel('Total Alkalinity, $\mu M$')
-    plt.savefig('Figure1.eps', dpi = 300)
+    plt.savefig('Figure1.png', dpi = 300)
     #plt.show()
 
 def plot_intro():
@@ -247,7 +234,7 @@ def plot_alkalinity_flux_low_high():
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure3.eps', dpi = 300)
+    plt.savefig('Figure3.png', dpi = 300)
     #plt.show()
 
 def plot_alkalinity_flux_sulfur_oxidation():
@@ -282,7 +269,7 @@ def plot_alkalinity_flux_sulfur_oxidation():
 
     ax.legend(loc='upper left', title='Sulfur compounds \noxidation rates',fontsize = lgndsz, title_fontsize = lgndsz)
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure4.eps', dpi = 300)
+    plt.savefig('Figure4.png', dpi = 300)
     #plt.show()
 
 def plot_alkalinity_flux_porosities1_2_3():
@@ -350,7 +337,7 @@ def plot_alkalinity_flux_porosities1_2_3():
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure5.eps', dpi = 300)
+    plt.savefig('Figure5.png', dpi = 300)
     #plt.show()
 
 def plot_alk_sulfur_fluxes():
@@ -394,7 +381,7 @@ def plot_alk_sulfur_fluxes():
 
     ax.legend(loc='upper left', title='Fluxes',fontsize = lgndsz, title_fontsize = lgndsz)
     #fig.tight_layout(pad=0.5)
-    plt.savefig('Figure6.eps', dpi = 300)
+    plt.savefig('Figure6.png', dpi = 300)
     #plt.show()
 
 def plot_caco3():
@@ -520,14 +507,21 @@ def plot_caco3():
     ax3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax3.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
 
+    labels = ('(A) ','(B)','(C) ')
+    # --- improve the layout
+    for i,axis in enumerate((ax1,ax2,ax3)):
+        axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+        axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
+                 fontsize=fntsz, fontweight='bold', va='top', ha='right')
     fig.tight_layout(pad=0.5)
-    #plt.savefig('Figure7.eps', dpi = 300)
-    plt.show()
+
+    plt.savefig('Figure7.png', dpi = 300)
+    #plt.show()
 
 if __name__ == "__main__":
-    #plot_intro()
-    #plot_alkalinity_flux_low_high()
-    #plot_alkalinity_flux_sulfur_oxidation()
-    #plot_alkalinity_flux_porosities1_2_3()
-    #plot_alk_sulfur_fluxes()
+    plot_intro()
+    plot_alkalinity_flux_low_high()
+    plot_alkalinity_flux_sulfur_oxidation()
+    plot_alkalinity_flux_porosities1_2_3()
+    plot_alk_sulfur_fluxes()
     plot_caco3()
