@@ -400,9 +400,16 @@ def plot_caco3():
     no3ta_df = ds_ad['TA_due_to_NO3'].to_dataframe()
     po4ta_df = ds_ad['TA_due_to_PO4'].to_dataframe()
 
-    nh4ta_rolled = nh4ta_df.rolling(window=20).sum()
-    no3ta_rolled = no3ta_df.rolling(window=20).sum()
-    po4ta_rolled = po4ta_df.rolling(window=20).sum()
+    nh4ta_df.loc[:'2010-04-01'] = 0; nh4ta_df.loc['2012-05-01':] = 0
+    nh4ta_df.loc['2010-05-01':'2011-04-01'] = 0; nh4ta_df.loc['2011-05-01':'2012-04-01'] = 0
+    no3ta_df.loc[:'2010-04-01'] = 0; no3ta_df.loc['2012-05-01':] = 0
+    no3ta_df.loc['2010-05-01':'2011-04-01'] = 0; no3ta_df.loc['2011-05-01':'2012-04-01'] = 0
+    po4ta_df.loc[:'2010-04-01'] = 0; po4ta_df.loc['2012-05-01':] = 0
+    po4ta_df.loc['2010-05-01':'2011-04-01'] = 0; po4ta_df.loc['2011-05-01':'2012-04-01'] = 0
+
+    nh4ta_rolled = nh4ta_df.rolling(window=30).sum()
+    no3ta_rolled = no3ta_df.rolling(window=30).sum()
+    po4ta_rolled = po4ta_df.rolling(window=30).sum()
 
     nh4ta_year = nh4ta_rolled.loc['2011-01-01':'2011-12-31']
     no3ta_year = no3ta_rolled.loc['2011-01-01':'2011-12-31']
@@ -505,7 +512,7 @@ def plot_caco3():
     ax3.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
     topicture = result_array + total
     topicture = topicture - topicture.min()
-    ax3.plot(alk_surface_year['time'], topicture, linewidth=2, label=r'CaCO$_3$ + model calculations + nutriens advection')
+    ax3.plot(alk_surface_year['time'], topicture, linewidth=2, label=r'CaCO$_3$ + model calculations + nutrients consumption')
     ax3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax3.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
 
