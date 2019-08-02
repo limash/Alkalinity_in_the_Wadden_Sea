@@ -482,18 +482,22 @@ def plot_caco3():
         caco3_pre[day:day+month] = increment
         day += month
 
-    gs = gs.GridSpec(2, 2)
-    fig = plt.figure(figsize=cm2inch(18, 14))
-    ax1 = fig.add_subplot(gs[0,0])
-    ax2 = fig.add_subplot(gs[0,1])
-    ax3 = fig.add_subplot(gs[1,0:])
+    #gs = gs.GridSpec(2, 2)
+    #fig = plt.figure(figsize=cm2inch(18, 14))
+    #ax1 = fig.add_subplot(gs[0,0])
+    #ax2 = fig.add_subplot(gs[0,1])
+    #ax3 = fig.add_subplot(gs[1,0:])
+    
+    fig = plt.figure(figsize=cm2inch(18, 7))
+    ax1 = fig.add_subplot(1, 2, 1) # row-col-num
+    ax2 = fig.add_subplot(1, 2, 2) # row-col-num
 
     ax1.xaxis_date()
-    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     ax2.xaxis_date()
+    #ax3.xaxis_date()
+    ax1.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
     ax2.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax3.xaxis_date()
-    ax3.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
+    #ax3.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 
     ax1.plot(alk_surface_year['time'], caco3_dis*2, label = 'CaCO$_3$ dissolution')
     ax1.plot(alk_surface_year['time'], caco3_pre*2, label = 'CaCO$_3$ precipitation')
@@ -508,17 +512,17 @@ def plot_caco3():
     ax2.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
     ax2.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
 
-    ax3.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
-    ax3.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
-    topicture = result_array + total
-    topicture = topicture - topicture.min()
-    ax3.plot(alk_surface_year['time'], topicture, linewidth=2, label=r'CaCO$_3$ + model calculations + nutrients consumption')
-    ax3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
-    ax3.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
+    #ax3.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
+    #ax3.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
+    #topicture = result_array + total
+    #topicture = topicture - topicture.min()
+    #ax3.plot(alk_surface_year['time'], topicture, linewidth=2, label=r'CaCO$_3$ + model calculations + nutrients consumption')
+    #ax3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
+    #ax3.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
 
-    labels = ('(A) ','(B)','(C) ')
+    labels = ('(A) ','(B)')#,'(C) ')
     # --- improve the layout
-    for i,axis in enumerate((ax1,ax2,ax3)):
+    for i,axis in enumerate((ax1,ax2)):#,ax3)):
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
