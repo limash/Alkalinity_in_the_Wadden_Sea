@@ -234,7 +234,7 @@ def plot_alkalinity_flux_low_high():
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure3.png', dpi = 300)
+    plt.savefig('Figure3-new.png', dpi = 300)
     #plt.show()
 
 def plot_alkalinity_flux_sulfur_oxidation():
@@ -532,9 +532,9 @@ def plot_caco3():
     #plt.show()
 
 if __name__ == "__main__":
-    plot_intro()
+    #plot_intro()
     plot_alkalinity_flux_low_high()
-    plot_alkalinity_flux_sulfur_oxidation()
-    plot_alkalinity_flux_porosities1_2_3()
-    plot_alk_sulfur_fluxes()
-    plot_caco3()
+    #plot_alkalinity_flux_sulfur_oxidation()
+    #plot_alkalinity_flux_porosities1_2_3()
+    #plot_alk_sulfur_fluxes()
+    #plot_caco3()
