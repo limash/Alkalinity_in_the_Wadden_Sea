@@ -174,7 +174,7 @@ def get_data_time(dtsts):
     return alk_year,alkflux_bottom_year
 
 def plot_alkalinity_flux_low_high():
-    base_path = 'data/low_sulfate_reduction_rate'
+    base_path = 'data/low_sulfate_reduction_rate_2'
     ds1 = xr.open_dataset('{}/2_po75-25_di1e-9/water.nc'.format(base_path))
     ds2 = xr.open_dataset('{}/3_po75-25_di2e-9/water.nc'.format(base_path))
     ds3 = xr.open_dataset('{}/4_po75-25_di5e-9/water.nc'.format(base_path))
