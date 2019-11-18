@@ -174,7 +174,7 @@ def get_data_time(dtsts):
     return alk_year,alkflux_bottom_year
 
 def plot_alkalinity_flux_low_high():
-    base_path = 'data/low_sulfate_reduction_rate_2'
+    base_path = 'data/low_sulfate_reduction_rate'
     ds1 = xr.open_dataset('{}/2_po75-25_di1e-9/water.nc'.format(base_path))
     ds2 = xr.open_dataset('{}/3_po75-25_di2e-9/water.nc'.format(base_path))
     ds3 = xr.open_dataset('{}/4_po75-25_di5e-9/water.nc'.format(base_path))
@@ -323,11 +323,11 @@ def plot_alkalinity_flux_porosities1_2_3():
     for axis in [ax,ax_2,ax_3]:
         axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
         axis.legend(loc='upper left', title='Porosities', fontsize=lgndsz, title_fontsize = lgndsz)
-        axis.set_ylim(2,23)
+        axis.set_ylim(0,15)
 
     for axis in [ax1,ax1_2,ax1_3]:
         axis.set_ylabel('mmol m$^{-3}$', fontsize=fntsz)
-        axis.set_ylim(0,210)
+        axis.set_ylim(0,110)
     ax.set_title('TA fluxes', fontsize=fntsz)
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
 
@@ -337,7 +337,7 @@ def plot_alkalinity_flux_porosities1_2_3():
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure5.png', dpi = 300)
+    plt.savefig('Figure5-new.png', dpi = 300)
     #plt.show()
 
 def plot_alk_sulfur_fluxes():
@@ -368,7 +368,7 @@ def plot_alk_sulfur_fluxes():
     s0, s0flux_bottom_july = get_var_data_time(dtsts,'B_S_S0    _flux')
     s2o3, s2o3flux_july = get_var_data_time(dtsts,'B_S_S2O3  _flux')
     alk_calc = nh4-no2-no3-po4-2*so4
-    s_total = h2s + s0 + s2o3
+    s_total = h2s + s0 + 2*s2o3
     x = np.array([1e-9, 2e-9, 5e-9, 10e-9])
 
     fig = plt.figure(figsize=cm2inch(8.5, 6), constrained_layout=True)
@@ -381,7 +381,7 @@ def plot_alk_sulfur_fluxes():
 
     ax.legend(loc='upper left', title='Fluxes',fontsize = lgndsz, title_fontsize = lgndsz)
     #fig.tight_layout(pad=0.5)
-    plt.savefig('Figure6.png', dpi = 300)
+    plt.savefig('Figure6-new.png', dpi = 300)
     #plt.show()
 
 def plot_caco3():
@@ -392,7 +392,7 @@ def plot_caco3():
 
     alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
     biogrow_df = ds['B_BIO_GrowthPhy'].to_dataframe()
-    omresp_df  = ds['B_BIO_DcPOC_O2'].to_dataframe()
+    omresp_df  = ds['B_BIO_DcPOM_O2'].to_dataframe()
     alk_df     = ds['B_C_Alk'].to_dataframe()
 
     #minus values mean alkalinity goes to the North Sea
@@ -446,7 +446,7 @@ def plot_caco3():
         alk_year_delta.append(alk_delta_month['B_C_Alk'][0])
         alk_year.append(alk_month['B_C_Alk   _flux'].mean())
         bio_year.append(bio_month['B_BIO_GrowthPhy'].mean())
-        res_year.append(res_month['B_BIO_DcPOC_O2'].mean())
+        res_year.append(res_month['B_BIO_DcPOM_O2'].mean())
 
     bio_year_quotas = np.array(bio_year)/sum(bio_year)
     alk_year_quotas = np.array(alk_year)/sum(alk_year)
@@ -528,13 +528,13 @@ def plot_caco3():
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
     fig.tight_layout(pad=0.5)
 
-    plt.savefig('Figure7.png', dpi = 300)
+    plt.savefig('Figure7-new.png', dpi = 300)
     #plt.show()
 
 if __name__ == "__main__":
     #plot_intro()
-    plot_alkalinity_flux_low_high()
+    #plot_alkalinity_flux_low_high()
     #plot_alkalinity_flux_sulfur_oxidation()
-    #plot_alkalinity_flux_porosities1_2_3()
+    plot_alkalinity_flux_porosities1_2_3()
     #plot_alk_sulfur_fluxes()
     #plot_caco3()
