@@ -185,50 +185,50 @@ def plot_alkalinity_flux_low_high():
     ds8 = xr.open_dataset('{}/9_po75-25_di30e-9/water.nc'.format(base_path))
     ds9 = xr.open_dataset('{}/10_po75-25_di35e-9/water.nc'.format(base_path))
 
-    ds1_high = xr.open_dataset('data/high_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
-    ds2_high = xr.open_dataset('data/high_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
-    ds3_high = xr.open_dataset('data/high_sulfate_reduction_rate/4_po75-25_di5e-9/water.nc')
-    ds4_high = xr.open_dataset('data/high_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
-    ds5_high = xr.open_dataset('data/high_sulfate_reduction_rate/6_po75-25_di15e-9/water.nc')
-    ds6_high = xr.open_dataset('data/high_sulfate_reduction_rate/7_po75-25_di20e-9/water.nc')
-    ds7_high = xr.open_dataset('data/high_sulfate_reduction_rate/8_po75-25_di25e-9/water.nc')
-    ds8_high = xr.open_dataset('data/high_sulfate_reduction_rate/9_po75-25_di30e-9/water.nc')
-    ds9_high = xr.open_dataset('data/high_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
+    #ds1_high = xr.open_dataset('data/high_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
+    #ds2_high = xr.open_dataset('data/high_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
+    #ds3_high = xr.open_dataset('data/high_sulfate_reduction_rate/4_po75-25_di5e-9/water.nc')
+    #ds4_high = xr.open_dataset('data/high_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+    #ds5_high = xr.open_dataset('data/high_sulfate_reduction_rate/6_po75-25_di15e-9/water.nc')
+    #ds6_high = xr.open_dataset('data/high_sulfate_reduction_rate/7_po75-25_di20e-9/water.nc')
+    #ds7_high = xr.open_dataset('data/high_sulfate_reduction_rate/8_po75-25_di25e-9/water.nc')
+    #ds8_high = xr.open_dataset('data/high_sulfate_reduction_rate/9_po75-25_di30e-9/water.nc')
+    #ds9_high = xr.open_dataset('data/high_sulfate_reduction_rate/10_po75-25_di35e-9/water.nc')
 
     alk_year,alkflux_bottom_year = get_data_time([ds1, ds2, ds3, ds4, ds5, ds6, ds7, ds8, ds9])
-    alk_year_high, alkflux_bottom_year_high = get_data_time([ds1_high, ds2_high, ds3_high, ds4_high,
-                                            ds5_high, ds6_high, ds7_high, ds8_high, ds9_high])
+    #alk_year_high, alkflux_bottom_year_high = get_data_time([ds1_high, ds2_high, ds3_high, ds4_high,
+    #                                        ds5_high, ds6_high, ds7_high, ds8_high, ds9_high])
 
-    fig = plt.figure(figsize=cm2inch(18, 14))
-    ax = fig.add_subplot(2, 2, 1) # row-col-num
-    ax1 = fig.add_subplot(2, 2, 2) # row-col-num
-    ax_2 = fig.add_subplot(2, 2, 3) # row-col-num
-    ax_3 = fig.add_subplot(2, 2, 4) # row-col-num
+    fig = plt.figure(figsize=cm2inch(18, 7))
+    ax = fig.add_subplot(1, 2, 1) # row-col-num
+    ax1 = fig.add_subplot(1, 2, 2) # row-col-num
+    #ax_2 = fig.add_subplot(2, 2, 3) # row-col-num
+    #ax_3 = fig.add_subplot(2, 2, 4) # row-col-num
 
     labels = [r'$1e-9$',r'$2e-9$',r'$5e-9$',r'$10e-9$',r'$15e-9$',r'$20e-9$',r'$25e-9$',r'$30e-9$',r'$35e-9$']
 
     for n in range(0,9):
         ax.plot(alkflux_bottom_year[n]['time'], alkflux_bottom_year[n][alkflux_var], linewidth=lnw, label=labels[n])
-        ax1.plot(alkflux_bottom_year_high[n]['time'], alkflux_bottom_year_high[n][alkflux_var], linewidth=lnw, label=labels[n])
+        #ax1.plot(alkflux_bottom_year_high[n]['time'], alkflux_bottom_year_high[n][alkflux_var], linewidth=lnw, label=labels[n])
 
-        ax_2.plot(alk_year[n]['time'], alk_year[n][alk_var], linewidth=lnw, label=labels[n])
-        ax_3.plot(alk_year_high[n]['time'], alk_year_high[n][alk_var], linewidth=lnw, label=labels[n])
+        ax1.plot(alk_year[n]['time'], alk_year[n][alk_var], linewidth=lnw, label=labels[n])
+        #ax_3.plot(alk_year_high[n]['time'], alk_year_high[n][alk_var], linewidth=lnw, label=labels[n])
 
     # --- add title and axis labels
-    ax.set_title('Low sulfate reduction', fontsize=fntsz)
-    ax1.set_title('High sulfate reduction', fontsize=fntsz)
+    #ax.set_title('Low sulfate reduction', fontsize=fntsz)
+    #ax1.set_title('High sulfate reduction', fontsize=fntsz)
 
     ax.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
-    ax1.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
+    #ax1.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
 
-    ax_2.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
-    ax_3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
+    ax1.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
+    #ax_3.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
 
     ax.legend(loc='best', title='$kz_{dispersion}$, m$^2$ s$^{-1}$',fontsize = lgndsz, title_fontsize = lgndsz)
 
-    labels = ('(A) ','(B)','(C) ','(D)')
+    labels = ('(A) ','(B)')#,'(C) ','(D)')
     # --- improve the layout
-    for i,axis in enumerate((ax,ax1,ax_2,ax_3)):
+    for i,axis in enumerate((ax,ax1)):#,ax_2,ax_3)):
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
@@ -388,7 +388,7 @@ def plot_caco3():
     import matplotlib.gridspec as gs
 
     ds = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
-    ds_ad = xr.open_dataset('data/advective_ta/1_10e-9/water.nc')
+    #ds_ad = xr.open_dataset('data/advective_ta/1_10e-9/water.nc')
 
     alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
     biogrow_df = ds['B_BIO_GrowthPhy'].to_dataframe()
@@ -396,30 +396,30 @@ def plot_caco3():
     alk_df     = ds['B_C_Alk'].to_dataframe()
 
     #minus values mean alkalinity goes to the North Sea
-    nh4ta_df = ds_ad['TA_due_to_NH4'].to_dataframe()
-    no3ta_df = ds_ad['TA_due_to_NO3'].to_dataframe()
-    po4ta_df = ds_ad['TA_due_to_PO4'].to_dataframe()
+    #nh4ta_df = ds_ad['TA_due_to_NH4'].to_dataframe()
+    #no3ta_df = ds_ad['TA_due_to_NO3'].to_dataframe()
+    #po4ta_df = ds_ad['TA_due_to_PO4'].to_dataframe()
 
-    nh4ta_df.loc[:'2010-04-01'] = 0; nh4ta_df.loc['2012-05-01':] = 0
-    nh4ta_df.loc['2010-05-01':'2011-04-01'] = 0; nh4ta_df.loc['2011-05-01':'2012-04-01'] = 0
-    no3ta_df.loc[:'2010-04-01'] = 0; no3ta_df.loc['2012-05-01':] = 0
-    no3ta_df.loc['2010-05-01':'2011-04-01'] = 0; no3ta_df.loc['2011-05-01':'2012-04-01'] = 0
-    po4ta_df.loc[:'2010-04-01'] = 0; po4ta_df.loc['2012-05-01':] = 0
-    po4ta_df.loc['2010-05-01':'2011-04-01'] = 0; po4ta_df.loc['2011-05-01':'2012-04-01'] = 0
+    #nh4ta_df.loc[:'2010-04-01'] = 0; nh4ta_df.loc['2012-05-01':] = 0
+    #nh4ta_df.loc['2010-05-01':'2011-04-01'] = 0; nh4ta_df.loc['2011-05-01':'2012-04-01'] = 0
+    #no3ta_df.loc[:'2010-04-01'] = 0; no3ta_df.loc['2012-05-01':] = 0
+    #no3ta_df.loc['2010-05-01':'2011-04-01'] = 0; no3ta_df.loc['2011-05-01':'2012-04-01'] = 0
+    #po4ta_df.loc[:'2010-04-01'] = 0; po4ta_df.loc['2012-05-01':] = 0
+    #po4ta_df.loc['2010-05-01':'2011-04-01'] = 0; po4ta_df.loc['2011-05-01':'2012-04-01'] = 0
 
-    nh4ta_rolled = nh4ta_df.rolling(window=30).sum()
-    no3ta_rolled = no3ta_df.rolling(window=30).sum()
-    po4ta_rolled = po4ta_df.rolling(window=30).sum()
+    #nh4ta_rolled = nh4ta_df.rolling(window=30).sum()
+    #no3ta_rolled = no3ta_df.rolling(window=30).sum()
+    #po4ta_rolled = po4ta_df.rolling(window=30).sum()
 
-    nh4ta_year = nh4ta_rolled.loc['2011-01-01':'2011-12-31']
-    no3ta_year = no3ta_rolled.loc['2011-01-01':'2011-12-31']
-    po4ta_year = po4ta_rolled.loc['2011-01-01':'2011-12-31']
+    #nh4ta_year = nh4ta_rolled.loc['2011-01-01':'2011-12-31']
+    #no3ta_year = no3ta_rolled.loc['2011-01-01':'2011-12-31']
+    #po4ta_year = po4ta_rolled.loc['2011-01-01':'2011-12-31']
 
-    nh4ta = np.array(nh4ta_year.TA_due_to_NH4.values)
-    no3ta = np.array(no3ta_year.TA_due_to_NO3.values)
-    po4ta = np.array(po4ta_year.TA_due_to_PO4.values)
-    total = nh4ta+no3ta+po4ta
-    total = total * (-1/2.5) # depth is 2.5, minus since we return nutrients influence back
+    #nh4ta = np.array(nh4ta_year.TA_due_to_NH4.values)
+    #no3ta = np.array(no3ta_year.TA_due_to_NO3.values)
+    #po4ta = np.array(po4ta_year.TA_due_to_PO4.values)
+    #total = nh4ta+no3ta+po4ta
+    #total = total * (-1/2.5) # depth is 2.5, minus since we return nutrients influence back
 
     alkflux_bottom = alkflux_df.groupby('z_faces').get_group(2.5).reset_index('z_faces',drop = True)
     omresp_bottom  = omresp_df.groupby('z').get_group(2.4749999046325684).reset_index('z',drop = True)
@@ -535,6 +535,6 @@ if __name__ == "__main__":
     #plot_intro()
     #plot_alkalinity_flux_low_high()
     #plot_alkalinity_flux_sulfur_oxidation()
-    plot_alkalinity_flux_porosities1_2_3()
+    #plot_alkalinity_flux_porosities1_2_3()
     #plot_alk_sulfur_fluxes()
-    #plot_caco3()
+    plot_caco3()
