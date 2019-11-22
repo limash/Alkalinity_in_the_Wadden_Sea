@@ -375,6 +375,7 @@ def plot_alk_sulfur_fluxes():
     ax = fig.add_subplot(1, 1, 1) # row-col-num
     ax.plot(x, alk, linewidth=lnw, label=r'alkalinity flux')
     ax.plot(x, s_total, linewidth=lnw, label=r'sulfur flux')
+    ax.set_ylim(0,19)
 
     ax.set_ylabel('Flux, mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
     ax.set_xlabel('$kz_{dispersion}$, m$^2$ s$^{-1}$', fontsize=fntsz)
