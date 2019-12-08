@@ -322,7 +322,7 @@ def plot_alkalinity_flux_porosities1_2_3():
 
     for axis in [ax,ax_2,ax_3]:
         axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
-        axis.legend(loc='upper left', title='Porosities', fontsize=lgndsz, title_fontsize = lgndsz)
+        axis.legend(loc='upper left', title='Porosities:\n SWI - "infinite depth"', fontsize=lgndsz, title_fontsize = lgndsz)
         axis.set_ylim(0,27)
 
     for axis in [ax1,ax1_2,ax1_3]:
@@ -534,8 +534,8 @@ def plot_caco3():
 
 if __name__ == "__main__":
     #plot_intro()
-    plot_alkalinity_flux_low_high()
+    #plot_alkalinity_flux_low_high()
     #plot_alkalinity_flux_sulfur_oxidation()
     plot_alkalinity_flux_porosities1_2_3()
-    plot_alk_sulfur_fluxes()
-    plot_caco3()
+    #plot_alk_sulfur_fluxes()
+    #plot_caco3()
