@@ -5,9 +5,7 @@ __pycache__/
 
 pandas/
 data/
-*.eps
 *.Rmd
-*.png
 
 #jupyter checkpoints
 .ipynb_checkpoints

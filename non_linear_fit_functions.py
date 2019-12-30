@@ -70,4 +70,4 @@ def return_par_values(out, name):
     return out.params[name].value
 
 if __name__ == '__main__':
-    print('This is a linear fit functions module')
+    print('This is a non linear fit functions module')
