@@ -21,9 +21,9 @@ font = {'family' : 'normal',
         'size'   : 22}
 #rc('font', **font)
 
-lnw = 1.5
-fntsz = 10
-lgndsz = 8
+lnw = 2 
+fntsz = 14 #10
+lgndsz = 14 #8
 mpl.rcParams['xtick.labelsize'] = lgndsz
 mpl.rcParams['ytick.labelsize'] = lgndsz
 strt ='2011-01-01'
@@ -145,8 +145,8 @@ def plotTA(biogeodata):
         item.set_fontsize(fntsz)
     ax.legend(loc = 'upper left',fontsize = lgndsz)
     plt.ylabel('Total Alkalinity, $\mu M$')
-    plt.savefig('Figure1.png', dpi = 300)
-    #plt.show()
+    #plt.savefig('Figure1.png', dpi = 300)
+    plt.show()
 
 def plot_intro():
     north7 = pd.read_csv("HafniaDataNorth7Shamil.csv")
@@ -199,9 +199,10 @@ def plot_alkalinity_flux_low_high():
     #alk_year_high, alkflux_bottom_year_high = get_data_time([ds1_high, ds2_high, ds3_high, ds4_high,
     #                                        ds5_high, ds6_high, ds7_high, ds8_high, ds9_high])
 
-    fig = plt.figure(figsize=cm2inch(18, 7))
-    ax = fig.add_subplot(1, 2, 1) # row-col-num
-    ax1 = fig.add_subplot(1, 2, 2) # row-col-num
+    #fig = plt.figure(figsize=cm2inch(18, 7))
+    fig = plt.figure(figsize=(12, 10))
+    ax = fig.add_subplot(2, 1, 1) # row-col-num
+    ax1 = fig.add_subplot(2, 1, 2) # row-col-num
     #ax_2 = fig.add_subplot(2, 2, 3) # row-col-num
     #ax_3 = fig.add_subplot(2, 2, 4) # row-col-num
 
@@ -233,9 +234,9 @@ def plot_alkalinity_flux_low_high():
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
-    fig.tight_layout(pad=0.5)
-    plt.savefig('Figure3-new.png', dpi = 300)
-    #plt.show()
+    #fig.tight_layout(pad=0.5)
+    #plt.savefig('Figure3-new.png', dpi = 300)
+    plt.show()
 
 def plot_alkalinity_flux_sulfur_oxidation():
 
@@ -269,8 +270,8 @@ def plot_alkalinity_flux_sulfur_oxidation():
 
     ax.legend(loc='upper left', title='Sulfur compounds \noxidation rates',fontsize = lgndsz, title_fontsize = lgndsz)
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure4.png', dpi = 300)
-    #plt.show()
+    #plt.savefig('Figure4.png', dpi = 300)
+    plt.show()
 
 def plot_alkalinity_flux_porosities1_2_3():
 
@@ -337,8 +338,8 @@ def plot_alkalinity_flux_porosities1_2_3():
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
     fig.tight_layout(pad=0.5)
-    plt.savefig('Figure5-new.png', dpi = 300)
-    #plt.show()
+    #plt.savefig('Figure5-new.png', dpi = 300)
+    plt.show()
 
 def plot_alk_sulfur_fluxes():
 
@@ -382,8 +383,8 @@ def plot_alk_sulfur_fluxes():
 
     ax.legend(loc='upper left', title='Fluxes',fontsize = lgndsz, title_fontsize = lgndsz)
     #fig.tight_layout(pad=0.5)
-    plt.savefig('Figure6-new.png', dpi = 300)
-    #plt.show()
+    #plt.savefig('Figure6-new.png', dpi = 300)
+    plt.show()
 
 def plot_caco3():
     import matplotlib.gridspec as gs
@@ -529,13 +530,13 @@ def plot_caco3():
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
     fig.tight_layout(pad=0.5)
 
-    plt.savefig('Figure7-new.png', dpi = 300)
-    #plt.show()
+    #plt.savefig('Figure7-new.png', dpi = 300)
+    plt.show()
 
 if __name__ == "__main__":
     #plot_intro()
-    #plot_alkalinity_flux_low_high()
+    plot_alkalinity_flux_low_high()
     #plot_alkalinity_flux_sulfur_oxidation()
-    plot_alkalinity_flux_porosities1_2_3()
+    #plot_alkalinity_flux_porosities1_2_3()
     #plot_alk_sulfur_fluxes()
     #plot_caco3()
