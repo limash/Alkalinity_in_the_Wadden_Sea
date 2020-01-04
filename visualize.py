@@ -295,7 +295,8 @@ def plot_alkalinity_flux_porosities1_2_3():
     alk_year_2,alkflux_bottom_year_2 = get_data_time([ds0_2, ds1_2, ds2_2, ds3_2])
     alk_year_3,alkflux_bottom_year_3 = get_data_time([ds0_3, ds1_3, ds2_3, ds3_3])
 
-    fig = plt.figure(figsize=cm2inch(18, 18))
+    #fig = plt.figure(figsize=cm2inch(18, 18))
+    fig = plt.figure(figsize=(12, 10))
     ax = fig.add_subplot(3, 2, 1) # row-col-num
     ax1 = fig.add_subplot(3, 2, 2) # row-col-num
     ax_2 = fig.add_subplot(3, 2, 3) # row-col-num
@@ -323,11 +324,11 @@ def plot_alkalinity_flux_porosities1_2_3():
 
     for axis in [ax,ax_2,ax_3]:
         axis.set_ylabel('mmol m$^{-2}$ d$^{-1}$', fontsize=fntsz)
-        axis.legend(loc='upper left', title='Porosities:\n SWI - "infinite depth"', fontsize=lgndsz, title_fontsize = lgndsz)
         axis.set_ylim(0,27)
 
     for axis in [ax1,ax1_2,ax1_3]:
         axis.set_ylabel('mmol m$^{-3}$', fontsize=fntsz)
+        axis.legend(loc='upper left', title='Porosities:\n SWI - "infinite depth"', fontsize=lgndsz, title_fontsize = lgndsz)
         axis.set_ylim(0,180)
     ax.set_title('TA fluxes', fontsize=fntsz)
     ax1.set_title('Relative Total Alkalinity', fontsize=fntsz)
@@ -337,7 +338,7 @@ def plot_alkalinity_flux_porosities1_2_3():
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
 
-    fig.tight_layout(pad=0.5)
+    #fig.tight_layout(pad=0.5)
     #plt.savefig('Figure5-new.png', dpi = 300)
     plt.show()
 
@@ -490,9 +491,10 @@ def plot_caco3():
     #ax2 = fig.add_subplot(gs[0,1])
     #ax3 = fig.add_subplot(gs[1,0:])
     
-    fig = plt.figure(figsize=cm2inch(18, 7))
-    ax1 = fig.add_subplot(1, 2, 1) # row-col-num
-    ax2 = fig.add_subplot(1, 2, 2) # row-col-num
+    #fig = plt.figure(figsize=cm2inch(18, 7))
+    fig = plt.figure(figsize=(12, 10))
+    ax1 = fig.add_subplot(2, 1, 1) # row-col-num
+    ax2 = fig.add_subplot(2, 1, 2) # row-col-num
 
     ax1.xaxis_date()
     ax2.xaxis_date()
@@ -528,7 +530,7 @@ def plot_caco3():
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
         axis.text(x_text, y_text, labels[i], transform=axis.transAxes,
                  fontsize=fntsz, fontweight='bold', va='top', ha='right')
-    fig.tight_layout(pad=0.5)
+    #fig.tight_layout(pad=0.5)
 
     #plt.savefig('Figure7-new.png', dpi = 300)
     plt.show()
