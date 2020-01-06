@@ -1,17 +1,3 @@
-# ---
-# jupyter:
-#   jupytext:
-#     text_representation:
-#       extension: .py
-#       format_name: light
-#       format_version: '1.3'
-#       jupytext_version: 0.8.6
-#   kernelspec:
-#     display_name: Python 3
-#     language: python
-#     name: python3
-# ---
-
 import numpy as np
 import lmfit as lf
 import brom_functions as bf
@@ -19,10 +5,10 @@ import brom_functions as bf
 def residual_phy(params,
         depth, k, latitude, days, temperature,
         nh4, no2, no3, si, po4, o2,
-        nh4_data, no3_data, si_data, po4_data,
+        nh4_data, no3_data, si_data, po4_data, o2_data,
         phy, par, irradiance,
         het,
-        poml, doml, pomr, domr,
+        pom, dom, omflux,
         chl_a_data):
     #horizontal advection
     k_mix = params['k_mix']
@@ -52,26 +38,23 @@ def residual_phy(params,
     k_anammox = params['k_anammox']
     o2s_dn = params['o2s_dn']
     #OM
-    k_poml_doml = params['k_poml_doml']
-    k_pomr_domr = params['k_pomr_domr']
+    k_pom_dom = params['k_pom_dom']
     k_omox_o2 = params['k_omox_o2']
     tref = params['tref']
-    k_doml_ox = params['k_doml_ox']
-    k_poml_ox = params['k_poml_ox']
-    k_domr_ox = params['k_domr_ox']
-    k_pomr_ox = params['k_pomr_ox']
+    k_dom_ox = params['k_dom_ox']
+    k_pom_ox = params['k_pom_ox']
 
     chl_a, phy_dgrate, rations = bf.calculate(
         depth, k, k_mix, latitude, days, temperature,
         nh4, no2, no3, si, po4, o2,
-        nh4_data, no3_data, si_data, po4_data,
+        nh4_data, no3_data, si_data, po4_data, o2_data,
         phy, par, irradiance,
         knh4_lim, knox_lim, ksi_lim, kpo4_lim, pbm, alpha, kexc, kmort,
         het,
         k_het_phy_gro, k_het_phy_lim, k_het_pom_gro, k_het_pom_lim, k_het_res, k_het_mort, uz, hz,
         k_nfix, k_nitrif1, k_nitrif2, o2s_nf, k_anammox, o2s_dn,
-        poml, doml, pomr, domr,
-        k_poml_doml, k_pomr_domr, k_omox_o2, tref, k_doml_ox, k_poml_ox, k_domr_ox, k_pomr_ox)
+        pom, dom, omflux,
+        k_pom_dom, k_omox_o2, tref, k_dom_ox, k_pom_ox)
 
     return (chl_a-chl_a_data)
 
@@ -87,4 +70,4 @@ def return_par_values(out, name):
     return out.params[name].value
 
 if __name__ == '__main__':
-    print('This is a linear fit functions module')
+    print('This is a non linear fit functions module')

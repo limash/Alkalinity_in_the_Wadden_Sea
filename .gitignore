@@ -3,8 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+pandas/
 data/
-*.eps
 *.Rmd
 
 #jupyter checkpoints
