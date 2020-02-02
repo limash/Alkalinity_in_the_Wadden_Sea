@@ -2,33 +2,18 @@
 Created on 28. jun. 2017
 @author: ELP
 '''
-import os
-from PyQt5 import QtWidgets,QtGui, QtCore
-from PyQt5.QtWidgets import QTableWidget,QTableWidgetItem
+import sys,os
 from netCDF4 import Dataset,num2date,date2num,date2index
 import numpy as np
+import numpy.ma as ma
 import matplotlib.pyplot as plt
 from matplotlib import gridspec
-import numpy.ma as ma
 import matplotlib as mpl
 import matplotlib.dates as mdates
 import datetime 
-#from datetime import datetime, timedelta
-import tkinter as tk # python3
-from tkinter.filedialog import askopenfilename,askdirectory   # python 3
-root = tk.Tk()
-root.withdraw()
-#plt.style.use('ggplot')
-#plt.style.use('bmh')
-from matplotlib import rc
 font = {'size' : 14}
-rc('font', **font)
-import sys,os
-from matplotlib.backends.backend_qt5agg import (
-FigureCanvasQTAgg as FigureCanvas)
+from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as FigureCanvas)
 from dateutil.relativedelta import relativedelta
-
-
 
 def save_to_dir(dir_name):
     #dir_name = 'Results'
@@ -41,18 +26,17 @@ def save_to_dir(dir_name):
     plt.savefig(filename, format='pdf',transparent = True)
     #plt.savefig(filename, format='pdf', dpi=300,transparent = True)
 
-def plot_3fig(start_year,stop_year,name,title): 
+def plot_3fig(start_year,stop_year,name,title,path): 
 
     plt.clf() 
     directory = os.getcwd()     
-    water_fname = os.path.join(directory,'water.nc')
-    sediments_fname = os.path.join(directory,'sediments.nc')
+    water_fname = os.path.join(directory,path+'/water.nc')
+    sediments_fname = os.path.join(directory,path+'/sediments.nc')
 
-
-    figure = plt.figure(figsize=(11, 8.25), dpi=100,
+    figure = plt.figure(figsize=(8, 6), dpi=100,
                     facecolor='None',edgecolor='None')  
 
-    fh_water =  Dataset(water_fname)  
+    fh_water =  Dataset(water_fname)
     fh_sediments =  Dataset(sediments_fname) 
 
     depth_water = np.array(fh_water.variables['z_faces'][:])
@@ -64,7 +48,6 @@ def plot_3fig(start_year,stop_year,name,title):
     min_sed = np.amin(depth_sed)
     max_sed = np.amax(depth_sed)
 
-
     time = fh_water.variables['time']      
     time2 = fh_water.variables['time'][:]
 
@@ -72,11 +55,6 @@ def plot_3fig(start_year,stop_year,name,title):
 
     format_time = num2date(time2,units = time_units,calendar= 'standard')
                 
-    #########################
-    # Values for time axis  #
-    #########################
-            
-
     #assert start_year < stop_year
     to_start = datetime.datetime(start_year,1,1,12,0)
     to_stop= datetime.datetime(stop_year,1,1,12,0)
@@ -91,7 +69,6 @@ def plot_3fig(start_year,stop_year,name,title):
     var_sediments = np.array(
         fh_sediments.variables[name][:]).T                
     data_units = fh_water.variables[name].units
-
 
     start_f = num2date(time2[start],units = time_units) 
     stop_f = num2date(time2[stop],units = time_units)    
@@ -128,7 +105,6 @@ def plot_3fig(start_year,stop_year,name,title):
                         cmap = cmap_water)
     CS7 = ax2.pcolor(X_sed,Y_sed,var_sediments[:,start:stop], cmap = cmap_water)  
                     
-             
     ax1.set_title(title +' ['+ str(data_units)+']')
 
     import matplotlib.ticker as ticker
@@ -165,7 +141,6 @@ def plot_3fig(start_year,stop_year,name,title):
             time_ticks.append(
                 format_time[start]+relativedelta(years = n))
 
-
     def add_colorbar(CS,axis,ma1):
         if ma1 > 10000 or ma1 < 0.001:
             cb = plt.colorbar(CS,ax = axis,pad=0.02,
@@ -190,17 +165,15 @@ def plot_3fig(start_year,stop_year,name,title):
         axis.yaxis.set_label_coords(-0.08, 0.5)
         #axis.text(-0.21, 0.9, letters[n], transform=axis.transAxes , 
         #        size= fontsize) #, weight='bold')
-        axis.set_ylabel(labels[n], fontsize = 13)
+        axis.set_ylabel(labels[n], fontsize = 11)
             
         n=n+1
         #plt.tick_params(axis='both', which='major', labelsize= fontsize) 
-        
         
     ax1.set_ylim(max_water,min_water)
     ax2.set_ylim(max_sed,min_sed)  #
 
     # hide horizontal axis labels 
-
     ax1.set_xticklabels([]) 
 
     #plt.yticks(fontsize=fontsize, rotation=90) 
@@ -221,9 +194,4 @@ def plot_3fig(start_year,stop_year,name,title):
     else : 
         ax2.xaxis.set_major_formatter(
             mdates.DateFormatter('%b'))
-
-    plt.show()                    
-        
-
-
-plot_3fig(start_year = 2010,stop_year = 2011,name = 'B_C_Alk',title = 'Alkalinity')
+    plt.show()

@@ -246,7 +246,7 @@ def plot_alkalinity_flux_sulfur_oxidation():
 
     alk_year,alkflux_bottom_year = get_data_time([ds0, ds1, ds2])
 
-    fig = plt.figure(figsize=cm2inch(18, 7))
+    fig = plt.figure(figsize=cm2inch(30, 10))
     x_text = 0.97
     y_text = 0.98
     ax = fig.add_subplot(1, 2, 1) # row-col-num
@@ -269,7 +269,7 @@ def plot_alkalinity_flux_sulfur_oxidation():
         axis.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
 
     ax.legend(loc='upper left', title='Sulfur compounds \noxidation rates',fontsize = lgndsz, title_fontsize = lgndsz)
-    fig.tight_layout(pad=0.5)
+    #fig.tight_layout(pad=0.5)
     #plt.savefig('Figure4.png', dpi = 300)
     plt.show()
 
