@@ -11,7 +11,7 @@ from matplotlib import gridspec
 import matplotlib as mpl
 import matplotlib.dates as mdates
 import datetime 
-font = {'size' : 14}
+font = {'size' : 11}
 from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as FigureCanvas)
 from dateutil.relativedelta import relativedelta
 
@@ -26,7 +26,7 @@ def save_to_dir(dir_name):
     plt.savefig(filename, format='pdf',transparent = True)
     #plt.savefig(filename, format='pdf', dpi=300,transparent = True)
 
-def plot_3fig(start_year,stop_year,name,title,path): 
+def plot_fig(start_year,stop_year,name,title,path): 
 
     plt.clf() 
     directory = os.getcwd()     

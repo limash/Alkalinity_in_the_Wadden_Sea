@@ -174,7 +174,7 @@ def get_data_time(dtsts):
     return alk_year,alkflux_bottom_year
 
 def plot_alkalinity_flux_low_high():
-    base_path = 'data/low_sulfate_reduction_rate'
+    base_path = 'data/results'
     ds1 = xr.open_dataset('{}/2_po75-25_di1e-9/water.nc'.format(base_path))
     ds2 = xr.open_dataset('{}/3_po75-25_di2e-9/water.nc'.format(base_path))
     ds3 = xr.open_dataset('{}/4_po75-25_di5e-9/water.nc'.format(base_path))
@@ -344,10 +344,10 @@ def plot_alkalinity_flux_porosities1_2_3():
 
 def plot_alk_sulfur_fluxes():
 
-    ds1 = xr.open_dataset('data/low_sulfate_reduction_rate/2_po75-25_di1e-9/water.nc')
-    ds2 = xr.open_dataset('data/low_sulfate_reduction_rate/3_po75-25_di2e-9/water.nc')
-    ds3 = xr.open_dataset('data/low_sulfate_reduction_rate/4_po75-25_di5e-9/water.nc')
-    ds4 = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+    ds1 = xr.open_dataset('data/results/2_po75-25_di1e-9/water.nc')
+    ds2 = xr.open_dataset('data/results/3_po75-25_di2e-9/water.nc')
+    ds3 = xr.open_dataset('data/results/4_po75-25_di5e-9/water.nc')
+    ds4 = xr.open_dataset('data/results/5_po75-25_di10e-9/water.nc')
 
     def get_var_data_time(dtsts,varname):
         varflux_bottom_july,var_mean = [],[]
@@ -390,7 +390,7 @@ def plot_alk_sulfur_fluxes():
 def plot_caco3():
     import matplotlib.gridspec as gs
 
-    ds = xr.open_dataset('data/low_sulfate_reduction_rate/5_po75-25_di10e-9/water.nc')
+    ds = xr.open_dataset('data/results/5_po75-25_di10e-9/water.nc')
     #ds_ad = xr.open_dataset('data/advective_ta/1_10e-9/water.nc')
 
     alkflux_df = ds['B_C_Alk   _flux'].to_dataframe()
@@ -508,13 +508,15 @@ def plot_caco3():
     ax1.plot(alk_surface_year['time'], alkflux_bottom_year['B_C_Alk   _flux'], label = 'Modelled TA flux at the SWI')
     ax1.plot(alk_surface_year['time'], caco3_dis*2+alkflux_bottom_year['B_C_Alk   _flux'], linewidth=2, label = r'CaCO$_3$ dissolution + TA flux at the SWI')
     ax1.set_ylabel('TA fluxes, mmol m$^{-2}$ d$^{-1}$', fontsize = fntsz)
-    ax1.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
+    #ax1.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
+    ax1.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
 
     ax2.plot(alk_surface_year['time'], calpart-calpart.min(), linewidth=2, label=r'Due to CaCO$_3$ dissolution/precipitation')
     ax2.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
     ax2.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
     ax2.set_ylabel('Relative TA, mmol m$^{-3}$', fontsize=fntsz)
-    ax2.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
+    #ax2.legend(fontsize = lgndsz, title_fontsize = lgndsz, bbox_to_anchor=(0,1.02,1,0.2), loc="lower left", borderaxespad=0)
+    ax2.legend(fontsize = lgndsz, title_fontsize = lgndsz, loc="best", borderaxespad=0)
 
     #ax3.plot(alk_surface_year['time'], alk_array-alk_array.min(), linewidth=2, label=r'From the model calculations')
     #ax3.plot(alk_surface_year['time'], result_array - result_array.min(), linewidth=2, label=r'CaCO$_3$ + model calculations')
