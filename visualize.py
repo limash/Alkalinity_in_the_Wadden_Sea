@@ -132,7 +132,8 @@ def cm2inch(*tupl):
         return tuple(i/inch for i in tupl)
 
 def plotTA(biogeodata):
-    fig, ax = plt.subplots(figsize=cm2inch(18, 5), constrained_layout=True)
+    #fig, ax = plt.subplots(figsize=cm2inch(18, 5), constrained_layout=True)
+    fig, ax = plt.subplots(figsize=(12, 5), constrained_layout=True)
     Time = biogeodata.Datetime.map(returndate).values
     TA = biogeodata.TA.values
     TAfromS = biogeodata.TAfromS.values
