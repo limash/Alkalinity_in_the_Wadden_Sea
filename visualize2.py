@@ -14,6 +14,10 @@ import datetime
 font = {'size' : 11}
 from matplotlib.backends.backend_qt5agg import (FigureCanvasQTAgg as FigureCanvas)
 from dateutil.relativedelta import relativedelta
+import seaborn as sns
+sns.set()
+from pandas.plotting import register_matplotlib_converters
+register_matplotlib_converters()
 
 def save_to_dir(dir_name):
     #dir_name = 'Results'
