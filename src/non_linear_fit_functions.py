@@ -1,5 +1,5 @@
 import lmfit as lf
-import brom_functions as bf
+import src.brom_functions as bf
 
 
 def residual_phy(params, depth, k, latitude, days, temperature,

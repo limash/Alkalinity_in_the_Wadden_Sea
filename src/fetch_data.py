@@ -3,7 +3,7 @@ import xarray as xr
 
 
 def get_data():
-    ds = xr.open_dataset('wadden_sea_out.nc')
+    ds = xr.open_dataset('data/wadden_sea_out.nc')
     df = ds.to_dataframe()
 
     levelcntr = df.groupby('levelcntr').get_group(0.625)
