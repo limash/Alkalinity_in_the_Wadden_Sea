@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import xarray as xr
 sns.set()
 
 
@@ -28,6 +29,26 @@ def plot_year_multi(*args):
     ax.set_xlabel(r'$days$')
     ax.legend(loc='best')
 
+
+def extract_alk(data_train):
+    ds = xr.open_dataset(data_train[0])
+    alk_df = ds['B_C_Alk'].to_dataframe()
+    alk_surface = alk_df.groupby('z').get_group(data_train[1])
+    alk = alk_surface.loc['2011-01-01':'2011-12-31']
+    alk = alk.reset_index()
+    return alk
+
+
+def show_alk(data_train):
+    fig = plt.figure(figsize=(10, 2))
+    ax = fig.add_subplot(1, 1, 1)
+    for item in data_train:
+        ax.plot(item[0]['time'],
+                item[0]['B_C_Alk'], linewidth=2, label=item[1])
+    ax.legend(loc='best')
+    ax.set_title('Alkalinity in the surface layer')
+    plt.show()
+ 
 
 if __name__ == '__main__':
     print('This is a plot functions module')
